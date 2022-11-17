@@ -1,0 +1,110 @@
+<h1 id="summary">はじめに</h1>
+
+RemoteLOCKプラットフォームAPIでは、予約に応じたカギ発行が自由に行えます。
+
+RemoteLOCKのAPIでは、RESTful APIを使用するために必要なすべてのリソースが利用可能です。
+クライアントアプリケーションは、JSON表現のオブジェクトを使用してHTTP経由でユーザーの認証、フェッチ、作成、更新、削除、およびその他のアクションを実行できます。
+
+
+<h2 id="summary-resources">主なリソースと代表的な利用方法</h2>
+
+RemoteLOCKプラットフォームAPIは、RemoteLOCK製品をはじめとした
+スマートロックの制御プラットフォームです。
+
+予約システム、受付システム、施設管理システムなどの呼び出し元システムから、
+予約(Booking)の期間に応じたアクセスキー（暗証番号などのカギ）を発行することができます。  
+アクセスキーは個人別に管理され、それぞれに異なる入室可能期間を設定することができます。  
+また、解錠の履歴は、個人に紐づいて管理されます。  
+
+
+**主要なリソース**  
+
+- Device: デバイス = RemoteLOCKなどのスマートロック機器(国外では一部その他機器あり）  
+- Booking: 予約  
+- Event: イベント（解錠・施錠などの履歴）  
+- Notification: イベント（解錠・施錠などの履歴）発生時の通知  
+- Access Guest: アクセスゲスト = 入室可能期間のあるアクセスキーを持つ情報  
+- Access User: アクセスユーザー = 入室可能期間のないアクセスキーを持つ情報  
+- Access Person: アクセスゲストとアクセルユーザーの総称  
+- Accessible Door: アクセスゲスト、アクセスユーザーが入室権限をもつデバイス  
+- Door Group: 複数のデバイスをまとめた抽象概念で、デバイスの代替が可能  
+- Location: 設置場所または施設で、各デバイスはLocationに所属  
+
+
+
+**代表的な利用方法**  
+代表的な使い方は、 予約に応じたカギ発行になります。  
+予約情報(Booking)に対象スマートロック(Device)のidを指定することで、利用可能なカギ情報が返ってきます。  
+リソースの内、 Booking, Deviceを使います。  
+短い期間の開発で、汎用的な実装が期待できます。  
+
+さらに履歴を取得したい場合は、eventとnotificationを使います。  
+
+予約に紐づかない会員、スタッフ、社員などの入室管理を行う場合は access_userをご利用ください。  
+
+
+
+**注意**  
+APIではデバイス(device)や設置場所(location)の登録などを実行可能なエンドポイントを用意していますが 　　
+これらの作業は通常、RemoteLOCKのアカウントを持つオーナーが管理画面上から操作・登録します。  
+そのため、APIの標準的な利用方法は、既にデバイスが登録されたセットアップ済みのアカウントに対して、
+アカウントの登録デバイス一覧を取得し、それらに対してカギ発行を行う利用方法となります。  
+
+
+<h2 id="summary-servers">接続先サーバ情報</h2>
+
+**URL1**  
+
+- API base(Base・OAuth共通) : [https://api.remotelock-pf.jp](https://api.remotelock-pf.jp)  *最新
+
+**URL2**  
+- API base OAuth base URL: [https://connect.remotelock.jp](https://connect.remotelock.jp)  
+- API base URL2: [https://api.remotelock.jp](https://api.remotelock.jp)   *安定
+
+現在RemoteLOCKは2つのAPIサーバーを提供しています。  
+本ドキュメントでは、BookingリソースなどURL1のみで提供している機能を含めます。  
+今後のプロダクト計画を含めた推奨接続サーバはURL1となります。  
+
+URL1では、今後RemoteLOCKプラットフォームで管理するデバイス・認証種類が増えること等を前提に、API利用側のシステム実装をシンプルにする目的で
+APIの機能・エンドポイントが拡張されています。本仕様書記載のBookingなどのリソース、一部の機能はURL1でのみ提供します。  
+
+APIをご利用した開発を完了し、本番環境の移行前に、[remotelock-dev@kke.co.jp](<mailto:remotelock-dev@kke.co.jp>) までご連絡ください。
+運用開始前に必要な設定のご確認、仕様アップデートに関する通知先登録などをご案内します。
+また、海外を含めたサービス提供をする場合は、エリアによりbase URLの切り替えが必要な場合があります。  
+
+またオフィス管理用途、公共施設管理用途でのAPIご利用用途での推奨URL2となり、[こちら](https://connect.remotelock.jp/api/docs)の仕様書をご参照ください。  
+
+
+<h2 id="summary-models">APIから制御できるカギデバイス</h2>
+- RemoteLOCKシリーズ 5i, 7i, 8j, 8j-F, 8j-Q  
+- TOBIRA (電気錠、自動ドア、ゲート、エレベータ等)
+- WEST Connected lock E06  
+- Igloohome  （＊機能制限あり）
+
+
+<h2 id="summary-preparations">APIのご利用に必要なもの</h2>
+<h3 id="summary-preparations-test">テスト環境</h3>
+- HTTPリクエストを送信できる環境（TLS（HTTPS）対応）
+- リモートロックのクラウド管理システムのテストアカウント
+テストアカウントは、開発時にはNDA締結後にご連絡するデモアカウントをご利用ください。
+
+<h3 id="summary-preparations-production">本番環境</h3>
+- HTTPリクエストを送信できる環境（TLS（HTTPS）対応）
+- リモートロックのクラウド管理システムの有効なアカウント（アプリ管理用）
+
+<h3 id="summary-preparations-setup">新しいアプリケーションのセットアップ</h3>
+0\. OAuthアプリケーション登録許可を弊社に依頼（本番環境の場合）
+メールにて弊社[remotelock@kke.co.jp](mailto:remotelock@kke.co.jp) まで以下をご連絡ください。
+- 会社名
+- 貴社RemoteLOCK契約アカウントのメールアドレス
+- APIのアプリ登録ができるよう設定変更をしてほしい旨  
+
+1\. OAuthアプリケーション管理画面へログイン
+テスト環境の場合、ご連絡したテストアカウントで[Developer Portal](https://developer.remotelock.jp)へログインしてください。  
+本番環境の場合、上記で弊社側の対応が終了しますと、お客様のアカウントで[Developer Portal](https://developer.remotelock.jp)へログインできるようになります。  
+
+2\. OAuthアプリケーション登録
+ログイン後、「New OAuth Application」ボタンからアプリの登録を行ってください。
+＊ローカルシステム等でURLがないシステムの場合は、Redirect URIに**urn:ietf:wg:oauth:2.0:oob**をご設定ください。
+
+  ![ディベロッパーポータルからアプリ登録](https://remotelock.kke.co.jp/hubfs/EBOOKS/API/confidential/apidoc_assets/APIFunctionDetails/API_AuthenticationFlow_OAuthAppRegistration_1.png)

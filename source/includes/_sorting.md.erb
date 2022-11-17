@@ -1,0 +1,31 @@
+<h1 id="sorting">ソート</h1>
+
+エンドポイントから取得できる一覧のほとんどはソート可能です。
+加えて、これらのエンドポイントには通常、デフォルトのソート属性があります。
+また各エンドポイントには、デフォルトのソート属性と、ソートできるその他の属性を記載しています。
+
+<h2 id="sorting-query-format">クエリフォーマット</h2>
+
+* **単一属性でソートする場合:** `?sort=<attr>`
+* **複数属性でソートする場合:** `?sort[]=<attr 1>&sort[]=<attr 2>&...`
+
+<h2 id="sorting-sort-order">ソート順</h2>
+
+デフォルトのソート順は"昇順"です。
+"降順"のソートを利用するには、属性の前にハイフン (`-`)を付けてください。
+
+例:
+
+* "昇順" の場合: `?sort=name`
+* "降順" の場合: `?sort=-name`
+
+<h2 id="sorting-examples">サンプル</h2>
+
+* `name`属性の昇順ソートされたデバイス一覧取得:  
+  `GET https://api.remotelock-pf.jp/devices?sort=name`
+
+* `name`属性の降順ソートされたデバイス一覧取得:  
+  `GET https://api.remotelock-pf.jp/devices?sort=-name`
+
+* `created_at`属性の昇順と`name`属性の降順でソートされたデバイス一覧取得:  
+  `GET https://api.remotelock-pf.jp/devices?sort[]=created_at&sort[]=-name`

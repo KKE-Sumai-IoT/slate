@@ -1,0 +1,1346 @@
+# Models
+
+
+
+## Get all models
+
+
+### Request
+
+
+#### Endpoint
+
+`GET /models`
+
+```plaintext
+GET /models
+
+```
+
+#### Parameters
+
+
+
+| Name | Description |
+|:-----|:------------|
+| sort  | Sortable attributes: number, default: none |
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+200 OK
+```
+
+```json
+{
+  "data": [
+    {
+      "type": "model",
+      "attributes": {
+        "name": "RL-4000",
+        "number": "RL-4000",
+        "type": "resort_lock",
+        "capabilities": {
+          "connected": false,
+          "guest_deferrable": false,
+          "phone_credential": false,
+          "pin_credential": false,
+          "prox_card_credential": false,
+          "ready_pin_credential": false,
+          "registrable": true,
+          "replaceable": false,
+          "smart_card_credential": false
+        }
+      },
+      "id": "bdf2eb49-3453-476f-9f4c-607916de0661",
+      "links": {
+        "self": "http://api.remotelock.dev/models/bdf2eb49-3453-476f-9f4c-607916de0661"
+      }
+    },
+    {
+      "type": "model",
+      "attributes": {
+        "name": "ZWaveLock",
+        "number": "ZWaveLock",
+        "type": "zwave_lock",
+        "capabilities": {
+          "connected": true,
+          "guest_deferrable": true,
+          "phone_credential": false,
+          "pin_credential": true,
+          "prox_card_credential": false,
+          "ready_pin_credential": false,
+          "registrable": false,
+          "replaceable": false,
+          "smart_card_credential": false
+        }
+      },
+      "id": "f6c271f7-2db7-4261-b3bc-1a721754c15d",
+      "links": {
+        "self": "http://api.remotelock.dev/models/f6c271f7-2db7-4261-b3bc-1a721754c15d"
+      }
+    },
+    {
+      "type": "model",
+      "attributes": {
+        "name": "LS-P50i",
+        "number": "LS-P50i",
+        "type": "power_plug",
+        "capabilities": {
+          "connected": true,
+          "guest_deferrable": false,
+          "heartbeat_intervals": [
+            0,
+            10,
+            60,
+            300,
+            600,
+            900,
+            1200,
+            1800,
+            3600,
+            7200,
+            10800,
+            14400
+          ],
+          "power_sources": [
+            "hardwire"
+          ],
+          "prox_card_credential": false,
+          "ready_pin_credential": false,
+          "registrable": true,
+          "replaceable": false
+        }
+      },
+      "id": "8c856eda-c202-4791-b96b-7f2f09dd1d95",
+      "links": {
+        "self": "http://api.remotelock.dev/models/8c856eda-c202-4791-b96b-7f2f09dd1d95"
+      }
+    },
+    {
+      "type": "model",
+      "attributes": {
+        "name": "BG (LS-3i)",
+        "number": "LS-3i",
+        "type": "lock",
+        "capabilities": {
+          "access_exception": true,
+          "auto_lock_enable": true,
+          "auto_lock_schedule": true,
+          "auto_lock_timeouts": [
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            30,
+            60,
+            300,
+            600,
+            900,
+            1200,
+            1500,
+            1800
+          ],
+          "connected": true,
+          "guest_deferrable": false,
+          "heartbeat_intervals": [
+            0,
+            300,
+            900,
+            1200,
+            1800,
+            3600,
+            7200,
+            14400,
+            28800,
+            43200
+          ],
+          "local_pins": true,
+          "lock_action_schedule": true,
+          "manual_auto_lock_timeout": false,
+          "manual_auto_lock_timeout_intervals": [
+            5,
+            10,
+            20,
+            30,
+            60,
+            120,
+            300,
+            600,
+            1200,
+            1800,
+            3600
+          ],
+          "mute": true,
+          "no_enter_code": true,
+          "online_auto_lock": true,
+          "phone_credential": false,
+          "pin_credential": true,
+          "power_sources": [
+            "hardwire",
+            "alkaline_battery",
+            "lithium_battery"
+          ],
+          "programming_code": true,
+          "prox_card_credential": false,
+          "ready_pin_credential": false,
+          "registrable": true,
+          "replaceable": true,
+          "smart_card_credential": false,
+          "wake_wifi": [
+            "user_action",
+            "heartbeat_interval"
+          ]
+        }
+      },
+      "id": "8427d51a-6bda-44f9-b64e-9c63de19d4f1",
+      "links": {
+        "self": "http://api.remotelock.dev/models/8427d51a-6bda-44f9-b64e-9c63de19d4f1"
+      }
+    },
+    {
+      "type": "model",
+      "attributes": {
+        "name": "OpenEdge Series",
+        "number": "OEMAIN",
+        "type": "lock",
+        "capabilities": {
+          "access_exception": true,
+          "auto_lock_enable": true,
+          "auto_lock_schedule": true,
+          "auto_lock_timeouts": [
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            30,
+            60,
+            300,
+            600,
+            900,
+            1200,
+            1500,
+            1800
+          ],
+          "connected": true,
+          "guest_deferrable": false,
+          "heartbeat_intervals": [
+            0,
+            300,
+            900,
+            1200,
+            1800,
+            3600,
+            7200,
+            14400,
+            28800,
+            43200
+          ],
+          "local_pins": true,
+          "lock_action_schedule": true,
+          "manual_auto_lock_timeout": false,
+          "manual_auto_lock_timeout_intervals": [
+            5,
+            10,
+            20,
+            30,
+            60,
+            120,
+            300,
+            600,
+            1200,
+            1800,
+            3600
+          ],
+          "mute": true,
+          "no_enter_code": true,
+          "online_auto_lock": true,
+          "phone_credential": false,
+          "pin_credential": true,
+          "power_sources": [
+            "hardwire",
+            "alkaline_battery",
+            "lithium_battery"
+          ],
+          "programming_code": true,
+          "prox_card_credential": false,
+          "ready_pin_credential": true,
+          "registrable": true,
+          "replaceable": true,
+          "smart_card_credential": true,
+          "wake_wifi": [
+            "user_action",
+            "heartbeat_interval"
+          ]
+        }
+      },
+      "id": "d887bc55-b46f-4e8d-a742-81abae6afeaa",
+      "links": {
+        "self": "http://api.remotelock.dev/models/d887bc55-b46f-4e8d-a742-81abae6afeaa"
+      }
+    },
+    {
+      "type": "model",
+      "attributes": {
+        "name": "LS-P100mi",
+        "number": "LS-P100mi",
+        "type": "power_plug",
+        "capabilities": {
+          "connected": true,
+          "guest_deferrable": false,
+          "heartbeat_intervals": [
+            0,
+            10,
+            60,
+            300,
+            600,
+            900,
+            1200,
+            1800,
+            3600,
+            7200,
+            10800,
+            14400
+          ],
+          "power_sources": [
+            "hardwire"
+          ],
+          "prox_card_credential": false,
+          "ready_pin_credential": false,
+          "registrable": true,
+          "replaceable": false
+        }
+      },
+      "id": "bab757ac-4747-4798-91cf-2bd578cdde88",
+      "links": {
+        "self": "http://api.remotelock.dev/models/bab757ac-4747-4798-91cf-2bd578cdde88"
+      }
+    },
+    {
+      "type": "model",
+      "attributes": {
+        "name": "RG (LS-5i)",
+        "number": "LS-5i",
+        "type": "lock",
+        "capabilities": {
+          "access_exception": true,
+          "auto_lock_enable": true,
+          "auto_lock_schedule": true,
+          "auto_lock_timeouts": [
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            30,
+            60,
+            300,
+            600,
+            900,
+            1200,
+            1500,
+            1800
+          ],
+          "connected": true,
+          "guest_deferrable": false,
+          "heartbeat_intervals": [
+            0,
+            300,
+            900,
+            1200,
+            1800,
+            3600,
+            7200,
+            14400,
+            28800,
+            43200
+          ],
+          "local_pins": true,
+          "lock_action_schedule": true,
+          "manual_auto_lock_timeout": true,
+          "manual_auto_lock_timeout_intervals": [
+            5,
+            10,
+            20,
+            30,
+            60,
+            120,
+            300,
+            600,
+            1200,
+            1800,
+            3600
+          ],
+          "mute": true,
+          "no_enter_code": true,
+          "online_auto_lock": true,
+          "phone_credential": false,
+          "pin_credential": true,
+          "power_sources": [
+            "alkaline_battery",
+            "lithium_battery"
+          ],
+          "programming_code": true,
+          "prox_card_credential": false,
+          "ready_pin_credential": false,
+          "registrable": true,
+          "replaceable": true,
+          "smart_card_credential": false,
+          "wake_wifi": [
+            "user_action",
+            "heartbeat_interval",
+            "user_action_except_manual"
+          ]
+        }
+      },
+      "id": "3a1bfbf9-4ee4-4e95-a298-bfd735deaac0",
+      "links": {
+        "self": "http://api.remotelock.dev/models/3a1bfbf9-4ee4-4e95-a298-bfd735deaac0"
+      }
+    },
+    {
+      "type": "model",
+      "attributes": {
+        "name": "LS-DB500i",
+        "number": "LS-DB500i",
+        "type": "lock",
+        "capabilities": {
+          "access_exception": false,
+          "auto_lock_enable": false,
+          "auto_lock_schedule": false,
+          "auto_lock_timeouts": [
+
+          ],
+          "connected": true,
+          "guest_deferrable": true,
+          "heartbeat_intervals": [
+            0,
+            10,
+            60,
+            300,
+            600,
+            900,
+            1200,
+            1800,
+            3600,
+            7200,
+            10800,
+            14400
+          ],
+          "local_pins": true,
+          "lock_action_schedule": false,
+          "manual_auto_lock_timeout": false,
+          "manual_auto_lock_timeout_intervals": [
+            5,
+            10,
+            20,
+            30,
+            60,
+            120,
+            300,
+            600,
+            1200,
+            1800,
+            3600
+          ],
+          "mute": false,
+          "no_enter_code": false,
+          "online_auto_lock": false,
+          "phone_credential": false,
+          "pin_credential": true,
+          "power_sources": [
+
+          ],
+          "programming_code": true,
+          "prox_card_credential": false,
+          "ready_pin_credential": false,
+          "registrable": true,
+          "replaceable": false,
+          "smart_card_credential": false,
+          "wake_wifi": [
+
+          ]
+        }
+      },
+      "id": "60e97297-0f0f-414d-9785-6aca757da6a5",
+      "links": {
+        "self": "http://api.remotelock.dev/models/60e97297-0f0f-414d-9785-6aca757da6a5"
+      }
+    },
+    {
+      "type": "model",
+      "attributes": {
+        "name": "LS-L500i",
+        "number": "LS-L500i",
+        "type": "lock",
+        "capabilities": {
+          "access_exception": false,
+          "auto_lock_enable": false,
+          "auto_lock_schedule": true,
+          "auto_lock_timeouts": [
+
+          ],
+          "connected": true,
+          "guest_deferrable": true,
+          "heartbeat_intervals": [
+            0,
+            10,
+            60,
+            300,
+            600,
+            900,
+            1200,
+            1800,
+            3600,
+            7200,
+            10800,
+            14400
+          ],
+          "local_pins": true,
+          "lock_action_schedule": false,
+          "manual_auto_lock_timeout": false,
+          "manual_auto_lock_timeout_intervals": [
+            5,
+            10,
+            20,
+            30,
+            60,
+            120,
+            300,
+            600,
+            1200,
+            1800,
+            3600
+          ],
+          "mute": false,
+          "no_enter_code": false,
+          "online_auto_lock": false,
+          "phone_credential": false,
+          "pin_credential": true,
+          "power_sources": [
+
+          ],
+          "programming_code": true,
+          "prox_card_credential": false,
+          "ready_pin_credential": false,
+          "registrable": true,
+          "replaceable": false,
+          "smart_card_credential": false,
+          "wake_wifi": [
+
+          ]
+        }
+      },
+      "id": "06d99160-77d7-4d48-9e03-97bd507d8adb",
+      "links": {
+        "self": "http://api.remotelock.dev/models/06d99160-77d7-4d48-9e03-97bd507d8adb"
+      }
+    },
+    {
+      "type": "model",
+      "attributes": {
+        "name": "E06",
+        "number": "WEST-E06",
+        "type": "lock",
+        "capabilities": {
+          "access_exception": true,
+          "auto_lock_enable": true,
+          "auto_lock_schedule": true,
+          "auto_lock_timeouts": [
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            30,
+            60,
+            300,
+            600,
+            900,
+            1200,
+            1500,
+            1800
+          ],
+          "connected": true,
+          "guest_deferrable": false,
+          "heartbeat_intervals": [
+            0,
+            300,
+            900,
+            1200,
+            1800,
+            3600,
+            7200,
+            14400,
+            28800,
+            43200
+          ],
+          "local_pins": true,
+          "lock_action_schedule": true,
+          "manual_auto_lock_timeout": true,
+          "manual_auto_lock_timeout_intervals": [
+            5,
+            10,
+            20,
+            30,
+            60,
+            120,
+            300,
+            600,
+            1200,
+            1800,
+            3600
+          ],
+          "mute": true,
+          "no_enter_code": true,
+          "online_auto_lock": true,
+          "phone_credential": false,
+          "pin_credential": true,
+          "power_sources": [
+            "alkaline_battery",
+            "lithium_battery"
+          ],
+          "programming_code": true,
+          "prox_card_credential": false,
+          "ready_pin_credential": false,
+          "registrable": true,
+          "replaceable": true,
+          "smart_card_credential": false,
+          "wake_wifi": [
+            "user_action",
+            "heartbeat_interval",
+            "user_action_except_manual"
+          ]
+        }
+      },
+      "id": "3378f224-d8db-495d-9182-dbbbf333a394",
+      "links": {
+        "self": "http://api.remotelock.dev/models/3378f224-d8db-495d-9182-dbbbf333a394"
+      }
+    },
+    {
+      "type": "model",
+      "attributes": {
+        "name": "MercuryElevator",
+        "number": "MercuryElevator",
+        "type": "acs_elevator",
+        "capabilities": {
+          "access_exception": true,
+          "connected": true,
+          "guest_deferrable": false,
+          "phone_credential": false,
+          "pin_credential": true,
+          "prox_card_credential": true,
+          "ready_pin_credential": false,
+          "registrable": false,
+          "replaceable": false,
+          "smart_card_credential": true
+        }
+      },
+      "id": "16886e9e-968b-44ef-98dd-14c933bd057b",
+      "links": {
+        "self": "http://api.remotelock.dev/models/16886e9e-968b-44ef-98dd-14c933bd057b"
+      }
+    },
+    {
+      "type": "model",
+      "attributes": {
+        "name": "MercuryElevatorFloor",
+        "number": "MercuryElevatorFloor",
+        "type": "acs_elevator_floor",
+        "capabilities": {
+          "access_exception": true,
+          "connected": true,
+          "guest_deferrable": false,
+          "phone_credential": false,
+          "pin_credential": true,
+          "prox_card_credential": true,
+          "ready_pin_credential": false,
+          "registrable": false,
+          "replaceable": false,
+          "smart_card_credential": true
+        }
+      },
+      "id": "a4497a22-f066-40de-a10b-507ad98d5e75",
+      "links": {
+        "self": "http://api.remotelock.dev/models/a4497a22-f066-40de-a10b-507ad98d5e75"
+      }
+    },
+    {
+      "type": "model",
+      "attributes": {
+        "name": "710 (CG / LS-7i)",
+        "number": "LS-7i",
+        "type": "lock",
+        "capabilities": {
+          "access_exception": true,
+          "auto_lock_enable": true,
+          "auto_lock_schedule": true,
+          "auto_lock_timeouts": [
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            30,
+            60,
+            300,
+            600,
+            900,
+            1200,
+            1500,
+            1800
+          ],
+          "connected": true,
+          "guest_deferrable": false,
+          "heartbeat_intervals": [
+            0,
+            300,
+            900,
+            1200,
+            1800,
+            3600,
+            7200,
+            14400,
+            28800,
+            43200
+          ],
+          "local_pins": true,
+          "lock_action_schedule": true,
+          "manual_auto_lock_timeout": false,
+          "manual_auto_lock_timeout_intervals": [
+            5,
+            10,
+            20,
+            30,
+            60,
+            120,
+            300,
+            600,
+            1200,
+            1800,
+            3600
+          ],
+          "mute": true,
+          "no_enter_code": true,
+          "online_auto_lock": true,
+          "phone_credential": false,
+          "pin_credential": true,
+          "power_sources": [
+            "hardwire",
+            "alkaline_battery",
+            "lithium_battery"
+          ],
+          "programming_code": true,
+          "prox_card_credential": false,
+          "ready_pin_credential": false,
+          "registrable": true,
+          "replaceable": true,
+          "smart_card_credential": false,
+          "wake_wifi": [
+            "user_action",
+            "heartbeat_interval"
+          ]
+        }
+      },
+      "id": "4f46a7d1-6018-4314-9714-9e3fa7dc00e4",
+      "links": {
+        "self": "http://api.remotelock.dev/models/4f46a7d1-6018-4314-9714-9e3fa7dc00e4"
+      }
+    },
+    {
+      "type": "model",
+      "attributes": {
+        "name": "Mercury",
+        "number": "Mercury",
+        "type": "acs_door",
+        "capabilities": {
+          "access_exception": true,
+          "connected": true,
+          "guest_deferrable": false,
+          "phone_credential": false,
+          "pin_credential": true,
+          "prox_card_credential": true,
+          "ready_pin_credential": false,
+          "registrable": false,
+          "replaceable": false,
+          "smart_card_credential": true
+        }
+      },
+      "id": "2316579e-c0dc-4386-842f-5a79179e51f0",
+      "links": {
+        "self": "http://api.remotelock.dev/models/2316579e-c0dc-4386-842f-5a79179e51f0"
+      }
+    },
+    {
+      "type": "model",
+      "attributes": {
+        "name": "LS-90i",
+        "number": "LS-90i",
+        "type": "thermostat",
+        "capabilities": {
+          "connected": true,
+          "fan_modes": [
+            "on",
+            "auto",
+            "auto_circulate"
+          ],
+          "guest_deferrable": false,
+          "heartbeat_intervals": [
+            0,
+            10,
+            60,
+            300,
+            600,
+            900,
+            1200,
+            1800,
+            3600,
+            7200,
+            10800,
+            14400
+          ],
+          "modes": [
+            "heat",
+            "cool",
+            "auto",
+            "off"
+          ],
+          "power_sources": [
+            "hardwire"
+          ],
+          "prox_card_credential": false,
+          "ready_pin_credential": false,
+          "registrable": true,
+          "replaceable": false
+        }
+      },
+      "id": "29d4af4c-054a-4023-8441-4dc60eef50f1",
+      "links": {
+        "self": "http://api.remotelock.dev/models/29d4af4c-054a-4023-8441-4dc60eef50f1"
+      }
+    },
+    {
+      "type": "model",
+      "attributes": {
+        "name": "Schlage Encode Lock",
+        "number": "SchlageEncode",
+        "type": "schlage_home_lock",
+        "capabilities": {
+          "connected": true,
+          "guest_deferrable": true,
+          "phone_credential": false,
+          "pin_credential": true,
+          "prox_card_credential": false,
+          "ready_pin_credential": false,
+          "registrable": false,
+          "replaceable": false,
+          "smart_card_credential": false
+        }
+      },
+      "id": "30bcb93a-a568-4ad7-9121-32bce83c227f",
+      "links": {
+        "self": "http://api.remotelock.dev/models/30bcb93a-a568-4ad7-9121-32bce83c227f"
+      }
+    },
+    {
+      "type": "model",
+      "attributes": {
+        "name": "RL-2000",
+        "number": "RL-2000",
+        "type": "resort_lock",
+        "capabilities": {
+          "connected": false,
+          "guest_deferrable": false,
+          "phone_credential": false,
+          "pin_credential": false,
+          "prox_card_credential": false,
+          "ready_pin_credential": false,
+          "registrable": true,
+          "replaceable": false,
+          "smart_card_credential": false
+        }
+      },
+      "id": "3bec7511-2835-4ec3-8f97-ad20888a31b7",
+      "links": {
+        "self": "http://api.remotelock.dev/models/3bec7511-2835-4ec3-8f97-ad20888a31b7"
+      }
+    },
+    {
+      "type": "model",
+      "attributes": {
+        "name": "August",
+        "number": "August",
+        "type": "lock",
+        "capabilities": {
+          "access_exception": false,
+          "auto_lock_enable": false,
+          "auto_lock_schedule": false,
+          "auto_lock_timeouts": [
+
+          ],
+          "connected": true,
+          "guest_deferrable": true,
+          "heartbeat_intervals": [
+
+          ],
+          "local_pins": false,
+          "lock_action_schedule": false,
+          "manual_auto_lock_timeout": false,
+          "manual_auto_lock_timeout_intervals": [
+            5,
+            10,
+            20,
+            30,
+            60,
+            120,
+            300,
+            600,
+            1200,
+            1800,
+            3600
+          ],
+          "mute": false,
+          "no_enter_code": false,
+          "online_auto_lock": false,
+          "phone_credential": true,
+          "pin_credential": true,
+          "power_sources": [
+
+          ],
+          "programming_code": false,
+          "prox_card_credential": false,
+          "ready_pin_credential": false,
+          "registrable": false,
+          "replaceable": false,
+          "smart_card_credential": false,
+          "wake_wifi": [
+
+          ]
+        }
+      },
+      "id": "acf06526-1e0f-4efd-9b56-c02a4f99fc8d",
+      "links": {
+        "self": "http://api.remotelock.dev/models/acf06526-1e0f-4efd-9b56-c02a4f99fc8d"
+      }
+    },
+    {
+      "type": "model",
+      "attributes": {
+        "name": "LS-8i",
+        "number": "LS-8i",
+        "type": "lock",
+        "capabilities": {
+          "access_exception": true,
+          "auto_lock_enable": true,
+          "auto_lock_schedule": true,
+          "auto_lock_timeouts": [
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            30,
+            60,
+            300,
+            600,
+            900,
+            1200,
+            1500,
+            1800
+          ],
+          "connected": true,
+          "guest_deferrable": false,
+          "heartbeat_intervals": [
+            0,
+            300,
+            900,
+            1200,
+            1800,
+            3600,
+            7200,
+            14400,
+            28800,
+            43200
+          ],
+          "local_pins": false,
+          "lock_action_schedule": true,
+          "manual_auto_lock_timeout": false,
+          "manual_auto_lock_timeout_intervals": [
+            5,
+            10,
+            20,
+            30,
+            60,
+            120,
+            300,
+            600,
+            1200,
+            1800,
+            3600
+          ],
+          "mute": true,
+          "no_enter_code": true,
+          "online_auto_lock": true,
+          "phone_credential": false,
+          "pin_credential": false,
+          "power_sources": [
+            "hardwire",
+            "alkaline_battery",
+            "lithium_battery"
+          ],
+          "programming_code": false,
+          "prox_card_credential": false,
+          "ready_pin_credential": false,
+          "registrable": false,
+          "replaceable": true,
+          "smart_card_credential": true,
+          "wake_wifi": [
+            "user_action",
+            "heartbeat_interval"
+          ]
+        }
+      },
+      "id": "cbb0226c-11bb-419d-9512-fb0ab8357fbf",
+      "links": {
+        "self": "http://api.remotelock.dev/models/cbb0226c-11bb-419d-9512-fb0ab8357fbf"
+      }
+    },
+    {
+      "type": "model",
+      "attributes": {
+        "name": "LS-60i",
+        "number": "LS-60i",
+        "type": "thermostat",
+        "capabilities": {
+          "connected": true,
+          "fan_modes": [
+            "on",
+            "auto"
+          ],
+          "guest_deferrable": false,
+          "heartbeat_intervals": [
+            0,
+            10,
+            60,
+            300,
+            600,
+            900,
+            1200,
+            1800,
+            3600,
+            7200,
+            10800,
+            14400
+          ],
+          "modes": [
+            "heat",
+            "cool",
+            "off"
+          ],
+          "power_sources": [
+            "battery",
+            "hardwire"
+          ],
+          "prox_card_credential": false,
+          "ready_pin_credential": false,
+          "registrable": true,
+          "replaceable": false
+        }
+      },
+      "id": "464b2f87-e3fd-4328-9c4f-e8a6b0e0f38e",
+      "links": {
+        "self": "http://api.remotelock.dev/models/464b2f87-e3fd-4328-9c4f-e8a6b0e0f38e"
+      }
+    },
+    {
+      "type": "model",
+      "attributes": {
+        "name": "IglooLock",
+        "number": "IglooLock",
+        "type": "igloo_lock",
+        "capabilities": {
+          "connected": true,
+          "guest_deferrable": false,
+          "phone_credential": false,
+          "pin_credential": false,
+          "prox_card_credential": false,
+          "ready_pin_credential": false,
+          "registrable": false,
+          "replaceable": false,
+          "smart_card_credential": false
+        }
+      },
+      "id": "19340410-9191-4de0-964e-a3df4ce89fa5",
+      "links": {
+        "self": "http://api.remotelock.dev/models/19340410-9191-4de0-964e-a3df4ce89fa5"
+      }
+    },
+    {
+      "type": "model",
+      "attributes": {
+        "name": "LS-6i",
+        "number": "LS-6i",
+        "type": "lock",
+        "capabilities": {
+          "access_exception": true,
+          "auto_lock_enable": true,
+          "auto_lock_schedule": true,
+          "auto_lock_timeouts": [
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            30,
+            60,
+            300,
+            600,
+            900,
+            1200,
+            1500,
+            1800
+          ],
+          "connected": true,
+          "guest_deferrable": false,
+          "heartbeat_intervals": [
+            0,
+            300,
+            900,
+            1200,
+            1800,
+            3600,
+            7200,
+            14400,
+            28800,
+            43200
+          ],
+          "local_pins": true,
+          "lock_action_schedule": true,
+          "manual_auto_lock_timeout": false,
+          "manual_auto_lock_timeout_intervals": [
+            5,
+            10,
+            20,
+            30,
+            60,
+            120,
+            300,
+            600,
+            1200,
+            1800,
+            3600
+          ],
+          "mute": true,
+          "no_enter_code": false,
+          "online_auto_lock": false,
+          "phone_credential": false,
+          "pin_credential": true,
+          "power_sources": [
+            "alkaline_battery",
+            "lithium_battery"
+          ],
+          "programming_code": true,
+          "prox_card_credential": false,
+          "ready_pin_credential": false,
+          "registrable": true,
+          "replaceable": true,
+          "smart_card_credential": false,
+          "wake_wifi": [
+            "user_action",
+            "heartbeat_interval"
+          ]
+        }
+      },
+      "id": "df3324be-e825-43fd-b06b-18c34fe0a094",
+      "links": {
+        "self": "http://api.remotelock.dev/models/df3324be-e825-43fd-b06b-18c34fe0a094"
+      }
+    },
+    {
+      "type": "model",
+      "attributes": {
+        "name": "LS-P100i",
+        "number": "LS-P100i",
+        "type": "power_plug",
+        "capabilities": {
+          "connected": true,
+          "guest_deferrable": false,
+          "heartbeat_intervals": [
+            0,
+            10,
+            60,
+            300,
+            600,
+            900,
+            1200,
+            1800,
+            3600,
+            7200,
+            10800,
+            14400
+          ],
+          "power_sources": [
+            "hardwire"
+          ],
+          "prox_card_credential": false,
+          "ready_pin_credential": false,
+          "registrable": true,
+          "replaceable": false
+        }
+      },
+      "id": "458f4014-b506-44ce-b7ad-19748c27dc17",
+      "links": {
+        "self": "http://api.remotelock.dev/models/458f4014-b506-44ce-b7ad-19748c27dc17"
+      }
+    }
+  ],
+  "meta": {
+    "page": 1,
+    "per_page": 25,
+    "total_count": 23,
+    "total_pages": 1
+  }
+}
+```
+
+
+## Get a model
+
+
+### Request
+
+
+#### Endpoint
+
+`GET /models/:id`
+
+```plaintext
+GET /models/f48365c3-6c10-4945-a33f-dc69e912ffdc
+
+```
+
+#### Parameters
+
+
+
+None.
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+200 OK
+```
+
+```json
+{
+  "data": {
+    "type": "model",
+    "attributes": {
+      "name": "RL-4000",
+      "number": "RL-4000",
+      "type": "resort_lock",
+      "capabilities": {
+        "connected": false,
+        "guest_deferrable": false,
+        "phone_credential": false,
+        "pin_credential": false,
+        "prox_card_credential": false,
+        "ready_pin_credential": false,
+        "registrable": true,
+        "replaceable": false,
+        "smart_card_credential": false
+      }
+    },
+    "id": "f48365c3-6c10-4945-a33f-dc69e912ffdc",
+    "links": {
+      "self": "http://api.remotelock.dev/models/f48365c3-6c10-4945-a33f-dc69e912ffdc"
+    }
+  }
+}
+```

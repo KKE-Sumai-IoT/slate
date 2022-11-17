@@ -1,0 +1,823 @@
+# Groups
+
+
+## Get all groups
+
+Returns all group types (homogeneous).
+
+### Request
+
+
+#### Endpoint
+
+`GET /groups`
+
+```plaintext
+GET /groups
+
+```
+
+#### Parameters
+
+
+
+| Name | Description |
+|:-----|:------------|
+| [type]  | Filter by type(s). Supported types: door_group |
+| sort  | Sortable attributes: created_at and name, default: created_at ascending |
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+200 OK
+```
+
+```json
+{
+  "data": [
+    {
+      "type": "door_group",
+      "attributes": {
+        "name": "Indoor Locks",
+        "created_at": "2021-11-04T18:10:34Z",
+        "updated_at": "2021-11-04T18:10:34Z"
+      },
+      "id": "c9c889ea-1187-445c-bd41-270c29097080",
+      "links": {
+        "self": "http://api.remotelock.dev/groups/c9c889ea-1187-445c-bd41-270c29097080"
+      }
+    },
+    {
+      "type": "door_group",
+      "attributes": {
+        "name": "Sports & Garden",
+        "created_at": "2021-11-04T18:10:34Z",
+        "updated_at": "2021-11-04T18:10:34Z"
+      },
+      "id": "0834ed7e-1489-4eab-8178-b6eb8951dcbe",
+      "links": {
+        "self": "http://api.remotelock.dev/groups/0834ed7e-1489-4eab-8178-b6eb8951dcbe"
+      }
+    }
+  ],
+  "meta": {
+    "page": 1,
+    "per_page": 25,
+    "total_count": 2,
+    "total_pages": 1
+  }
+}
+```
+
+
+## Get a group
+
+
+### Request
+
+
+#### Endpoint
+
+`GET /groups/:id`
+
+```plaintext
+GET /groups/9f577b0a-e82d-4693-8b90-74fe53905e78
+
+```
+
+#### Parameters
+
+
+
+None.
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+200 OK
+```
+
+```json
+{
+  "data": {
+    "type": "door_group",
+    "attributes": {
+      "name": "Indoor Locks",
+      "created_at": "2021-11-04T18:10:36Z",
+      "updated_at": "2021-11-04T18:10:36Z"
+    },
+    "id": "9f577b0a-e82d-4693-8b90-74fe53905e78",
+    "links": {
+      "self": "http://api.remotelock.dev/groups/9f577b0a-e82d-4693-8b90-74fe53905e78"
+    }
+  }
+}
+```
+
+
+## Create a door group
+
+
+### Request
+
+
+#### Endpoint
+
+`POST /groups`
+
+```plaintext
+POST /groups
+
+```
+
+#### Parameters
+
+
+```json
+{
+  "type": "door_group",
+  "attributes": {
+    "name": "Warehouse doors"
+  }
+}
+```
+
+| Name | Description |
+|:-----|:------------|
+| type *required* | door_group |
+| attributes[name] *required* | Door group name |
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+201 Created
+```
+
+```json
+{
+  "data": {
+    "type": "door_group",
+    "attributes": {
+      "name": "Warehouse doors",
+      "created_at": "2021-11-04T18:10:37Z",
+      "updated_at": "2021-11-04T18:10:37Z"
+    },
+    "id": "7372176f-a394-4fea-bd22-95be44d50323",
+    "links": {
+      "self": "http://api.remotelock.dev/groups/7372176f-a394-4fea-bd22-95be44d50323"
+    }
+  }
+}
+```
+
+
+## Update a group
+
+
+### Request
+
+
+#### Endpoint
+
+`PUT /groups/:id`
+
+```plaintext
+PUT /groups/15e8a181-b885-4efe-9a95-fa09bfe39b83
+
+```
+
+#### Parameters
+
+
+```json
+{
+  "attributes": {
+    "name": "Inner doors"
+  }
+}
+```
+
+| Name | Description |
+|:-----|:------------|
+| attributes[name]  | Group name |
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+200 OK
+```
+
+```json
+{
+  "data": {
+    "type": "door_group",
+    "attributes": {
+      "name": "Inner doors",
+      "created_at": "2021-11-04T18:10:39Z",
+      "updated_at": "2021-11-04T18:10:39Z"
+    },
+    "id": "15e8a181-b885-4efe-9a95-fa09bfe39b83",
+    "links": {
+      "self": "http://api.remotelock.dev/groups/15e8a181-b885-4efe-9a95-fa09bfe39b83"
+    }
+  }
+}
+```
+
+
+## Delete a group
+
+
+### Request
+
+
+#### Endpoint
+
+`DELETE /groups/:id`
+
+```plaintext
+DELETE /groups/0d6b7128-2c2f-4a24-876a-7c42e81f0677
+
+```
+
+#### Parameters
+
+
+
+None.
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+204 No Content
+```
+
+
+## Get all items in a door group
+
+
+### Request
+
+
+#### Endpoint
+
+`GET /groups/:group_id/items`
+
+```plaintext
+GET /groups/d3069df8-9c25-44cf-83a6-4e96ee5e127c/items?attributes[item_type]=lock
+
+```
+
+#### Parameters
+
+```json
+attributes: {&quot;item_type&quot;=&gt;&quot;lock&quot;}
+```
+
+
+| Name | Description |
+|:-----|:------------|
+| attributes[item_type]  | Filter by type(s). Supported types: door_group, acs_door, acs_elevator_floor, lock, zwave_lock, and schlage_home_lock |
+| sort  | Sortable attributes: created_at, default: created_at ascending |
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+200 OK
+```
+
+```json
+{
+  "data": [
+    {
+      "type": "door_group_item",
+      "attributes": {
+        "created_at": "2021-11-04T18:10:05Z",
+        "updated_at": "2021-11-04T18:10:05Z",
+        "item_id": "66f7bcca-3ddb-402b-b947-5d83f13b3b38",
+        "item_type": "lock",
+        "door_group_id": "d3069df8-9c25-44cf-83a6-4e96ee5e127c"
+      },
+      "id": "8ca428b4-58d3-4b5b-8179-3c2066aa9973",
+      "links": {
+        "self": "http://api.remotelock.dev/groups/d3069df8-9c25-44cf-83a6-4e96ee5e127c/items/8ca428b4-58d3-4b5b-8179-3c2066aa9973",
+        "item": "http://api.remotelock.dev/devices/66f7bcca-3ddb-402b-b947-5d83f13b3b38",
+        "door_group": "http://api.remotelock.dev/groups/d3069df8-9c25-44cf-83a6-4e96ee5e127c"
+      }
+    },
+    {
+      "type": "door_group_item",
+      "attributes": {
+        "created_at": "2021-11-04T18:10:05Z",
+        "updated_at": "2021-11-04T18:10:05Z",
+        "item_id": "cd8d1334-d9d0-40d1-b5e9-41a0792e669c",
+        "item_type": "lock",
+        "door_group_id": "d3069df8-9c25-44cf-83a6-4e96ee5e127c"
+      },
+      "id": "ddb0f07f-4d7f-4359-9dd6-6af215122b24",
+      "links": {
+        "self": "http://api.remotelock.dev/groups/d3069df8-9c25-44cf-83a6-4e96ee5e127c/items/ddb0f07f-4d7f-4359-9dd6-6af215122b24",
+        "item": "http://api.remotelock.dev/devices/cd8d1334-d9d0-40d1-b5e9-41a0792e669c",
+        "door_group": "http://api.remotelock.dev/groups/d3069df8-9c25-44cf-83a6-4e96ee5e127c"
+      }
+    }
+  ],
+  "meta": {
+    "page": 1,
+    "per_page": 25,
+    "total_count": 2,
+    "total_pages": 1
+  }
+}
+```
+
+
+
+## Get an item in a door group
+
+
+### Request
+
+
+#### Endpoint
+
+`GET /groups/:group_id/items/:id`
+
+```plaintext
+GET /groups/9db07cae-6e73-423b-8e1e-e47ac74ebcd5/items/b01298cf-9121-4bd1-a141-e78a590659de
+
+```
+
+#### Parameters
+
+
+
+None.
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+200 OK
+```
+
+```json
+{
+  "data": {
+    "type": "door_group_item",
+    "attributes": {
+      "created_at": "2021-11-04T18:10:08Z",
+      "updated_at": "2021-11-04T18:10:08Z",
+      "item_id": "ed39fd79-f800-4b34-bf81-14016d599088",
+      "item_type": "lock",
+      "door_group_id": "9db07cae-6e73-423b-8e1e-e47ac74ebcd5"
+    },
+    "id": "b01298cf-9121-4bd1-a141-e78a590659de",
+    "links": {
+      "self": "http://api.remotelock.dev/groups/9db07cae-6e73-423b-8e1e-e47ac74ebcd5/items/b01298cf-9121-4bd1-a141-e78a590659de",
+      "item": "http://api.remotelock.dev/devices/ed39fd79-f800-4b34-bf81-14016d599088",
+      "door_group": "http://api.remotelock.dev/groups/9db07cae-6e73-423b-8e1e-e47ac74ebcd5"
+    }
+  }
+}
+```
+
+
+## Add an item to a door group
+
+
+### Request
+
+
+#### Endpoint
+
+`POST /groups/:group_id/items`
+
+```plaintext
+POST /groups/1c268eeb-5d9f-4e3a-be86-581713adbe84/items
+
+```
+
+#### Parameters
+
+
+```json
+{
+  "attributes": {
+    "item_id": "7c0492d3-f728-4591-b64a-5357b5ddcb0d",
+    "item_type": "lock"
+  }
+}
+```
+
+| Name | Description |
+|:-----|:------------|
+| attributes[item_id] *required* | Item id |
+| attributes[item_type] *required* | Item type: door_group, acs_door, acs_elevator_floor, lock, zwave_lock or schlage_home_lock |
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+201 Created
+```
+
+```json
+{
+  "data": {
+    "type": "door_group_item",
+    "attributes": {
+      "created_at": "2021-11-04T18:10:09Z",
+      "updated_at": "2021-11-04T18:10:09Z",
+      "item_id": "7c0492d3-f728-4591-b64a-5357b5ddcb0d",
+      "item_type": "lock",
+      "door_group_id": "1c268eeb-5d9f-4e3a-be86-581713adbe84"
+    },
+    "id": "c19309f9-a238-48c7-962e-3514fb97b881",
+    "links": {
+      "self": "http://api.remotelock.dev/groups/1c268eeb-5d9f-4e3a-be86-581713adbe84/items/c19309f9-a238-48c7-962e-3514fb97b881",
+      "item": "http://api.remotelock.dev/devices/7c0492d3-f728-4591-b64a-5357b5ddcb0d",
+      "door_group": "http://api.remotelock.dev/groups/1c268eeb-5d9f-4e3a-be86-581713adbe84"
+    }
+  }
+}
+```
+
+
+## Remove an item from a door group
+
+
+### Request
+
+
+#### Endpoint
+
+`DELETE /groups/:group_id/items/:id`
+
+```plaintext
+DELETE /groups/8da6fc96-7f61-41c6-a23b-99d975c6773e/items/419b8652-aed4-4fe5-9943-01f3599afcf7
+
+```
+
+#### Parameters
+
+
+
+None.
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+204 No Content
+```
+
+
+
+
+
+# Locations
+
+
+
+## Get all locations
+
+
+### Request
+
+
+#### Endpoint
+
+`GET /locations`
+
+```plaintext
+GET /locations
+
+```
+
+#### Parameters
+
+
+
+| Name | Description |
+|:-----|:------------|
+| sort  | Sortable attributes: created_at and name, default: name ascending |
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+200 OK
+```
+
+```json
+{
+  "data": [
+    {
+      "type": "location",
+      "attributes": {
+        "name": "RemoteLock Headquarters",
+        "phone": "(877) 254-5625",
+        "address": "1325 S. Colorado Blvd",
+        "address2": "Suite B400",
+        "city": "Denver",
+        "state": "CO",
+        "postal_code": "80222",
+        "country": "US",
+        "time_zone": "America/Denver",
+        "created_at": "2021-11-04T18:12:47Z",
+        "updated_at": "2021-11-04T18:12:47Z"
+      },
+      "id": "5e77cec7-272b-4b2b-b8dc-e400cc21d7db",
+      "links": {
+        "self": "http://api.remotelock.dev/locations/5e77cec7-272b-4b2b-b8dc-e400cc21d7db"
+      }
+    },
+    {
+      "type": "location",
+      "attributes": {
+        "name": "Streamlined modular superstructure",
+        "phone": null,
+        "address": "9992 Shavonda Valley",
+        "address2": null,
+        "city": null,
+        "state": null,
+        "postal_code": null,
+        "country": null,
+        "time_zone": "America/Denver",
+        "created_at": "2021-11-04T18:12:47Z",
+        "updated_at": "2021-11-04T18:12:47Z"
+      },
+      "id": "2760a5ed-3f69-4fc4-a9d7-e7c1864195c2",
+      "links": {
+        "self": "http://api.remotelock.dev/locations/2760a5ed-3f69-4fc4-a9d7-e7c1864195c2"
+      }
+    }
+  ],
+  "meta": {
+    "page": 1,
+    "per_page": 25,
+    "total_count": 2,
+    "total_pages": 1
+  }
+}
+```
+
+
+## Get a location
+
+
+### Request
+
+
+#### Endpoint
+
+`GET /locations/:id`
+
+```plaintext
+GET /locations/81babaab-709e-4370-98a4-7f2b4b4a4e0e
+
+```
+
+#### Parameters
+
+
+
+None.
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+200 OK
+```
+
+```json
+{
+  "data": {
+    "type": "location",
+    "attributes": {
+      "name": "RemoteLock Headquarters",
+      "phone": "(877) 254-5625",
+      "address": "1325 S. Colorado Blvd",
+      "address2": "Suite B400",
+      "city": "Denver",
+      "state": "CO",
+      "postal_code": "80222",
+      "country": "US",
+      "time_zone": "America/Denver",
+      "created_at": "2021-11-04T18:12:48Z",
+      "updated_at": "2021-11-04T18:12:48Z"
+    },
+    "id": "81babaab-709e-4370-98a4-7f2b4b4a4e0e",
+    "links": {
+      "self": "http://api.remotelock.dev/locations/81babaab-709e-4370-98a4-7f2b4b4a4e0e"
+    }
+  }
+}
+```
+
+
+## Create a location
+
+
+### Request
+
+
+#### Endpoint
+
+`POST /locations`
+
+```plaintext
+POST /locations
+
+```
+
+#### Parameters
+
+
+```json
+{
+  "attributes": {
+    "name": "RemoteLock HQ",
+    "phone": "(877) 254-5625",
+    "address": "1325 S. Colorado Blvd",
+    "address2": "Suite B400",
+    "city": "Denver",
+    "state": "CO",
+    "postal_code": "80222",
+    "country": "US",
+    "time_zone": "America/Denver"
+  }
+}
+```
+
+| Name | Description |
+|:-----|:------------|
+| attributes[name] *required* | Attributes name |
+| attributes[phone]  | Attributes phone |
+| attributes[address]  | Attributes address |
+| attributes[address_2]  | Attributes address 2 |
+| attributes[city]  | Attributes city |
+| attributes[state]  | Attributes state |
+| attributes[postal_code]  | Attributes postal code |
+| attributes[country]  | https://en.wikipedia.org/wiki/ISO_3166-1 |
+| attributes[time_zone] *required* | https://en.wikipedia.org/wiki/List_of_tz_database_time_zones |
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+201 Created
+```
+
+```json
+{
+  "data": {
+    "type": "location",
+    "attributes": {
+      "name": "RemoteLock HQ",
+      "phone": "(877) 254-5625",
+      "address": "1325 S. Colorado Blvd",
+      "address2": "Suite B400",
+      "city": "Denver",
+      "state": "CO",
+      "postal_code": "80222",
+      "country": "US",
+      "time_zone": "America/Denver",
+      "created_at": "2021-11-04T18:12:49Z",
+      "updated_at": "2021-11-04T18:12:49Z"
+    },
+    "id": "da2dff72-9acf-40c9-8643-af682795737f",
+    "links": {
+      "self": "http://api.remotelock.dev/locations/da2dff72-9acf-40c9-8643-af682795737f"
+    }
+  }
+}
+```
+
+
+## Update a location
+
+
+### Request
+
+
+#### Endpoint
+
+`PUT /locations/:id`
+
+```plaintext
+PUT /locations/8671c5be-ef0d-4688-9703-d6605abfca79
+
+```
+
+#### Parameters
+
+
+```json
+{
+  "attributes": {
+    "name": "RemoteLock HQ"
+  }
+}
+```
+
+None.
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+200 OK
+```
+
+```json
+{
+  "data": {
+    "type": "location",
+    "attributes": {
+      "name": "RemoteLock HQ",
+      "phone": "(877) 254-5625",
+      "address": "1325 S. Colorado Blvd",
+      "address2": "Suite B400",
+      "city": "Denver",
+      "state": "CO",
+      "postal_code": "80222",
+      "country": "US",
+      "time_zone": "America/Denver",
+      "created_at": "2021-11-04T18:12:50Z",
+      "updated_at": "2021-11-04T18:12:50Z"
+    },
+    "id": "8671c5be-ef0d-4688-9703-d6605abfca79",
+    "links": {
+      "self": "http://api.remotelock.dev/locations/8671c5be-ef0d-4688-9703-d6605abfca79"
+    }
+  }
+}
+```
+
+
+## Delete a location
+
+
+### Request
+
+
+#### Endpoint
+
+`DELETE /locations/:id`
+
+```plaintext
+DELETE /locations/d0effea7-289a-493f-8174-b4ce6cab2bfb
+
+```
+
+#### Parameters
+
+
+
+None.
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+204 No Content
+```
+
+

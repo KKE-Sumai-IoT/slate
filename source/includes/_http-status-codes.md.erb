@@ -1,0 +1,37 @@
+<h1 id="http-status-codes">ステータスコード</h1>
+
+| Request Method        | Response Outcome        | Response Status Code |
+|-----------------------|-------------------------|----------------------|
+| GET                   | Success                 | 200                  |
+| PUT/PATCH             | Success                 | 200                  |
+| POST                  | Success                 | 201                  |
+| DELETE                | Success                 | 204                  |
+| ANY                   | Malformed request       | 400                  |
+| ANY                   | Not permitted           | 401                  |
+| ANY                   | Payment required        | 402                  |
+| ANY                   | Expired/Invalid token   | 403                  |
+| GET                   | Not found               | 404                  |
+| POST                  | Duplicate resource      | 409                  |
+| POST/PUT/PATCH/DELETE | Validation error        | 422                  |
+| ANY                   | Unexpected server error | 5xx                  |
+
+
+<h2 id="http-status-codes-succeeded">リクエスト成功</h2>
+| Code | Description |
+| ---- | ----------- |
+| 20X | リクエストの成功 |
+| 200 | Success |
+| 201 | Success |
+| 204 | Success |
+
+<h2 id="http-status-codes-failed">リクエスト失敗</h2>
+| Code | Description |
+| ---- | ----------- |
+| 400 | Malformed request リクエスト内容が不正です。 |
+| 401 | Not permitted 許可されていないリクエストです。|
+| 402 | Payment required。お客様アカウントの料金プランが有効でないか、より上位プランが必要となります。 |
+| 403 | Expired/Invalid token。正しいトークンの送信または再認証が必要です。 |
+| 409 | Duplicate resource |
+| 422 | Validation error バリデーションエラーです。|
+| 429 | Rate Limiting error  APIのレートリミットです。ヘッダー情報を参照するか、1分程度のインターバルを取って再試行ください。|
+| 500 | Unexpected server error |

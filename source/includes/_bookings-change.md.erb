@@ -1,0 +1,513 @@
+<h2 id="bookings-update-a-booking">予約の変更</h2>
+
+予約情報の変更は、PUT　/bookings/{bookingId} のリクエストにて
+変更したい項目を送信することで変更が可能です。
+
+
+### Httpsリクエスト
+
+```
+PUT /bookings/{bookingId}
+```
+**エンドポイント**  
+
+`PUT /bookings/{bookingId}`
+
+**ヘッダー**  
+<code>'Authorization: Bearer {有効なアクセストークン}' \  
+'Accept: application/vnd.lockstate+json; version=1' \　</code>
+
+**ボディ**  
+
+変更可能な項目は以下です。
+予約変更に関するユースケースと注意点を後述します。  
+
+```json
+{
+  "type": "booking",
+  "attributes": {
+    "name": "予約桃子",
+    "email": "yoyoasku@yoyoaku.kke.co.jp",
+    "phone": "090-7777-9999",
+    "device_id": "26829bcb-7006-4bbb-ac22-619f05525f90",
+    "starts_at": {},
+    "ends_at": {},
+    "pin": "123456",
+    "card_number": "123456789890",
+    "qr_code": "1234567890"
+  }
+}
+```
+
+| 項目 |  | 説明|  
+| ---- | ---------- | ----------- |  
+| type || "booking"  |  
+| attributes | |  |  
+| | name | 代表予約者名に変更があった場合に修正します。 |  
+| | email | 予約者Eメールに変更があった場合に修正します。 |  
+| | phone | 予約者電話番号に変更があった場合に修正します。 |  
+| | device_id | 部屋の変更があった場合に修正します。 |  
+| | starts_at | 開始時刻に変更があった場合に修正します。 |  
+| | ends_at | 終了時刻に変更があった場合に修正します。 |  
+| | pin | カギの暗証番号です。アクセスキーの中で、標準となる解錠方法です。 |  
+| | qr_code | 許可したいQR Codeを追加。対応機種のみ。 |  
+| | felica_idm | 許可したいFeliCaカードのidm番号を追加。対応機種のみ。 |
+| | card_number | 許可したいEMカード番号を追加。対応機種のみ。 |
+| | validation | ture または　false。**validationのオプションで挙動が変化します。** |
+
+**
+<aside class="notice">
+**開発ガイド**
+
+更新したい項目に対し、変更のリクエストを出します。更新しない内容は含める必要がありません。（含めても構いません）
+リクエストに含まれていない項目は、暗黙的に作成時の内容を保持します。ただし、アクセスキーに関わる部分は以下のように挙動が分岐します。アクセスキー（カギ番号）を厳密に指定したい場合はtrueを使い、それ以外の場合はfalseの指定を推奨します。  
+  
+
+①validationのオプションをfalseの場合
+
+リクエストに対して、確実に解錠できるアクセスキーを提供することを優先します。より安定して期間変更や部屋変更のリクエストを満たすため、必要に応じて新規作成時と異なるアクセスキーを返します。   
+- pinやqr_codeなどアクセスキーの変更をリクエストし、指定したアクセスキーが使用できない場合、使用可能なキーを自動採番して返します。  
+- device_id(部屋）または期間変更をリクエスト時、使用可能な他のアクセスキーを返すことがあります。  
+falseオプションでの予約変更時、アクセスキーは最新のリクエストの応答情報を参照・保存してください。
+
+
+①validationのオプションがtrueの場合
+
+リクエスト通りの挙動をし、実行できない場合はエラーが返ってきます。以下のようなケースではエラーを返します。  
+- pinの変更をリクエスト時、リクエストしたpinが既に使用されていた時。  
+- device_id(部屋）または期間をリクエスト時、同一のアクセスキーでは実現できない時。
+
+
+
+</aside>
+
+**延長・日時変更**  
+ends_at、starts_at の項目の変更リクエストを送ってください。
+
+**部屋の変更**  
+device_idの変更リクエストを送ってください。
+
+**アクセスキーの変更**  
+カードキーの場合、 felica_idm または　card_number にカード番号を指定してください。
+pinやQRコードを指定のものに変更したい場合は、pin、qr_codeを更新しますが、
+リクエストを満たせない場合の挙動はvalidationオプションにより変わります。
+
+pinなどの情報を、エンドの利用者が紛失してした場合は、
+APIからbookingのDELETEをした上で、bookingの新規作成をしてください。
+（　発行済みアクセスキーの削除、および　新しいアクセスキーの発行。）
+また、APIを介さない場合は、RemoteLOCKのアカウント保有者がクラウド管理画面上で更新することも可能です。
+
+
+
+### レスポンス
+
+```
+200 OK
+```
+
+**成功時ステータス**  
+200 OK  
+＊エラーレスポンスは[エラーコード](#http-status-codes)を参照してください。
+
+**ボディ**  
+
+```json
+{
+  "data": {
+    "type": "booking",
+    "attributes": {
+      "name": "予約桃子",
+      "email": "yoyoasku@yoyoaku.kke.co.jp",
+      "phone": "090-7777-9999",
+      "access_person_id": "bc0c789c-ebf6-4766-9a1e-24ed928d33e8",
+      "device_id": "26829bcb-7006-4bbb-ac22-619f05525f90",
+      "device_type": "lock",
+      "universal_access_key_url": "https://access.remotelock-pf.jp/****",
+      "default_access_key_type": "pin",
+      "access_key_types": ["pin","qr_code"],
+      "pin": "PINナンバー",
+      "card_number": "カード文字列",
+      "qr_code": "QRコード用の文字列",
+      "felica_idm": "FeliCa IDmコード文字列",
+      "url": "https://鍵URL",
+      "status": "current",
+      "created_at": {},
+      "updated_at": {},
+      "time_zone": "Asia/Tokyo",
+      "starts_at": {},
+      "ends_at": {},
+      "checkin_at": {},
+      "checkout_at": {},
+      "start_margin_sec": 0,
+      "end_margin_sec": 0,
+      "available_starts_at": {},
+      "available_ends_at": {}
+    },
+    "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "links": {
+      "self": "http://api.remotelock.dev/bookings/3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "device": "http://api.remotelock.dev/devices/26829bcb-7006-4bbb-ac22-619f05525f90",
+      "access_person": "http://api.remotelock.dev/access_persons/bc0c789c-ebf6-4766-9a1e-24ed928d33e8"
+    }
+  }
+}
+```
+
+<h2 id="bookings-checkin">チェックイン</h2>
+
+予約に対して、実際の利用開始を記録する場合、
+checkin_at のフィールドに実績時刻を記録することができます。
+
+このフィールドは、今後 同一オーナーがオプションや複数サービスを併用した際に、
+履歴情報や3rdパーティからのデータが入力・補完される場合があります。
+
+### Httpsリクエスト
+
+```
+PUT /bookings/{bookingId}
+```
+**エンドポイント**  
+
+`PUT /bookings/{bookingId}`
+
+**ヘッダー**  
+<code>'Authorization: Bearer {有効なアクセストークン}' \  
+'Accept: application/vnd.lockstate+json; version=1' \　</code>
+
+**ボディ**  
+
+checkin_atにチェックインした日時を指定します。  
+
+```json
+{
+  "type": "booking",
+  "attributes": {
+    "checkin_at": "2022-09-20T15:00:00"
+  }
+}
+
+```
+
+| 項目 |  | 説明|  
+| ---- | ---------- | ----------- |  
+| type || "booking"  |  
+| attributes | |  |  
+| | checkin_at | 利用開始時刻（実績）を把握している場合は、当該時刻を書き込めます。 |  
+
+
+### レスポンス
+
+```
+200 OK
+```
+
+**成功時ステータス**  
+200 OK  
+＊エラーレスポンスは[エラーコード](#http-status-codes)を参照してください。
+
+**ボディ**  
+
+```json
+{
+  "data": {
+    "type": "booking",
+    "attributes": {
+      "name": "予約桃子",
+      "email": "yoyoasku@yoyoaku.kke.co.jp",
+      "phone": "090-7777-9999",
+      "access_person_id": "bc0c789c-ebf6-4766-9a1e-24ed928d33e8",
+      "device_id": "26829bcb-7006-4bbb-ac22-619f05525f90",
+      "device_type": "lock",
+      "universal_access_key_url": "https://access.remotelock-pf.jp/****",
+      "default_access_key_type": "pin",
+      "access_key_types": ["pin","qr_code"],
+      "pin": "PINナンバー",
+      "card_number": "カード文字列",
+      "qr_code": "QRコード用の文字列",
+      "felica_idm": "FeliCa IDmコード文字列",
+      "url": "https://鍵URL",
+      "status": "checkin",
+      "created_at": {},
+      "updated_at": {},
+      "time_zone": "Asia/Tokyo",
+      "starts_at": {},
+      "ends_at": {},
+      "checkin_at": "2022-09-20T15:00:00",
+      "checkout_at": {},
+      "start_margin_sec": 0,
+      "end_margin_sec": 0,
+      "available_starts_at": {},
+      "available_ends_at": {}
+    },
+    "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "links": {
+      "self": "http://api.remotelock.dev/bookings/3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "device": "http://api.remotelock.dev/devices/26829bcb-7006-4bbb-ac22-619f05525f90",
+      "access_person": "http://api.remotelock.dev/access_persons/bc0c789c-ebf6-4766-9a1e-24ed928d33e8"
+    }
+  }
+}
+```
+
+
+<h2 id="bookings-checkout">チェックアウト</h2>
+
+予約に対して、実際の利用終了を記録する場合、
+checkout_at のフィールドに実績時刻を記録することができます。
+今後のアップデートにより以下のように仕様追加がされる予定です。
+　チェックアウト処理 　checkout_at にチェックアウト日時を登録することで、
+　当該bookingのアクセスキーが、その時刻に無効化されます。
+　無効化されたアクセスキーは、さらに延長・変更することはできません。
+
+このフィールドは、今後 同一オーナーがオプションや複数サービスを併用した際に、
+履歴情報や3rdパーティからのデータが入力・補完される場合があります。
+
+### Httpsリクエスト
+
+```
+PUT /bookings/{bookingId}
+```
+**エンドポイント**  
+
+`PUT /bookings/{bookingId}`
+
+**ヘッダー**  
+<code>'Authorization: Bearer {有効なアクセストークン}' \  
+'Accept: application/vnd.lockstate+json; version=1' \　</code>
+
+**ボディ**  
+
+checkout_atにチェックアウトした日時を指定します。  
+
+```json
+{
+  "type": "booking",
+  "attributes": {
+    "checkout_at": "2022-09-21T08:50:00"
+  }
+}
+```
+
+| 項目 |  | 説明|  
+| ---- | ---------- | ----------- |  
+| type || "booking"  |  
+| attributes | |  |  
+| | checkout_at | 利用完了時刻（実績）を把握している場合は、当該時刻を書き込めます。　|  
+
+
+### レスポンス
+
+```
+200 OK
+```
+
+**成功時ステータス**  
+200 OK  
+＊エラーレスポンスは[エラーコード](#http-status-codes)を参照してください。
+
+**ボディ**  
+
+```json
+{
+  "data": {
+    "type": "booking",
+    "attributes": {
+      "name": "予約桃子",
+      "email": "yoyoasku@yoyoaku.kke.co.jp",
+      "phone": "090-7777-9999",
+      "access_person_id": "bc0c789c-ebf6-4766-9a1e-24ed928d33e8",
+      "device_id": "26829bcb-7006-4bbb-ac22-619f05525f90",
+      "device_type": "lock",
+      "universal_access_key_url": "https://access.remotelock-pf.jp/****",
+      "default_access_key_type": "pin",
+      "access_key_types": ["pin","qr_code"],
+      "pin": "PINナンバー",
+      "card_number": "カード文字列",
+      "qr_code": "QRコード用の文字列",
+      "felica_idm": "FeliCa IDmコード文字列",
+      "url": "https://鍵URL",
+      "status": "checkout",
+      "created_at": {},
+      "updated_at": {},
+      "time_zone": "Asia/Tokyo",
+      "starts_at": {},
+      "ends_at": {},
+      "checkin_at": "2022-09-20T15:00:00",
+      "checkout_at": "2022-09-21T08:50:00",
+      "start_margin_sec": 300,
+      "end_margin_sec": 300,
+      "available_starts_at": {},
+      "available_ends_at": {}
+    },
+    "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "links": {
+      "self": "http://api.remotelock.dev/bookings/3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "device": "http://api.remotelock.dev/devices/26829bcb-7006-4bbb-ac22-619f05525f90",
+      "access_person": "http://api.remotelock.dev/access_persons/bc0c789c-ebf6-4766-9a1e-24ed928d33e8"
+    }
+  }
+}
+```
+
+
+<h2 id="bookings-get-bookings">予約一覧の取得</h2>
+
+作成した予約一覧を取得することができます。
+
+### Httpsリクエスト
+
+```
+GET /bookings
+```
+
+**エンドポイント**  
+
+`GET /bookings`
+
+**ヘッダー**  
+<code>'Authorization: Bearer {有効なアクセストークン}' \  
+'Accept: application/vnd.lockstate+json; version=1' \　</code>
+
+**ボディ**  
+NONE
+
+**パラメータ**  
+フィルタ、ソートが可能です。
+
+### レスポンス
+
+```
+200 OK
+```
+
+**成功時ステータス**  
+200 OK  
+＊エラーレスポンスは[エラーコード](#http-status-codes)を参照してください。
+
+**ボディ**  
+
+```json
+{
+  "data": [
+    {
+      "type": "booking",
+      "attributes": {
+        "name": "予約桃子",
+        "email": "yoyoasku@yoyoaku.kke.co.jp",
+        "phone": "090-7777-9999",
+        "access_person_id": "bc0c789c-ebf6-4766-9a1e-24ed928d33e8",
+        "device_id": "26829bcb-7006-4bbb-ac22-619f05525f90",
+        "device_type": "lock",
+        "universal_access_key_url": "https://access.remotelock-pf.jp/****",
+        "default_access_key_type": "pin",
+        "access_key_types": ["pin","qr_code"],
+        "pin": "PINナンバー",
+        "card_number": "カード文字列",
+        "qr_code": "QRコード用の文字列",
+        "felica_idm": "iDmコード文字列",
+        "url": "https://鍵URL",
+        "status": "current",
+        "created_at": {},
+        "updated_at": {},
+        "time_zone": "Asia/Tokyo",
+        "starts_at": {},
+        "ends_at": {},
+        "checkin_at": {},
+        "checkout_at": {},
+        "start_margin_sec": 300,
+        "end_margin_sec": 300,
+        "available_starts_at": {},
+        "available_ends_at": {}
+      },
+      "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "links": {
+        "self": "http://api.remotelock.dev/bookings/3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "device": "http://api.remotelock.dev/devices/26829bcb-7006-4bbb-ac22-619f05525f90",
+        "access_person": "http://api.remotelock.dev/access_persons/bc0c789c-ebf6-4766-9a1e-24ed928d33e8"
+      }
+    }
+  ],
+  "meta": {
+    "page": 1,
+    "per_page": 25,
+    "total_count": 3,
+    "total_pages": 1
+  }
+}
+```
+
+
+
+<h2 id="bookings-get-a-booking">予約詳細の取得</h2>
+
+
+### Httpsリクエスト
+
+```
+GET /bookings/{bookingId}
+```
+
+**エンドポイント**  
+
+`GET /bookings/{bookingId}`
+
+**ヘッダー**  
+<code>'Authorization: Bearer {有効なアクセストークン}' \  
+'Accept: application/vnd.lockstate+json; version=1' \　</code>
+
+**ボディ**  
+NONE
+
+### レスポンス
+
+```
+200 OK
+```
+
+**成功時ステータス**  
+200 OK  
+＊エラーレスポンスは[エラーコード](#http-status-codes)を参照してください。
+
+**ボディ**  
+
+```json
+{
+  "data": {
+    "type": "booking",
+    "attributes": {
+      "name": "予約桃子",
+      "email": "yoyoasku@yoyoaku.kke.co.jp",
+      "phone": "090-7777-9999",
+      "access_person_id": "bc0c789c-ebf6-4766-9a1e-24ed928d33e8",
+      "device_id": "26829bcb-7006-4bbb-ac22-619f05525f90",
+      "device_type": "lock",
+      "universal_access_key_url": "https://access.remotelock-pf.jp/****",
+      "default_access_key_type": "pin",
+      "access_key_types": ["pin","qr_code"],
+      "pin": "PINナンバー",
+      "card_number": "カード文字列",
+      "qr_code": "QRコード用の文字列",
+      "felica_idm": "FeliCa IDmコード文字列",
+      "url": "https://鍵URL",
+      "status": "current",
+      "created_at": {},
+      "updated_at": {},
+      "time_zone": "Asia/Tokyo",
+      "starts_at": {},
+      "ends_at": {},
+      "checkin_at": {},
+      "checkout_at": {},
+      "start_margin_sec": 300,
+      "end_margin_sec": 300,
+      "available_starts_at": {},
+      "available_ends_at": {}
+    },
+    "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "links": {
+      "self": "http://api.remotelock.dev/bookings/3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "device": "http://api.remotelock.dev/devices/26829bcb-7006-4bbb-ac22-619f05525f90",
+      "access_person": "http://api.remotelock.dev/access_persons/bc0c789c-ebf6-4766-9a1e-24ed928d33e8"
+    }
+  }
+}
+```

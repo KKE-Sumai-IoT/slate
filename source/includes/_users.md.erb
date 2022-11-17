@@ -1,0 +1,183 @@
+
+
+# Users
+
+
+
+## Get signed in user
+
+
+### Request
+
+
+#### Endpoint
+
+`GET /user`
+
+```plaintext
+GET /user
+
+```
+
+#### Parameters
+
+
+
+None.
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+200 OK
+```
+
+```json
+{
+  "data": {
+    "type": "user",
+    "attributes": {
+      "name": "William Gusikowski",
+      "email": "rosendo_kub@goldner.biz",
+      "handle": "rosendo_kub",
+      "created_at": "2021-11-04T18:16:12Z",
+      "updated_at": "2021-11-04T18:16:12Z",
+      "primary_account_id": "15554f37-d12a-437a-a5a4-29da44397aab",
+      "default_account_id": "15554f37-d12a-437a-a5a4-29da44397aab"
+    },
+    "id": "26e55266-cd18-42a8-b527-3ab9f3c569bb",
+    "links": {
+      "self": "http://api.remotelock.dev/user",
+      "primary_account": "http://api.remotelock.dev/account",
+      "default_account": "http://api.remotelock.dev/account"
+    }
+  }
+}
+```
+
+# Accounts
+
+
+
+## Get current account
+
+
+### Request
+
+
+#### Endpoint
+
+`GET /account`
+
+```plaintext
+GET /account
+
+```
+
+#### Parameters
+
+
+
+None.
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+200 OK
+```
+
+```json
+{
+  "data": {
+    "type": "account",
+    "attributes": {
+      "name": "Antonia Boyer",
+      "created_at": "2021-11-04T18:05:38Z",
+      "updated_at": "2021-11-04T18:05:38Z",
+      "default_guest_start_time": "16:00:00",
+      "default_guest_end_time": "11:00:00",
+      "rental_guest_time_override": false,
+      "primary_owner_id": "7ada5a73-75cc-4c6b-a2fb-9a07fec3f69a",
+      "owner_role_id": "ae86a293-9a13-47be-bc54-f8e70265ba97"
+    },
+    "id": "265510a6-ec5e-47f7-bb2b-a08b19d9e1a9",
+    "links": {
+      "self": "http://api.remotelock.dev/account",
+      "primary_owner": "http://api.remotelock.dev/user",
+      "owner_role": "http://api.remotelock.dev/roles/ae86a293-9a13-47be-bc54-f8e70265ba97"
+    }
+  }
+}
+```
+
+
+## Update current account
+
+
+### Request
+
+
+#### Endpoint
+
+`PUT /account`
+
+```plaintext
+PUT /account
+
+```
+
+#### Parameters
+
+
+```json
+{
+  "attributes": {
+    "default_guest_start_time": "15:30:00",
+    "default_guest_end_time": "02:15:00"
+  }
+}
+```
+
+| Name | Description |
+|:-----|:------------|
+| attributes[name]  | Account Name |
+| attributes[default_guest_start_time]  | Default Access Guest start time, ISO 8601 24 hour time format, default: "11:00:00" |
+| attributes[default_guest_end_time]  | Default Access Guest end time, ISO 8601 24 hour time format, default: "23:00:00" |
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+200 OK
+```
+
+```json
+{
+  "data": {
+    "type": "account",
+    "attributes": {
+      "name": "Mr. Bryan Mills",
+      "created_at": "2021-11-04T18:05:40Z",
+      "updated_at": "2021-11-04T18:05:41Z",
+      "default_guest_start_time": "15:30:00",
+      "default_guest_end_time": "02:15:00",
+      "rental_guest_time_override": false,
+      "primary_owner_id": "be11a829-40bc-4766-85ef-b05c35e6ed3d",
+      "owner_role_id": "d2adca3f-b2d9-42ba-b75e-c6c10a5ae92f"
+    },
+    "id": "abdce020-e064-46f2-bc7b-7214af4e1e6b",
+    "links": {
+      "self": "http://api.remotelock.dev/account",
+      "primary_owner": "http://api.remotelock.dev/user",
+      "owner_role": "http://api.remotelock.dev/roles/d2adca3f-b2d9-42ba-b75e-c6c10a5ae92f"
+    }
+  }
+}
+```

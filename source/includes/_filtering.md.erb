@@ -1,0 +1,28 @@
+<h1 id="filtering">フィルタリング</h1>
+
+<h2 id="filtering-by-multiple-ids">複数IDでフィルタリング</h2>
+
+一覧を返すエンドポイントでサポートされています。
+
+* **クエリフォーマット:** `?id[]=<id 1>&id[]=<id 2>&...`  
+  例: IDが**a1b2**と**c3d4**のデバイスを取得する場合:  
+  `GET https://api.remotelock-pf.jp/devices?id[]=a1b2&id[]=c3d4`
+
+<h2 id="filtering-by-resource-type">タイプ属性でフィルタリング</h2>
+
+複数のタイプ属性で一覧を返すエンドポイントでサポートされています。
+
+* **単一タイプでフィルタリングする場合のクエリフォーマット:** `?type=<type>`  
+  例: 単一タイプが**lock**に一致するデバイスを取得する場合:  
+  `GET https://api.remotelock-pf.jp/devices?type=lock`
+
+* **複数タイプでフィルタリングする場合のクエリフォーマット:** `?type[]=<type 1>&type[]=<type 2>&...`  
+  例: 複数タイプが**lock**か**igloo_lock**に一致するデバイスを取得する場合:  
+  `GET https://api.remotelock-pf.jp/devices?type[]=lock&type[]=igloo_lock`
+
+<h2 id="filtering-by-resource-type">Attribute属性でフィルタリング</h2>
+
+Attribute属性で一覧を返すエンドポイントでサポートされています。  
+
+例: Location **a1b2**に一致するデバイスを取得する場合:  
+`GET https://api.remotelock-pf.jp/devices?attrobites[location_id]=a1b2`

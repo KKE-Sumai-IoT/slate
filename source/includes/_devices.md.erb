@@ -1,0 +1,293 @@
+<h1 id="devices-get">登録デバイスの取得</h1>
+<h2 id="devices-get-devices">デバイス一覧の取得</h2>
+
+アカウントに登録されているデバイスの一覧をリスト形式で取得します。
+
+**
+<aside class="notice">
+**開発ガイド**  
+
+アカウントに登録されているデバイスが一覧で取得されます。  
+data[ {type, attributes,id,links},{type, attributes,id,links}]という構成のリストで取得されます。  
+取得情報から、以下は保存してください。
+
+- <code>id</code>  カギ発行・予約作成する対象デバイスをidで指定します。APIのコールに必要となり、システムはidでデバイスを識別します。  sample:"2e19fa6e-490f-4616-9644-67d5cfd04733"  
+- <code>attributes</code>の<code>name</code>  通常、デバイスのオーナーが部屋の名前等をつけています。任意文字列となりますが、連携の設定時などは通常オーナーはこの名前で判断します。  
+- <code>type</code>  デバイスのタイプによって特性（できること）が変わります。一部エンドポイントでは、APIの呼び出しに<code>type</code>が必要になります。  
+
+デバイス数が多い場合は、デフォルトでは25台毎にページネーションされます。
+末尾のmetaデータをご参照し、2ページ目以降の情報を取得してください。
+2ページ目以降の取得は、リクエストのパラメーターを付与することで取得できます。
+ページネーションの動作は、提供している開発用の共用アカウントにて動作をご確認ください。
+
+　/devices?page=5
+　ページネーションされた5ページ目の取得。
+　/devices?per_page=50&page=2
+　50台毎にページネーションした、2ページ目（51台目〜100台目）の取得
+</aside>
+
+
+### Httpsリクエスト
+
+```
+GET /devices
+```
+
+**エンドポイント**  
+
+`GET /devices`
+
+**ヘッダー**  
+<code>'Authorization: Bearer {有効なアクセストークン}' \  
+'Accept: application/vnd.lockstate+json; version=1' \　</code>
+
+**ボディ**  
+NONE
+
+**パラメータ**  
+フィルタ、ソートが可能です。
+
+### レスポンス
+
+```
+200 OK
+```
+
+**成功時ステータス**  
+200 OK  
+＊エラーレスポンスは[エラーコード](#http-status-codes)を参照してください。
+
+**ボディ**  
+
+```json
+{
+  "data": [
+    {
+      "type": "lock",
+      "attributes": {
+        "name": "501号室",
+        "heartbeat_interval": 43200,
+        "wifi_level": 90,
+        "signal_quality": 4,
+        "connected": true,
+        "alive": true,
+        "power_source": "alkaline_battery",
+        "connected_at": "2021-11-04T18:03:59Z",
+        "serial_number": "AC000W006817824",
+        "connectivity_enabled": true,
+        "algorithmic_pin_enabled": true,
+        "auto_lock": true,
+        "auto_lock_timeout": 5,
+        "created_at": "2021-11-04T18:08:58Z",
+        "default_guest_end_time": null,
+        "default_guest_start_time": null,
+        "local_pins": [
+          "1234"
+        ],
+        "mac_address": "c2:72:54:95:76:e2",
+        "manual_auto_lock_timeout": 0,
+        "muted": false,
+        "nfc": "no_nfc",
+        "no_enter_code": false,
+        "online_auto_lock": false,
+        "power_level": 15,
+        "programming_code": "123456",
+        "ready_pin_seed": "",
+        "state": "unlocked",
+        "updated_at": "2021-11-04T18:08:58Z",
+        "wake_wifi": "user_action",
+        "wifi_enabled": true,
+        "model_id": "36512374-e6ee-4518-a58c-413800319ccd",
+        "location_id": "de94f12f-7f17-4066-8a21-19dd6718e711",
+        "lock_action_schedule_id": "5236893c-7924-4265-91e1-0e5f7ddbeaa9"
+      },
+      "id": "20582de2-393f-4bd4-946a-eabda8ba178b",
+      "links": {
+        "self": "http://api.remotelock-pf.jp/devices/20582de2-393f-4bd4-946a-eabda8ba178b",
+        "model": "http://api.remotelock-pf.jp/models/36512374-e6ee-4518-a58c-413800319ccd",
+        "location": "http://api.remotelock-pf.jp/locations/de94f12f-7f17-4066-8a21-19dd6718e711",
+        "lock_action_schedule": "http://api.remotelock-pf.jp/schedules/5236893c-7924-4265-91e1-0e5f7ddbeaa9"
+      }
+    },
+    {
+      "type": "acs_door",
+      "attributes": {
+        "connectivity_enabled": true,
+        "name": "Beauty",
+        "state": "locked",
+        "connected": true,
+        "created_at": "2021-11-04T18:08:58Z",
+        "updated_at": "2021-11-04T18:08:58Z",
+        "model_id": "88c7102b-5cde-4d97-8309-32531e1aa6f9",
+        "location_id": "de94f12f-7f17-4066-8a21-19dd6718e711"
+      },
+      "id": "cac58b10-70fb-4a11-9a4f-73e5ea94235c",
+      "links": {
+        "self": "http://api.remotelock-pf.jp/devices/cac58b10-70fb-4a11-9a4f-73e5ea94235c",
+        "model": "http://api.remotelock-pf.jp/models/88c7102b-5cde-4d97-8309-32531e1aa6f9",
+        "location": "http://api.remotelock-pf.jp/locations/de94f12f-7f17-4066-8a21-19dd6718e711"
+      }
+    },
+    {
+      "type": "igloo_lock",
+      "attributes": {
+        "name": "hallway",
+        "location_id": "de94f12f-7f17-4066-8a21-19dd6718e711",
+        "model_id": "652771a5-8479-4869-b43a-f96634bbe8c5"
+      },
+      "id": "86e66654-a0bb-4e41-9e20-4f3f74146e70",
+      "links": {
+        "self": "http://api.remotelock-pf.jp/devices/86e66654-a0bb-4e41-9e20-4f3f74146e70",
+        "location": "http://api.remotelock-pf.jp/locations/de94f12f-7f17-4066-8a21-19dd6718e711",
+        "model": "http://api.remotelock-pf.jp/models/652771a5-8479-4869-b43a-f96634bbe8c5"
+      }
+    },
+    {
+      "type": "acs_elevator_floor",
+      "attributes": {
+        "connectivity_enabled": true,
+        "name": "Games",
+        "state": "locked",
+        "number": 17,
+        "created_at": "2021-11-04T18:08:59Z",
+        "updated_at": "2021-11-04T18:08:59Z",
+        "connected": true,
+        "model_id": "e06cc766-f062-4e9e-bee0-5d7a29160b8f",
+        "location_id": "de94f12f-7f17-4066-8a21-19dd6718e711",
+        "elevator_id": "3d190000-ad68-47c4-9171-0d26b79e6111"
+      },
+      "id": "2e19fa6e-490f-4616-9644-67d5cfd04733",
+      "links": {
+        "self": "http://api.remotelock.dev/devices/2e19fa6e-490f-4616-9644-67d5cfd04733",
+        "model": "http://api.remotelock.dev/models/e06cc766-f062-4e9e-bee0-5d7a29160b8f",
+        "location": "http://api.remotelock.dev/locations/de94f12f-7f17-4066-8a21-19dd6718e711",
+        "elevator": "http://api.remotelock.dev/devices/3d190000-ad68-47c4-9171-0d26b79e6111"
+      }
+    }
+  ],
+  "meta": {
+    "page": 1,
+    "per_page": 25,
+    "total_count": 11,
+    "total_pages": 1
+  }
+}
+```
+
+| 項目 | 説明       |  
+|:----|:-----------|  
+| type|機器のタイプ `lock`,`acs_door`,`acs_elevator_floor`,`igloolock`など |  
+| attributes(全デバイス共通）| |  
+|   name | デバイス名 |  
+|   model_id | デバイスのモデル（機種）ID |  
+|   location_id | 設置場所のID |  
+| attributes  (主なデバイスに存在）| |  
+|   state | 現在のカギの状態 locked（施錠状態）, unlocked（解錠状態） |  
+|   connected| true/false デバイスがネットワークに接続しているか|  
+
+
+
+<h2 id="devices-get-a-device">デバイス情報の取得</h2>
+
+指定したデバイスIDのデバイス情報が取得できます。"attributes"の項目はtypeにより大別されます。
+
+### Httpsリクエスト
+
+```
+GET /devices/:id
+```
+
+**エンドポイント**  
+
+`GET /devices/:id`
+
+**ヘッダー**  
+<code>'Authorization: Bearer {有効なアクセストークン}' \  
+'Accept: application/vnd.lockstate+json; version=1' \　</code>
+
+**ボディ**  
+NONE
+
+### レスポンス
+
+```
+200 OK
+```
+
+**成功時ステータス**  
+200 OK  
+＊エラーレスポンスは[エラーコード](#http-status-codes)を参照してください。
+
+**ボディ**  
+
+```json
+{
+  "data": {
+    "type": "lock",
+    "attributes": {
+      "name": "501号室",
+      "heartbeat_interval": 43200,
+      "wifi_level": 90,
+      "signal_quality": 4,
+      "connected": true,
+      "alive": true,
+      "power_source": "alkaline_battery",
+      "connected_at": "2021-11-04T18:09:16Z",
+      "serial_number": "AC000W008666132",
+      "connectivity_enabled": true,
+      "algorithmic_pin_enabled": true,
+      "auto_lock": true,
+      "auto_lock_timeout": 5,
+      "created_at": "2021-11-04T18:09:16Z",
+      "default_guest_end_time": null,
+      "default_guest_start_time": null,
+      "local_pins": [
+        "1234"
+      ],
+      "mac_address": "b6:8c:24:b5:04:e7",
+      "manual_auto_lock_timeout": 0,
+      "muted": false,
+      "nfc": "no_nfc",
+      "no_enter_code": false,
+      "online_auto_lock": false,
+      "power_level": 50,
+      "programming_code": "123456",
+      "ready_pin_seed": "",
+      "state": "unlocked",
+      "updated_at": "2021-11-04T18:09:16Z",
+      "wake_wifi": "user_action",
+      "wifi_enabled": true,
+      "model_id": "ae8c57b3-d44b-4d36-94a2-f60aaabee966",
+      "location_id": "588537f7-1e6f-4d7d-a7bf-c86ee2d7a61c",
+      "lock_action_schedule_id": "3abd069d-7736-41f7-b7ac-6494098f6570"
+    },
+    "id": "d369257b-b3c1-4375-a537-f17f8c7620bd",
+    "links": {
+      "self": "http://api.remotelock-pf.jp/devices/d369257b-b3c1-4375-a537-f17f8c7620bd",
+      "model": "http://api.remotelock-pf.jp/models/ae8c57b3-d44b-4d36-94a2-f60aaabee966",
+      "location": "http://api.remotelock-pf.jp/locations/588537f7-1e6f-4d7d-a7bf-c86ee2d7a61c",
+      "lock_action_schedule": "http://api.remotelock-pf.jp/schedules/3abd069d-7736-41f7-b7ac-6494098f6570"
+    }
+  }
+}
+```
+
+| 項目 | 説明       |  
+|:----|:-----------|  
+| type|機器のタイプ `lock`,`acs_door`,`acs_elevator_floor`,`igloolock`など |  
+| attributes(全デバイス共通）| |  
+|   name | デバイス名 |  
+|   model_id | デバイスのモデル（機種）ID |  
+|   location_id | 設置場所のID |  
+| attributes  (主なデバイスに存在）| |  
+|   state | 現在のカギの状態 locked（施錠状態）, unlocked（解錠状態） |  
+|   connected| true/false デバイスがネットワークに接続しているか|  
+
+**
+<aside class="notice">
+**開発ガイド**  
+
+デバイス情報で返ってくるattributesの項目は、
+機器のサポートする機能によって変わる可能性があります。
+デバイスのtypeおよびmodel_idにより識別できます。
+</aside>

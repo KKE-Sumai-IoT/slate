@@ -1,0 +1,89 @@
+
+
+#フォーマット
+##第2インデント
+
+```
+リクエスト　GET /devices/:id
+
+ボディ
+NONE
+```
+
+### httpsリクエスト　｜　GET /devices/{ deviceのid } 
+
+指定したデバイスIDのデバイス情報が取得できます。"attributes"の項目はtypeにより大別されます。
+
+**
+<aside class="notice"> 
+**開発ガイド**
+
+デバイス情報で返ってくるattributesの項目は、
+機器のサポートする機能によって変わる可能性があります。
+デバイスのtypeおよびmodel_idにより識別できます。
+
+</aside>
+
+
+**リクエスト ヘッダー**
+
+　<code>'Authorization: Bearer {有効なアクセストークン}' \  
+  'Accept: application/vnd.lockstate+json; version=1' \　</code>
+
+**リクエスト ボディ**
+
+　NONE
+
+**リクエスト パラメータ**
+
+　NONE
+
+```
+レスポンス
+```
+```json
+{
+  "data": {
+    "type": "lock",
+    "attributes": {
+      "name": "LS-6i - AC000W008666132",
+      "heartbeat_interval": 1200,
+      "wifi_level": 0,
+      "local_pins": [
+        "1234"
+      ],
+      "wifi_enabled": true,
+      "model_id": "ae8c57b3-d44b-4d36-94a2-f60aaabee966",
+      "location_id": "588537f7-1e6f-4d7d-a7bf-c86ee2d7a61c",
+      "lock_action_schedule_id": "3abd069d-7736-41f7-b7ac-6494098f6570"
+    },
+    "id": "d369257b-b3c1-4375-a537-f17f8c7620bd",
+    "links": {
+      "self": "http://api.remotelock.dev/devices/d369257b-b3c1-4375-a537-f17f8c7620bd",
+      "model": "http://api.remotelock.dev/models/ae8c57b3-d44b-4d36-94a2-f60aaabee966",
+      "location": "http://api.remotelock.dev/locations/588537f7-1e6f-4d7d-a7bf-c86ee2d7a61c",
+      "lock_action_schedule": "http://api.remotelock.dev/schedules/3abd069d-7736-41f7-b7ac-6494098f6570"
+    }
+  }
+}
+```
+
+
+**レスポンス（成功）**  
+  200 OK
+
+　＊エラーレスポンスは[エラーコード](./#044106d39a)を参照してください。
+
+**レスポンス（成功時の主な応答項目）**
+
+| 項目 |  | 説明|  
+| ---- | ---------- | ----------- |  
+| type || 機器のタイプ。"lock"、acs_door、acs_elevator_floor、igloolock | |  
+| attributes ||  |  
+| | name | デバイス名 |  
+| | model_id | デバイスのモデル（機種）ID |  
+| | location_id | 設置場所のID |  
+| | state | locked,unlocked |  
+| | connected| true,false デバイスがネットワークに接続しているか。|  
+
+

@@ -1,0 +1,185 @@
+<h1 id="rate-limiting">レート制限</h1>
+
+全てのAPIレスポンスでは次のようなレート制限の情報をヘッダーに含めています。  
+
+<div class="center-column"></div>
+
+`X-RateLimit-Limit: 120`  
+`X-RateLimit-Remaining: 15`  
+`X-RateLimit-Reset: 1452626187`
+
+
+| ヘッダー                | 説明   |
+| --------------------- | ------------- |
+| X-RateLimit-Limit     | 当該アカウントが受け取ることができる毎分当たりのリクエスト数 |
+| X-RateLimit-Remaining | 現在、当該アカウントが受け取ることができる残リクエスト数 |
+| X-RateLimit-Reset     | 現在のレート制限がリセットされるまでの時間（エポック秒） |
+
+<aside class="notice">
+リクエスト数の制限として、現在はアカウント毎に120リクエスト/分の制限が設けられています。
+ただし、URL1でのみ提供するエンドポイントでは、内部処理で複数リクエストを呼び出している場合がありますので、運用の際には残リクエスト数を主に参照するようにしてください。  
+</aside>
+
+レート制限を超過すると、そのリクエストはステータス**429** (Too Many Requests)で、次の内容をBodyに含んで返されます。
+
+<div class="center-column"></div>
+
+```json
+{
+  "message": "Your account has exceeded the rate limit. Check the X-RateLimit-* headers."
+}
+```
+
+<h2 id="rate-limiting-alternative">レート制限に引っかかってしまうケースが想定される場合</h2>
+
+### Webhookによるイベント通知の利用
+
+RemoteLOKCには、Webhookを使ってイベントを指定されたサーバーにプッシュ通知する機能があります。  
+この機能によりリクエスト数を減らせる可能性があるため、特にAPIを利用される方にはこの機能の利用を推奨しています。  
+
+### Webhook通知先の設定
+
+<div class="center-column"></div>
+
+```shell
+curl -X POST \
+  -H 'Authorization: Bearer $ACCESS_TOKEN' \
+  -H 'Accept: application/vnd.lockstate+json; version=1' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "type": "webhook_notification_subscriber",
+    "attributes": {
+      "active": true,
+      "name": "My webhook",
+      "url": "https://myrentalapplication.com/my_webhook_example",
+      "content_type": "json",
+      "secret": "oRWQWqQ0sn5xugpl"
+    }
+  }' \
+  'https://api.remotelock-pf.jp/notification_subscribers'
+```
+Webhook通知先を設定するには、まず右のPOSTリクエストを送ります。
+
+
+この`url`先では、Webhook通知の内容を処理できる必要があります。  
+[Webhook通知作成](https://developer.remotelock.jp/api/docs#notification-subscribers-create-a-webhook-notification-subscriber)にその他のオプションも記載されていますので、要件に合わせて確認してください。  
+
+<div class="center-column"></div>
+
+```json
+{
+  "data": {
+    "type": "webhook_notification_subscriber",
+    "attributes": {
+      "name": "My webhook",
+      "url": "https://myrentalapplication.com/my_webhook_example",
+      "content_type": "json",
+      "secret": "oRWQWqQ0sn5xugpl",
+      "active": true,
+      "created_at": "2018-07-13T14:37:17Z",
+      "updated_at": "2018-07-13T14:37:17Z"
+    },
+    "id": "df4e347b-b885-47da-b627-59d0b4b47807",
+    "links": {
+      // ...
+    }
+  }
+}
+```
+
+上記リクエストのレスポンスは右のようになります。
+
+
+これで、webhookの通知先設定が完了します。
+
+<div class="center-column"></div>
+
+```shell
+curl -X POST \
+  -H 'Authorization: Bearer $ACCESS_TOKEN' \
+  -H 'Accept: application/vnd.remotelock+json; version=1' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "attributes": {
+      "events": [
+        {
+          "event_type": "access_person_synced"
+        }
+      ],
+      "publisher_type": "lock",
+      "publisher_id": "053994ef-ceed-455a-a5f7-7962261a722d",
+      "subscriber_type": "webhook_notification_subscriber",
+      "subscriber_id": "df4e347b-b885-47da-b627-59d0b4b47807"
+    }
+  }' \
+  'https://api.remotelock-pf.jp/notification_subscriptions'
+```
+
+### Webhookお知らせ設定
+
+通知先の設定の後、イベントの種類と発生元の組み合わせでお知らせ設定を行います。  
+特定のデバイスの`access_person_synced`イベントから作成するPOSTリクエストは右のようになります。  
+
+
+`publisher_type`と`publisher_id`はデバイスの情報、
+`subscriber_type`と`subscriber_id`は上で作成したWebhook通知先の情報になります。  
+イベントの発生元`publisher`としては、特定デバイスだけでなく、アカウント全体や特定の設置場所のデバイス全て等も選択できます。  
+詳細は、[お知らせ作成](https://developer.remotelock.jp/api/docs#notification-subscriptions-create-a-notification-subscription)をご参照ください。  
+
+<div class="center-column"></div>
+
+```json
+{
+  "data": {
+    "type": "notification_subscription",
+    "attributes": {
+      "events": [
+        {
+          "event_type": "access_person_synced"
+        }
+      ],
+      "created_at": "2018-07-13T14:54:11Z",
+      "updated_at": "2018-07-13T14:54:11Z",
+      "subscriber_id": "df4e347b-b885-47da-b627-59d0b4b47807",
+      "subscriber_type": "webhook_notification_subscriber",
+      "publisher_id": "053994ef-ceed-455a-a5f7-7962261a722d",
+      "publisher_type": "lock"
+    },
+    "id": "09491f96-da50-4ae1-8d29-390e5397d5ad",
+    "links": {
+      // ...
+    }
+  }
+}
+```
+上記リクエストのレスポンスは右のようになります。
+
+
+これで、webhookのお知らせ設定が完了します。
+
+<div class="center-column"></div>
+
+```json
+{
+  "data": {
+    "type": "access_person_synced_event",
+    "attributes": {
+      "source": "user",
+      "status": "succeeded",
+      "time_zone": "Asia/Tokyo",
+      "occurred_at": "2018-07-10T18:15:32Z",
+      // ...
+      "publisher_id": "053994ef-ceed-455a-a5f7-7962261a722d",
+      "publisher_type": "lock",
+      "associated_resource_id": "1864e7e5-2475-44ab-9dfe-2912469fc1b2",
+      "associated_resource_type": "access_user"
+    },
+    "id": "a152915c-3d12-480b-8d68-baebbfa1264c",
+    "links": {
+      // ...
+    }
+  }
+}
+```
+
+当該デバイスにイベントが発生すると、`POST`リクエストが通知先として設定されたURLに右のようなデータが送信されます。

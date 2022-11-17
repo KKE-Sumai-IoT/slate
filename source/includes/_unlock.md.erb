@@ -1,0 +1,674 @@
+#Device Unlock
+
+
+## Lock a lock
+
+
+### Request
+
+
+#### Endpoint
+
+`PUT /devices/:id/lock`
+
+```plaintext
+PUT /devices/37a0d279-d311-4717-8134-bef4ec799513/lock
+
+```
+
+#### Parameters
+
+
+
+None.
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+200 OK
+```
+
+```json
+{
+  "data": {
+    "type": "lock",
+    "attributes": {
+      "name": "OEMAIN - AC000W007534830",
+      "heartbeat_interval": 0,
+      "wifi_level": 0,
+      "signal_quality": 0,
+      "connected": false,
+      "alive": false,
+      "power_source": "hardwire",
+      "connected_at": null,
+      "serial_number": "AC000W007534830",
+      "connectivity_enabled": false,
+      "algorithmic_pin_enabled": false,
+      "auto_lock": true,
+      "auto_lock_timeout": 0,
+      "created_at": "2021-11-04T18:08:43Z",
+      "default_guest_end_time": null,
+      "default_guest_start_time": null,
+      "local_pins": [
+
+      ],
+      "mac_address": "",
+      "manual_auto_lock_timeout": 0,
+      "muted": false,
+      "nfc": "no_nfc",
+      "no_enter_code": false,
+      "online_auto_lock": false,
+      "power_level": 0,
+      "programming_code": null,
+      "ready_pin_seed": "",
+      "state": "locked",
+      "updated_at": "2021-11-04T18:08:43Z",
+      "wake_wifi": "user_action",
+      "wifi_enabled": false,
+      "model_id": "b4ae801d-cb57-4827-85f7-1212544506cb",
+      "location_id": "80be3aef-f059-4132-8a61-70064b730a74"
+    },
+    "id": "37a0d279-d311-4717-8134-bef4ec799513",
+    "links": {
+      "self": "http://api.remotelock.dev/devices/37a0d279-d311-4717-8134-bef4ec799513",
+      "model": "http://api.remotelock.dev/models/b4ae801d-cb57-4827-85f7-1212544506cb",
+      "location": "http://api.remotelock.dev/locations/80be3aef-f059-4132-8a61-70064b730a74"
+    }
+  }
+}
+```
+
+
+## Unlock a lock
+
+
+### Request
+
+
+#### Endpoint
+
+`PUT /devices/:id/unlock`
+
+```plaintext
+PUT /devices/0b6138d5-c032-4a36-bac7-7a3013b55212/unlock
+
+```
+
+#### Parameters
+
+
+
+None.
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+200 OK
+```
+
+```json
+{
+  "data": {
+    "type": "lock",
+    "attributes": {
+      "name": "OEMAIN - AC000W001736702",
+      "heartbeat_interval": 0,
+      "wifi_level": 0,
+      "signal_quality": 0,
+      "connected": false,
+      "alive": false,
+      "power_source": "hardwire",
+      "connected_at": null,
+      "serial_number": "AC000W001736702",
+      "connectivity_enabled": false,
+      "algorithmic_pin_enabled": false,
+      "auto_lock": true,
+      "auto_lock_timeout": 0,
+      "created_at": "2021-11-04T18:08:45Z",
+      "default_guest_end_time": null,
+      "default_guest_start_time": null,
+      "local_pins": [
+
+      ],
+      "mac_address": "",
+      "manual_auto_lock_timeout": 0,
+      "muted": false,
+      "nfc": "no_nfc",
+      "no_enter_code": false,
+      "online_auto_lock": false,
+      "power_level": 0,
+      "programming_code": null,
+      "ready_pin_seed": "",
+      "state": "unlocked",
+      "updated_at": "2021-11-04T18:08:45Z",
+      "wake_wifi": "user_action",
+      "wifi_enabled": false,
+      "model_id": "3a0e18d1-c792-4166-9deb-0c06c946d712",
+      "location_id": "ca9ed0e8-f3d9-42f1-8fb5-bf7ca6401af7"
+    },
+    "id": "0b6138d5-c032-4a36-bac7-7a3013b55212",
+    "links": {
+      "self": "http://api.remotelock.dev/devices/0b6138d5-c032-4a36-bac7-7a3013b55212",
+      "model": "http://api.remotelock.dev/models/3a0e18d1-c792-4166-9deb-0c06c946d712",
+      "location": "http://api.remotelock.dev/locations/ca9ed0e8-f3d9-42f1-8fb5-bf7ca6401af7"
+    }
+  }
+}
+```
+
+
+## Temporarily unlock a Device
+
+Temporarily unlocks a lock. Supported device API types: acs_door.
+
+### Request
+
+
+#### Endpoint
+
+`PUT /devices/:id/temporary_unlock`
+
+```plaintext
+PUT /devices/60715638-8c30-48be-ad39-dbbb09a671b2/temporary_unlock
+
+```
+
+#### Parameters
+
+
+
+None.
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+200 OK
+```
+
+```json
+{
+  "data": {
+    "type": "acs_door",
+    "attributes": {
+      "connectivity_enabled": true,
+      "name": "Industrial & Health",
+      "state": "unlocked",
+      "connected": false,
+      "created_at": "2021-11-04T18:09:17Z",
+      "updated_at": "2021-11-04T18:09:17Z",
+      "model_id": "ec8e4854-c003-4d24-93f5-519677b9e5e6",
+      "location_id": "966d6856-0a86-4601-ba52-66d1b45c5f8e"
+    },
+    "id": "60715638-8c30-48be-ad39-dbbb09a671b2",
+    "links": {
+      "self": "http://api.remotelock.dev/devices/60715638-8c30-48be-ad39-dbbb09a671b2",
+      "model": "http://api.remotelock.dev/models/ec8e4854-c003-4d24-93f5-519677b9e5e6",
+      "location": "http://api.remotelock.dev/locations/966d6856-0a86-4601-ba52-66d1b45c5f8e"
+    }
+  }
+}
+```
+
+## Lock a device for access person
+
+
+### Request
+
+
+#### Endpoint
+
+`PUT /devices/:id/lock/:access_person_id`
+
+```plaintext
+PUT /devices/448c78cd-fc2e-4f72-8eaa-3bcdb40ded27/lock/3ec1352d-8cef-42d5-a38f-60cbd979b524
+
+```
+
+#### Parameters
+
+
+
+None.
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+200 OK
+```
+
+```json
+{
+  "data": {
+    "type": "lock",
+    "attributes": {
+      "name": "OEMAIN - AC000W007534830",
+      "heartbeat_interval": 0,
+      "wifi_level": 0,
+      "signal_quality": 0,
+      "connected": false,
+      "alive": false,
+      "power_source": "hardwire",
+      "connected_at": null,
+      "serial_number": "AC000W007534830",
+      "connectivity_enabled": false,
+      "algorithmic_pin_enabled": false,
+      "auto_lock": true,
+      "auto_lock_timeout": 0,
+      "created_at": "2021-11-04T18:08:43Z",
+      "default_guest_end_time": null,
+      "default_guest_start_time": null,
+      "local_pins": [
+
+      ],
+      "mac_address": "",
+      "manual_auto_lock_timeout": 0,
+      "muted": false,
+      "nfc": "no_nfc",
+      "no_enter_code": false,
+      "online_auto_lock": false,
+      "power_level": 0,
+      "programming_code": null,
+      "ready_pin_seed": "",
+      "state": "locked",
+      "updated_at": "2021-11-04T18:08:43Z",
+      "wake_wifi": "user_action",
+      "wifi_enabled": false,
+      "model_id": "b4ae801d-cb57-4827-85f7-1212544506cb",
+      "location_id": "80be3aef-f059-4132-8a61-70064b730a74"
+    },
+    "id": "37a0d279-d311-4717-8134-bef4ec799513",
+    "links": {
+      "self": "http://api.remotelock.dev/devices/37a0d279-d311-4717-8134-bef4ec799513",
+      "model": "http://api.remotelock.dev/models/b4ae801d-cb57-4827-85f7-1212544506cb",
+      "location": "http://api.remotelock.dev/locations/80be3aef-f059-4132-8a61-70064b730a74"
+    }
+  }
+}
+```
+
+
+## Unlock a device for access person
+
+
+### Request
+
+
+#### Endpoint
+
+`PUT /devices/:id/unlock/:access_person_id`
+
+```plaintext
+PUT /devices/a4ab11f4-f726-4d22-b955-940dc02c8462/unlock/8c38ab86-79f4-4d77-be75-f24264bc5255
+
+```
+
+#### Parameters
+
+
+
+None.
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+200 OK
+```
+
+```json
+{
+  "data": {
+    "type": "lock",
+    "attributes": {
+      "name": "OEMAIN - AC000W001736702",
+      "heartbeat_interval": 0,
+      "wifi_level": 0,
+      "signal_quality": 0,
+      "connected": false,
+      "alive": false,
+      "power_source": "hardwire",
+      "connected_at": null,
+      "serial_number": "AC000W001736702",
+      "connectivity_enabled": false,
+      "algorithmic_pin_enabled": false,
+      "auto_lock": true,
+      "auto_lock_timeout": 0,
+      "created_at": "2021-11-04T18:08:45Z",
+      "default_guest_end_time": null,
+      "default_guest_start_time": null,
+      "local_pins": [
+
+      ],
+      "mac_address": "",
+      "manual_auto_lock_timeout": 0,
+      "muted": false,
+      "nfc": "no_nfc",
+      "no_enter_code": false,
+      "online_auto_lock": false,
+      "power_level": 0,
+      "programming_code": null,
+      "ready_pin_seed": "",
+      "state": "unlocked",
+      "updated_at": "2021-11-04T18:08:45Z",
+      "wake_wifi": "user_action",
+      "wifi_enabled": false,
+      "model_id": "3a0e18d1-c792-4166-9deb-0c06c946d712",
+      "location_id": "ca9ed0e8-f3d9-42f1-8fb5-bf7ca6401af7"
+    },
+    "id": "0b6138d5-c032-4a36-bac7-7a3013b55212",
+    "links": {
+      "self": "http://api.remotelock.dev/devices/0b6138d5-c032-4a36-bac7-7a3013b55212",
+      "model": "http://api.remotelock.dev/models/3a0e18d1-c792-4166-9deb-0c06c946d712",
+      "location": "http://api.remotelock.dev/locations/ca9ed0e8-f3d9-42f1-8fb5-bf7ca6401af7"
+    }
+  }
+}
+```
+
+
+## Temporarily unlock a Device for access person
+
+Temporarily unlocks a lock after checking access person's access.
+
+### Request
+
+
+#### Endpoint
+
+`PUT /devices/:id/temporary_unlock/:access_person_id`
+
+```plaintext
+PUT /devices/962b7d8b-3abe-4e23-a3fb-a83c4c8a2b7b/temporary_unlock/a91ac90c-a3fe-43d8-8bb2-68047c47dca8
+
+```
+
+#### Parameters
+
+
+
+None.
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+200 OK
+```
+
+```json
+{
+  "data": {
+    "type": "acs_door",
+    "attributes": {
+      "connectivity_enabled": true,
+      "name": "Industrial & Health",
+      "state": "unlocked",
+      "connected": false,
+      "created_at": "2021-11-04T18:09:17Z",
+      "updated_at": "2021-11-04T18:09:17Z",
+      "model_id": "ec8e4854-c003-4d24-93f5-519677b9e5e6",
+      "location_id": "966d6856-0a86-4601-ba52-66d1b45c5f8e"
+    },
+    "id": "60715638-8c30-48be-ad39-dbbb09a671b2",
+    "links": {
+      "self": "http://api.remotelock.dev/devices/60715638-8c30-48be-ad39-dbbb09a671b2",
+      "model": "http://api.remotelock.dev/models/ec8e4854-c003-4d24-93f5-519677b9e5e6",
+      "location": "http://api.remotelock.dev/locations/966d6856-0a86-4601-ba52-66d1b45c5f8e"
+    }
+  }
+}
+```
+
+
+
+## Lock a Schlage Home lock
+
+
+### Request
+
+
+#### Endpoint
+
+`PUT /devices/:id/lock`
+
+```plaintext
+PUT /devices/fddef8eb-f73e-44f5-aff6-f082650bb18c/lock
+
+```
+
+#### Parameters
+
+
+
+None.
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+200 OK
+```
+
+```json
+{
+  "data": {
+    "type": "schlage_home_lock",
+    "attributes": {
+      "connectivity_enabled": true,
+      "name": "loft",
+      "state": "locked",
+      "alive": true,
+      "connected": true,
+      "connected_at": "2021-11-04T18:04:52Z",
+      "power_level": 90,
+      "integration_status": "connected",
+      "integration_id": "4c71acb7-0585-44c5-a65e-0b963f14d62f",
+      "created_at": "2021-11-04T18:08:52Z",
+      "updated_at": "2021-11-04T18:08:52Z",
+      "serial_number": "3100003251782951",
+      "location_id": "8d6f4b21-486e-4de7-8455-19ada5a66ea9",
+      "model_id": "53e151ba-a7fa-417d-9a44-9ccb091cca60"
+    },
+    "id": "fddef8eb-f73e-44f5-aff6-f082650bb18c",
+    "links": {
+      "self": "http://api.remotelock.dev/devices/fddef8eb-f73e-44f5-aff6-f082650bb18c",
+      "location": "http://api.remotelock.dev/locations/8d6f4b21-486e-4de7-8455-19ada5a66ea9",
+      "model": "http://api.remotelock.dev/models/53e151ba-a7fa-417d-9a44-9ccb091cca60"
+    }
+  }
+}
+```
+
+
+
+## Unlock a Schlage Home lock
+
+
+### Request
+
+
+#### Endpoint
+
+`PUT /devices/:id/unlock`
+
+```plaintext
+PUT /devices/d9d3c4d7-988f-4f3d-8539-b311cba2954c/unlock
+
+```
+
+#### Parameters
+
+
+
+None.
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+200 OK
+```
+
+```json
+{
+  "data": {
+    "type": "schlage_home_lock",
+    "attributes": {
+      "connectivity_enabled": true,
+      "name": "ensuite bathroom",
+      "state": "locked",
+      "alive": true,
+      "connected": true,
+      "connected_at": "2021-11-04T17:58:53Z",
+      "power_level": 90,
+      "integration_status": "connected",
+      "integration_id": "ee564aec-99c4-429f-ab2a-d66325bbc332",
+      "created_at": "2021-11-04T18:08:53Z",
+      "updated_at": "2021-11-04T18:08:53Z",
+      "serial_number": "3100003251782951",
+      "location_id": "abc4534c-53be-4f14-8aa7-ba161bbe6696",
+      "model_id": "53214f54-24f5-4ad2-8c38-e72fe6178a9d"
+    },
+    "id": "d9d3c4d7-988f-4f3d-8539-b311cba2954c",
+    "links": {
+      "self": "http://api.remotelock.dev/devices/d9d3c4d7-988f-4f3d-8539-b311cba2954c",
+      "location": "http://api.remotelock.dev/locations/abc4534c-53be-4f14-8aa7-ba161bbe6696",
+      "model": "http://api.remotelock.dev/models/53214f54-24f5-4ad2-8c38-e72fe6178a9d"
+    }
+  }
+}
+```
+
+
+
+## Lock a ZWave lock
+
+
+### Request
+
+
+#### Endpoint
+
+`PUT /devices/:id/lock`
+
+```plaintext
+PUT /devices/0cb7ba35-32d7-4ecc-978a-d87b4ed7db52/lock
+
+```
+
+#### Parameters
+
+
+
+None.
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+200 OK
+```
+
+```json
+{
+  "data": {
+    "type": "zwave_lock",
+    "attributes": {
+      "connectivity_enabled": true,
+      "name": "GFM",
+      "state": "locked",
+      "connected": false,
+      "power_level": 0,
+      "protocol": "",
+      "created_at": "2021-11-04T18:08:56Z",
+      "updated_at": "2021-11-04T18:08:56Z",
+      "location_id": "9c10347a-ceb3-4633-80de-62803962c258",
+      "model_id": "a015631c-7bab-4064-ba93-a9de7aa75086"
+    },
+    "id": "0cb7ba35-32d7-4ecc-978a-d87b4ed7db52",
+    "links": {
+      "self": "http://api.remotelock.dev/devices/0cb7ba35-32d7-4ecc-978a-d87b4ed7db52",
+      "location": "http://api.remotelock.dev/locations/9c10347a-ceb3-4633-80de-62803962c258",
+      "model": "http://api.remotelock.dev/models/a015631c-7bab-4064-ba93-a9de7aa75086"
+    }
+  }
+}
+```
+
+## Unlock a ZWave lock
+
+
+### Request
+
+
+#### Endpoint
+
+`PUT /devices/:id/unlock`
+
+```plaintext
+PUT /devices/4595a005-b68e-4537-aa87-d088c75b5753/unlock
+
+```
+
+#### Parameters
+
+
+
+None.
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+200 OK
+```
+
+```json
+{
+  "data": {
+    "type": "zwave_lock",
+    "attributes": {
+      "connectivity_enabled": true,
+      "name": "GEI",
+      "state": "unlocked",
+      "connected": false,
+      "power_level": 0,
+      "protocol": "",
+      "created_at": "2021-11-04T18:08:56Z",
+      "updated_at": "2021-11-04T18:08:56Z",
+      "location_id": "96c36286-fc2b-46c7-bc0e-7fb0cb3512d2",
+      "model_id": "d5cf4dab-953d-49b9-b39d-a0170c2414d5"
+    },
+    "id": "4595a005-b68e-4537-aa87-d088c75b5753",
+    "links": {
+      "self": "http://api.remotelock.dev/devices/4595a005-b68e-4537-aa87-d088c75b5753",
+      "location": "http://api.remotelock.dev/locations/96c36286-fc2b-46c7-bc0e-7fb0cb3512d2",
+      "model": "http://api.remotelock.dev/models/d5cf4dab-953d-49b9-b39d-a0170c2414d5"
+    }
+  }
+}
+```

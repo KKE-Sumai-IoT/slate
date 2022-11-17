@@ -1,0 +1,316 @@
+<h1 id="bookings">予約</h1>
+<h2 id="bookings-create-a-booking">新規作成(カギ発行)</h2>
+
+
+予約者情報、開始・終了日時、デバイスのIDを含めてを送信して、
+当該のデバイス・予約時間に有効なアクセスキー（カギ）を発行します。  
+登録デバイス一覧の取得は[こちら](#devices-get)を参照してください。  
+
+### Httpsリクエスト
+
+```
+POST /bookings
+```
+
+**エンドポイント**  
+
+`POST /bookings`
+
+**ヘッダー**  
+<code>'Authorization: Bearer {有効なアクセストークン}' \  
+'Accept: application/vnd.lockstate+json; version=1' \　</code>
+
+**ボディ**  
+
+```json
+例1
+{
+  "type": "booking",
+  "id": "ADX3247",
+  "attributes": {
+    "name": "予約桃子",
+    "email": "yoyoasku@yoyoaku.kke.co.jp",
+    "phone": "000-7777-9999",
+    "device_id": "26829bcb-7006-4bbb-ac22-619f05525f90",
+    "starts_at": "2022-09-20T14:00:00",
+    "ends_at": "2022-09-21T09:00:00",
+    "validation": false
+  }
+}
+例2（ pin番号などを指定する場合 )
+{
+  "type": "booking",
+  "attributes": {
+    "name": "予約桃子",
+    "email": "yoyoasku@yoyoaku.kke.co.jp",
+    "phone": "000-7777-9999",
+    "device_id": "26829bcb-7006-4bbb-ac22-619f05525f90",
+    "starts_at": "2022-09-20T14:00:00",
+    "ends_at": "2022-09-21T09:00:00",
+    "pin": "123456",
+    "card_number": "123456789890",
+    "qr_code": "123456",
+    "validation": true
+  }
+}
+```
+
+| 項目 |  | 説明 |
+| ---- | ---------- | ----------- |
+| type* || "booking" | |
+| id || 任意。予約ID(半角英数、アカウント内でユニークなもの)を指定してください。指定がない場合、システム側で発行されます。 指定時(string )は1-36文字でアカウント内でユニークなこと。 pattern: [0-9a-zA-Z]+ |
+| attributes* ||  |
+| | name* | 予約者（代表者）氏名 |
+| | email | 予約者Eメールアドレス |
+| | phone | 予約者電話番号 |
+| | device_id* | 入室させるデバイスのID(APIから取得) |
+| | starts_at* | 予約の利用開始時間 |
+| | ends_at* | 予約の利用終了時間 |
+| | pin | 解錠する暗証番号に指定がある場合は追加、PINは重複を認めない |
+| | qr_code | 解錠するQRコードに指定がある場合は追加（対応機種のみ） |
+| | felica_idm | 許可したいFeliCaカードのIDm番号を追加（対応機種のみ） |
+| | card_number | 許可したいEMカード番号を追加（対応機種のみ） |
+| | validation | ture または　false |
+
+
+**
+<aside class="notice">
+**開発ガイド**
+
+-  <code>booking_id</code>は、予約システムなどからユニークなIDが発行されている場合、そのIDを指定してください（推奨）。指定がない場合は、API側でユニークなbooking_idが振り出されます。  　　
+- 予約者情報は、アクセスキーの通知などのために入力を推奨します。必須項目は<code>name</code>となります。管理画面での識別名となるため予約代表者のフルネームが推奨です。  
+- 「登録デバイスの取得」で取得した<code>device_id</code>を指定してください。 
+-  starts_at、ends_atは、予約の空き・重複のチェック等に使われるケースがあります。予約の開始時刻と終了時刻は正確に登録してください。
+予約時間より少し早く入室したい等のニーズには、アカウント毎の個別設定により対応が可能です。
+アクセスキーの利用可能時間にマージンが設定されている場合、マージンを加えた時間がavailable_starts_at、available_ends_atに返却されます。（予約が14:00-15:00に対し、開始10分前終了5分後にマージンが設定されていれば 13:50 - 15:05にデバイスにて利用可能となる。）設定は、アカウント毎となるため、変更の希望はデバイスのオーナー様から連携の認証後に[remotelock-dev@kke.co.jp](<mailto:remotelock-dev@kke.co.jp>) までご連絡ください。  
+- <code>validation</code>のオプションは、開発をシンプルかつ機器特性に依存しない汎用的な実装をするためのオプションで、falseが推奨オプションです。
+false指定時は、有効なカギ発行を保証するため、リクエストでアクセスキーを指定した場合にも、指定と異なるものが発行される可能性があります。  
+<code>validation：false</code>でリクエストを送信した場合、アクセスキーは必ず応答の内容を参照・保存してください。
+アクセスキー（カギ番号）を厳密に指定したい場合は<code>true</code>を使います。  
+<code>validation:true</code>で発行したアクセスキーは、機器の通信間隔に沿って反映されます。
+<code>validation:true</code>でリクエストし、指定したアクセスキーが発行できない場合にはエラーが返ります。
+rueオプション利用時は、機器・システムの特性の把握および、エラー返却時の処理を考慮してください。
+※false指定時もカード番号 (<code>felica_idm</code>, <code>card_number</code>)が勝手に変更されることはありません。）  
+
+- リクエスト結果として、予約に対応するカギが発行されますが、カギの種類は対応するデバイス等により異なります。レスポンスのアクセスキータイプをご参照ください。  
+
+</aside>
+
+### レスポンス
+
+```
+201 Created
+```
+
+**成功時ステータス**  
+201 Created  
+＊エラーレスポンスは[エラーコード](#http-status-codes)を参照してください。
+
+**ボディ**  
+
+`access_key_types`には、指定したデバイスで利用可能な解錠キーが返ってきます。複数のアクセスキーが使える場合があります。
+
+```json
+{
+  "data": {
+    "type": "booking",
+    "attributes": {
+      "name": "予約桃子",
+      "email": "yoyoasku@yoyoaku.kke.co.jp",
+      "phone": "090-7777-9999",
+      "access_person_id": "bc0c789c-ebf6-4766-9a1e-24ed928d33e8",
+      "device_id": "26829bcb-7006-4bbb-ac22-619f05525f90",
+      "device_type": "lock",
+      "universal_access_key_url": "https://access.remotelock-pf.jp/****",
+      "default_access_key_type": "pin",
+      "access_key_types": ["pin","qr_code"],
+      "pin": "PINナンバー",
+      "card_number": "カード文字列",
+      "qr_code": "QRコード用の文字列",
+      "felica_idm": "FeliCa IDmコード文字列",
+      "url": "https://鍵URL",
+      "status": "current",
+      "created_at": "2022-06-10T18:04:58Z",
+      "updated_at": "2022-06-10T18:04:58Z",
+      "time_zone": "Asia/Tokyo",
+      "starts_at": "2022-09-20T14:00:00",
+      "ends_at": "2022-09-21T09:00:00",
+      "checkin_at": {},
+      "checkout_at": {},
+      "start_margin_sec": 0,
+      "end_margin_sec": 0,
+      "available_starts_at": "2022-09-20T13:55:00",
+      "available_ends_at": "2022-09-21T09:05:00"
+    },
+    "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "links": {
+      "self": "http://api.remotelock.dev/bookings/3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "device": "http://api.remotelock.dev/devices/26829bcb-7006-4bbb-ac22-619f05525f90",
+      "access_person": "http://api.remotelock.dev/access_persons/bc0c789c-ebf6-4766-9a1e-24ed928d33e8"
+    }
+  }
+}
+```
+
+| 項目 |  | 説明|  
+| ---- | ---------- | ----------- |  
+| type || "booking"  |  
+| attributes | |  |  
+| | universal_access_key_url | アクセスキーのタイプによらず、このURLを利用者に伝えると、UR利用可能なアクセスキー（pinであれば暗証番号）が全て表示されます。　|  
+| | default_access_key_type| アクセスキーの中で、標準となる解錠方法です。タイプにはpin/qr_code/felica_idm/card_number/urlがあります。 |  
+| | access_key_types | 発行されたカギ解錠のためのアクセスキーの種類の一覧です。配列形式で、有効なタイプ1つまたは複数が提供されます。 |  
+| | pin | アクセスキーの内、暗証番号を押して解錠するタイプのカギとなります。　|
+| | qr_code | アクセスキーの内、QRコードをかざして解錠するタイプのカギとなります。　|
+| | start_margin_sec | 予約の開始時刻に対して、アクセスキーが利用できる開始時刻のマージン期間を指定するものになります。アカウント毎に設定が可能です。（数値で単位は秒） |  
+| | end_margin_sec | 予約の終了時刻に対して、アクセスキーが利用できる終了時刻のマージン期間を指定するものになります。アカウント毎に設定が可能です。（数値で単位は秒） |  
+| | available_starts_at | アクセスキーが利用できる開始時刻です。当該アカウントに開始マージンが設定されている場合、予約開始時刻にマージンを考慮したものになります。 |  
+| | available_ends_at | アクセスキーが利用できる終了時刻です。当該アカウントに終了マージンが設定されている場合、予約終了時刻にマージンを考慮したものになります。　|
+
+
+**
+<aside class="notice">
+**開発ガイド**
+
+アクセスキーの種類は将来増える可能性があります。汎用設計として以下の推奨となります。
+
+- デフォルトアクセスキーを使った実装
+  1. 呼び出し元システムのDBには、access_key と key_typeの2つのカラムを準備します。（いずれも任意名、文字列型）
+  1. 応答からカラムを用意した2つのデータを保存します。default_access_key_type 、およびその値からattributes[default_access_key_type]を抜き出しDBに保存します。
+  1. アクセスキーを予約者への通知・表示します。
+     key_typeがqr_codeの場合は、本APIによるQRコード画像化、またはGoogleChartAPIのようなサービスを使うことで、呼び出し元システムからはURLとして扱えます。[QRコードの画像生成](#qrcodes-create-a-qrcode)参照。
+
+
+- より簡単な実装：universal_access_key_url を使った実装
+  1. 呼び出し元システムのDBには、string型のaccess_keyのカラムを準備します。（任意名、URLを格納する）
+  1. 応答から、universal_access_key_url を保存します。
+  1. 保存したaccess_key（URL）を予約者に通知します。  
+     予約者はリンク先のURLでアクセスキー（複数ある場合は利用可能なもの複数）を確認することができます。
+
+
+- より丁寧な実装：PINとQRコードなど複数のアクセスキーの併用に対応
+  1. 呼び出し元システムのDBには、json型のような可変長を許容する構造データのカラム、あるいは対応する複数のカラムを持たせます。
+  1. 応答のうち、access_key_types(配列型)を取得します。続けて、attributes[access_key_type[0]]のように利用できるアクセスキーの一覧を取得します。
+  1. アクセスキーのタイプにより、適宜(case..else)のようば追加処理をします。qr_codeの場合は画像化、universal_access_key_urlの場合はリンク化、
+  felica_idmは（予約者のFeliCaカード登録をサポートする場合は）「予約の変更」を参照してbookingにFeliCaのカード番号(IDm)を登録します。pihを含むその他のケースは、値を文字列として表示します。
+  1. アクセスキーを予約者への通知・表示します。
+
+</aside>
+
+
+<h2 id="bookings-deactivate-a-booking">予約のキャンセル</h2>
+
+
+作成済みの予約をキャンセルします。  
+予約は無効化され、発行済みのカギも利用できなくなります。  
+予約はキャンセル済みの予約情報として残ります。  
+
+### Httpsリクエスト
+
+```
+PUT /bookings/{bookingId}/deactivate
+```
+
+**エンドポイント**  
+
+`PUT /bookings/{bookingId}/deactivate`
+
+**ヘッダー**  
+<code>'Authorization: Bearer {有効なアクセストークン}' \  
+'Accept: application/vnd.lockstate+json; version=1' \　</code>
+
+**ボディ**  
+NONE
+
+
+### レスポンス
+
+```
+200 OK
+```
+
+**成功時ステータス**  
+200 OK  
+＊エラーレスポンスは[エラーコード](#http-status-codes)を参照してください。
+
+**ボディ**  
+
+```json
+{
+  "data": {
+    "type": "booking",
+    "attributes": {
+      "name": "予約桃子",
+      "email": "yoyoasku@yoyoaku.kke.co.jp",
+      "phone": "090-7777-9999",
+      "access_person_id": "bc0c789c-ebf6-4766-9a1e-24ed928d33e8",
+      "device_id": "26829bcb-7006-4bbb-ac22-619f05525f90",
+      "device_type": "lock",
+      "universal_access_key_url": "https://access.remotelock-pf.jp/****",
+      "default_access_key_type": "pin",
+      "access_key_types": ["pin","qr_code"],
+      "pin": "PINナンバー",
+      "card_number": "カード文字列",
+      "qr_code": "QRコード用の文字列",
+      "felica_idm": "FeliCa IDmコード文字列",
+      "url": "https://鍵URL",
+      "status": "deactivated",
+      "created_at": {},
+      "updated_at": {},
+      "time_zone": "Asia/Tokyo",
+      "starts_at": {},
+      "ends_at": {},
+      "checkin_at": {},
+      "checkout_at": {},
+      "start_margin_sec": 300,
+      "end_margin_sec": 300,
+      "available_starts_at": {},
+      "available_ends_at": {}
+    },
+    "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "links": {
+      "self": "http://api.remotelock.dev/bookings/3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "device": "http://api.remotelock.dev/devices/26829bcb-7006-4bbb-ac22-619f05525f90",
+      "access_person": "http://api.remotelock.dev/access_persons/bc0c789c-ebf6-4766-9a1e-24ed928d33e8"
+    }
+  }
+}
+```
+
+
+<h2 id="bookings-delete-a-booking">予約の削除（非推奨）</h2>
+
+既存の予約を削除します。  
+Bookingおよびアクセスキーのデータは削除され、参照・確認はできなくなります。  
+ ※ 発行済みのアクセスキーでの解錠された際の記録や、キャンセルされた履歴などが
+   わからなくなるため、恣意的にデータ削除をしたい時以外には、前項のキャンセル(deactivate)が推奨されます。
+
+### Httpsリクエスト
+
+```
+DELETE /bookings/{bookingId}
+```
+
+**エンドポイント**  
+
+`DELETE /bookings/{bookingId}`
+
+**ヘッダー**  
+<code>'Authorization: Bearer {有効なアクセストークン}' \  
+'Accept: application/vnd.lockstate+json; version=1' \　</code>
+
+**ボディ**  
+NONE
+
+
+### レスポンス
+
+```
+204
+```
+
+**成功時ステータス**  
+204  
+＊エラーレスポンスは[エラーコード](#http-status-codes)を参照してください。
+
+**ボディ**  
+NONE

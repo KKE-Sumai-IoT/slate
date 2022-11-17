@@ -1,0 +1,207 @@
+<h1 id="endpoints">エンドポイント一覧</h1>
+
+- [予約](#endpoints-bookings)
+- [QRコード画像](#endpoints-qrcodes)
+- [アクセスパーソン](#endpoints-access_persons)
+- [iglooゲスト](#endpoints-igloo_guests)
+- [デバイス](#endpoints-devices)
+- [ドアグループ](#endpoints-groups)
+- [設置場所](#endpoints-locations)
+- [デバイスモデル](#endpoints-models)
+- [イベント](#endpoints-events)
+- [通知先](#endpoints-notification_subscribers)
+- [お知らせ設定](#endpoints-notification_subscriptions)
+- [お知らせ履歴（通知済み）](#endpoints-notifications)
+- [スケジュール](#endpoints-schedules)
+- [アクセス不可日](#endpoints-access_exceptions)
+- [アカウント情報](#endpoints-accounts)
+- [ユーザー情報](#endpoints-users)
+
+
+**<p id="endpoints-bookings">予約</p>**
+
+|   操作    | メソッド | エンドポイント        |   
+| -------- | ------- | ------------------- |  
+|   全取得  |   GET   |[/bookings](#bookings-get-bookings) |  
+|    取得   |   GET   |[/bookings/:id](#bookings-get-a-booking) |  
+|    作成   |   POST  |[/bookings/:id](#bookings-create-a-booking) |  
+|    変更   |   PUT   |[/bookings/:id](#bookings-update-a-booking) |  
+|チェックイン|   PUT   |[/bookings/:id](#bookings-checkin) |  
+|チェックアウト| PUT   |[/bookings/:id](#bookings-checkout) |  
+| キャンセル |   PUT   |[/bookings/:id/deactivate](#bookings-deactivate-a-booking) |  
+|削除（非推奨）| DELETE |[/bookings/:id](#bookings-delete-a-booking) |  
+
+
+**<p id="endpoints-qrcodes">QRコード画像</p>**
+
+|   操作    | メソッド | エンドポイント        |   
+| -------- | ------- | ------------------- |  
+|   作成    |   POST  |[/util/qrcodes](#qrcodes-create-a-qrcode) |  
+
+
+**<p id="endpoints-access_persons">アクセスパーソン</p>**
+
+アクセスパーソンとは、アクセスユーザーとアクセスゲストの総称です。
+
+|   操作    | メソッド | エンドポイント        |   
+| -------- | ------- | ------------------- |  
+|   全取得  |   GET   |[/access_persons](https://connect.remotelock.jp/api/docs#access-persons-get-access-persons) |  
+|    取得   |   GET   |[/access_persons/:id](https://connect.remotelock.jp/api/docs#access-persons-get-an-access-person) |  
+|ユーザー作成 |  POST  |[/access_persons](https://connect.remotelock.jp/api/docs#access-persons-create-an-access-user) |  
+| ゲスト作成 |   POST  |[/access_persons](https://connect.remotelock.jp/api/docs#access-persons-create-an-access-guest) |  
+|ユーザー更新 |   PUT  |[/access_persons](https://connect.remotelock.jp/api/docs#access-persons-update-an-access-user) |  
+| ゲスト更新 |   PUT  |[/access_persons](https://connect.remotelock.jp/api/docs#access-persons-update-an-access-guest) |  
+|  無効化    |  PUT  |[/access_persons/:id/deactivate](https://connect.remotelock.jp/api/docs#access-persons-deactivates-an-access-person) |  
+|削除（非推奨）| DELETE |[/access_persons/:id](https://connect.remotelock.jp/api/docs#access-persons-delete-an-access-person) |  
+|メール送信  |  POST  |[/access_persons/:id/email/notify](https://connect.remotelock.jp/api/docs#access-persons-schedule-sending-access-instructions-email-in-days) |  
+|ドアアクセス全取得| GET|[/access_persons/:access_person_id/accesses](https://connect.remotelock.jp/api/docs#access-persons-get-all-of-an-access-person-39-s-accesses) |  
+|ドアアクセス取得| GET|[/access_persons/:access_person_id/accesses/:id](https://connect.remotelock.jp/api/docs#access-persons-get-an-access-person-39-s-access) |  
+|ドアアクセス作成| POST|[/access_persons/:access_person_id/accesses](https://connect.remotelock.jp/api/docs#access-persons-grant-an-access-person-access) |  
+|ドアアクセス更新| PUT|[/access_persons/:access_person_id/accesses/:id](https://connect.remotelock.jp/api/docs#access-persons-update-an-access-person-39-s-access) |  
+|ドアアクセス削除| DELETE|[/access_persons/:access_person_id/accesses/:id](https://connect.remotelock.jp/api/docs#access-persons-revoke-an-access-person-39-s-access) |  
+
+
+**<p id="endpoints-igloo_guests">iglooゲスト</p>**
+
+igloohomeのデバイスでのみご利用いただけるゲスト情報です。
+
+|   操作    | メソッド | エンドポイント        |   
+| -------- | ------- | ------------------- |  
+|   全取得  |   GET    |[/igloo_guests](https://connect.remotelock.jp/api/docs#igloo-guests-get-all-igloo-lock-guests) |
+|    取得   |   GET    |[/igloo_guests/:id](https://connect.remotelock.jp/api/docs#igloo-guests-get-an-igloo-guest) |
+|    作成   |  POST    |[/igloo_guests](https://connect.remotelock.jp/api/docs#igloo-guests-create-an-igloo-guest) |
+|    更新   |   PUT    |[/igloo_guests/:id](https://connect.remotelock.jp/api/docs#igloo-guests-update-an-igloo-guest) |
+|    削除   |  DELETE  |[/igloo_guests/:id](https://connect.remotelock.jp/api/docs#igloo-guests-discard-an-igloo-guest) |
+
+
+**<p id="endpoints-devices">デバイス</p>**
+
+|   操作    | メソッド | エンドポイント        |   
+| -------- | ------- | ------------------- |  
+|   全取得  |   GET    |[/devices](https://connect.remotelock.jp/api/docs#devices-get-all-devices) |
+|   取得    |   GET    |[/devices/:id](https://connect.remotelock.jp/api/docs#devices-get-a-device) |
+|   登録    |   POST   |[/devices](https://connect.remotelock.jp/api/docs#devices-register-an-openedge-rg-bg-cg-formerly-5i-3i-7i-lock) |
+|   置換    |   PUT   |[/devices/:id/replace](https://connect.remotelock.jp/api/docs#devices-replace-the-device) |
+|   削除    |  DELETE |[/devices/:id](https://connect.remotelock.jp/api/docs#devices-deregister-a-device) |
+|   更新    |   PUT   |[/devices/:id](https://connect.remotelock.jp/api/docs#devices-update-a-lock) |
+|   施錠    |   PUT   |[/devices/:id/lock](https://connect.remotelock.jp/api/docs#devices-lock-a-lock) |
+|   解錠    |   PUT   |[/devices/:id/unlock](https://connect.remotelock.jp/api/docs#devices-unlock-a-lock) |
+| 一時解錠   |   PUT   |[/devices/:id/temporary_unlock](https://connect.remotelock.jp/api/docs#devices-temporarily-unlock-a-device) |
+|アクセス取得 | GET    |[/devices/:id/access_person_accesses](https://connect.remotelock.jp/api/docs#devices-access-person-accesses-of-a-lock) |
+
+
+**<p id="endpoints-groups">ドアグループ</p>**
+
+|   操作    | メソッド | エンドポイント        |   
+| -------- | ------- | ------------------- |  
+|   全取得  |   GET    |[/groups](https://connect.remotelock.jp/api/docs#groups-get-all-groups) |
+|    取得   |   GET    |[/groups/:id](https://connect.remotelock.jp/api/docs#groups-get-a-group) |
+|    作成   |   POST    |[/groups](https://connect.remotelock.jp/api/docs#groups-create-a-door-group) |
+|    更新   |   PUT    |[/groups/:id](https://connect.remotelock.jp/api/docs#groups-update-a-group) |
+|    削除   |  DELETE   |[/groups/:id](https://connect.remotelock.jp/api/docs#groups-delete-a-group) |
+|グループ内全ドア取得| GET |[/groups/:group_id/items](https://connect.remotelock.jp/api/docs#groups-get-all-items-in-a-door-group) |
+|グループ内ドア取得| GET |[/groups/:group_id/items/:id](https://connect.remotelock.jp/api/docs#groups-get-an-item-in-a-door-group) |
+|グループにドア追加| POST |[/groups/:group_id/items](https://connect.remotelock.jp/api/docs#groups-add-an-item-to-a-door-group) |
+|グループからドア削除|DELETE|[/groups/:group_id/items/:id](https://connect.remotelock.jp/api/docs#groups-remove-an-item-from-a-door-group) |
+
+
+**<p id="endpoints-locations">設置場所</p>**
+
+|   操作    | メソッド | エンドポイント        |   
+| -------- | ------- | ------------------- |  
+|   全取得  |   GET    |[/locations](https://connect.remotelock.jp/api/docs#locations-get-all-locations) |
+|    取得   |   GET    |[/locations/:id](https://connect.remotelock.jp/api/docs#locations-get-a-location) |
+|    作成   |  POST    |[/locations](https://connect.remotelock.jp/api/docs#locations-create-a-location) |
+|    更新   |   PUT    |[/locations/:id](https://connect.remotelock.jp/api/docs#locations-update-a-location) |
+|    削除   |  DELETE  |[/locations/:id](https://connect.remotelock.jp/api/docs#locations-delete-a-location) |
+
+
+**<p id="endpoints-models">デバイスモデル</p>**
+
+|   操作    | メソッド | エンドポイント        |   
+| -------- | ------- | ------------------- |  
+|   全取得  |   GET    |[/models](https://connect.remotelock.jp/api/docs#models-get-all-models) |
+|    取得   |   GET    |[/models/:id](https://connect.remotelock.jp/api/docs#models-get-a-model) |
+
+
+**<p id="endpoints-events">イベント</p>**
+
+|   操作    | メソッド | エンドポイント        |   
+| -------- | ------- | ------------------- |  
+|   全取得  |   GET    |[/events](https://connect.remotelock.jp/api/docs#events-get-all-events) |
+|    取得   |   GET    |[/events/:id](https://connect.remotelock.jp/api/docs#events-get-an-event) |
+
+
+**<p id="endpoints-notification_subscribers">通知先</p>**
+
+|   操作    | メソッド | エンドポイント        |   
+| -------- | ------- | ------------------- |  
+|   全取得  |   GET    |[/notification_subscribers](https://connect.remotelock.jp/api/docs#notification-subscribers-get-all-notification-subscribers) |
+|    取得   |   GET    |[/notification_subscribers/:id](https://connect.remotelock.jp/api/docs#notification-subscribers-get-a-notification-subscriber) |
+|作成（メール）|  POST   |[/notification_subscribers](https://connect.remotelock.jp/api/docs#notification-subscribers-create-an-email-notification-subscriber) |
+|作成（Webhook）| POST  |[/notification_subscribers](https://connect.remotelock.jp/api/docs#notification-subscribers-create-a-webhook-notification-subscriber) |
+|    更新   |   PUT    |[/notification_subscribers/:id](https://connect.remotelock.jp/api/docs#notification-subscribers-update-a-notification-subscriber) |
+|    削除   |  DELETE  |[/notification_subscribers/:id](https://connect.remotelock.jp/api/docs#notification-subscribers-delete-a-notification-subscriber) |
+
+
+**<p id="endpoints-notification_subscriptions">お知らせ設定</p>**
+
+|   操作    | メソッド | エンドポイント        |   
+| -------- | ------- | ------------------- |  
+|   全取得  |   GET    |[/notification_subscriptions](https://connect.remotelock.jp/api/docs#notification-subscriptions-get-all-notification-subscriptions) |
+|    取得   |   GET    |[/notification_subscriptions/:id](https://connect.remotelock.jp/api/docs#notification-subscriptions-get-a-notification-subscription) |
+|    作成   |  POST   |[/notification_subscriptions](https://connect.remotelock.jp/api/docs#notification-subscriptions-create-a-notification-subscription) |
+|    更新   |   PUT    |[/notification_subscriptions/:id](https://connect.remotelock.jp/api/docs#notification-subscriptions-update-a-notification-subscription) |
+|    削除   |  DELETE  |[/notification_subscriptions/:id](https://connect.remotelock.jp/api/docs#notification-subscriptions-delete-a-notification-subscription) |
+
+
+**<p id="endpoints-notifications">お知らせ履歴（通知済み）</p>**
+
+|   操作    | メソッド | エンドポイント        |   
+| -------- | ------- | ------------------- |  
+|   全取得  |   GET    |[/notifications](https://connect.remotelock.jp/api/docs#notifications-get-all-notifications) |
+
+
+**<p id="endpoints-schedules">スケジュール</p>**
+
+アクセススケジュールとデバイススケジュールのどちらも含みます。
+
+|   操作    | メソッド | エンドポイント        |   
+| -------- | ------- | ------------------- |  
+|   全取得  |   GET    |[/schedules](https://connect.remotelock.jp/api/docs#schedules-get-all-schedule-types-homogeneous) |
+|    取得   |   GET    |[/schedules/:id](https://connect.remotelock.jp/api/docs#schedules-get-a-schedule) |
+|作成（アクセススケジュール）|POST|[/schedules](https://connect.remotelock.jp/api/docs#schedules-create-an-access-schedule) |
+|作成（オートロックスケジュール）|POST|[/schedules](https://connect.remotelock.jp/api/docs#schedules-create-an-auto-lock-schedule) |
+|作成（カギの開閉スケジュール）|POST|[/schedules](https://connect.remotelock.jp/api/docs#schedules-create-a-lock-action-schedule) |
+|    更新   |   PUT    |[/schedules/:id](https://connect.remotelock.jp/api/docs#schedules-update-a-schedule) |
+|    削除   |  DELETE  |[/schedules/:id](https://connect.remotelock.jp/api/docs#schedules-delete-a-schedule) |
+
+
+**<p id="endpoints-access_exceptions">アクセス不可日</p>**
+
+|   操作    | メソッド | エンドポイント        |   
+| -------- | ------- | ------------------- |  
+|   全取得  |   GET   |[/access_exceptions](https://connect.remotelock.jp/api/docs#access-exceptions-get-all-access-exceptions) |  
+|    取得   |   GET   |[/access_exceptions/:id](https://connect.remotelock.jp/api/docs#access-exceptions-get-an-access-exception) |  
+|    作成   |   POST  |[/access_exceptions](https://connect.remotelock.jp/api/docs#access-exceptions-create-an-access-exception) |  
+|    更新   |   PUT   |[/access_exceptions/:id](https://connect.remotelock.jp/api/docs#access-exceptions-update-an-access-exception) |  
+|    削除   |  DELETE |[/access_exceptions/:id](https://connect.remotelock.jp/api/docs#access-exceptions-delete-an-access-exception) |  
+
+
+**<p id="endpoints-accounts">アカウント情報</p>**
+
+現在ログインしているアカウント情報です。
+
+|   操作    | メソッド | エンドポイント        |   
+| -------- | ------- | ------------------- |  
+|   取得    |   GET   |[/account](https://connect.remotelock.jp/api/docs#accounts-get-current-account) |
+|   更新    |   PUT   |[/account](https://connect.remotelock.jp/api/docs#accounts-update-current-account) |
+
+
+**<p id="endpoints-users">ユーザー情報</p>**
+
+現在ログインしているユーザー情報です。
+
+|   操作    | メソッド | エンドポイント        |   
+| -------- | ------- | ------------------- |  
+|    取得   |   GET    |[/user](https://connect.remotelock.jp/api/docs#users-get-signed-in-user) |

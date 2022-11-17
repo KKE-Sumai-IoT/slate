@@ -1,0 +1,102 @@
+<h2 id="qrcodes-create-a-qrcode">QRコードの画像生成</h2>
+
+予約作成時にアクセスキーにQRコードが返ってきた場合、このAPIでpng画像に変換可能です。   
+qr_codeの文字列を送信し、QRコードの画像として受け取ります。
+
+
+**
+<aside class="notice">
+**開発ガイド**
+
+　画像として取り扱いたい場合にサポートためのAPIです。  
+　QRコードの生成方法が他にある場合は、そちらの方法でも可能です。  
+　Google chartAPIを用いる場合は、データベースでは文字列のまま扱い、  
+　URLリンクとしてQRコードを共有することも可能です。  
+   https://chart.apis.google.com/chart?cht=qr&chs=250x250&chl=123456
+
+　通常、必須のアトリビュート以外の指定は不要です。画像はエンコードされたpng形式で返ります。
+
+</aside>
+
+### Httpsリクエスト
+
+```
+POST/util/qrcodes
+```
+
+**エンドポイント**  
+
+`POST /util/qrcodes`
+
+**ヘッダー**  
+<code>'Authorization: Bearer {有効なアクセストークン}' \  
+'Accept: application/vnd.lockstate+json; version=1' \　</code>
+
+**ボディ**  
+
+```json
+{
+  "type": "qrcode",
+  "attributes": {
+    "width": 250,
+    "height": 250,
+    "contents": "123456"
+  }
+}
+```
+
+| 項目  | | 説明 |  
+| ---- | ---- | ----------- |
+| type* | | <code>"qrcode"</code>を指定してください。 |
+| attributes* |  |  |
+| | contents* | QRコードとして書き出す文字列(取得したQRコードのアクセスキー)を指定。例　123456 |
+| | width* | 画像の横幅。　推奨サイズ例 250px 表示するQRコードのサイズが3cm角程度が目安。　 |
+| | height* | 画像の高さ。　推奨サイズ例 250px 表示するQRコードのサイズが3cm角程度が目安。　|
+| | charset | 文字コードを指定する場合に指定。Default: UTF-8  (UTF-8,Shift_JIS,ISO-8859-1のいずれか) UTF-8 |
+| | error_level | 誤り補正の強さ Default: H（推奨)  (L,M,Q,Hのいずれか)と 書式: [誤り補正の強さ]|[余白ブロック数] |
+| | margin | QRコード画像の周りの余白ブロック数の指定です。 Default:4 (4以上)を指定。 |
+| | on_color | 生成するQRコードの画像カラー（描画色）をRGBで指定します。   Default: 000000（黒）　書式: 16進数カラーコード(RGB) ff0007 |
+| | qr_version | RGB で描画色を指定。Default: 000000　書式: 16進数カラーコード(RGB) ff0007 |
+
+　推奨桁数　6桁 〜 8桁  
+　　機種別の読み取り可能な桁数 RemoteLOCK 8j-Q　：　数字 4桁〜19桁  
+　　機種別の読み取り可能な桁数 TOBIRA : 数字 6〜8桁  
+　　＊先頭が0の場合は読み飛ばされます。  
+
+### レスポンス
+
+```
+200 OK
+```
+
+**成功時ステータス**  
+200 OK  
+＊エラーレスポンスは[エラーコード](#http-status-codes)を参照してください。
+
+**ボディ**  
+
+```json
+{
+  "data": {
+    "type": "qrcode",
+    "attributes": {
+      "width": 250,
+      "height": 250,
+      "contents": "12345",
+      "charset": "UTF-8",
+      "error_level": "H",
+      "margin": 4,
+      "on_color": "000000",
+      "qr_version": 1,
+      "format": "png",
+      "base64_img": "iVBORw0KGgoAAAANSUhEUgAAAJYAAACWCAIAAACzY+a1AAAEzElEQVR4Xu2Ry47cQAwD55z//98EfRkglIa2XjYEsMDTSlTvuD5/xXI++AexDSlcjxSuRwrXI4XrkcL1SOF6pHA9UrgeKVyPFK5HCtcjheuRwvVI4XqkcD1SuB4pXI8UrkcK1yOF62lQ+Pn8eSb48P/wZXstvdwYeDeHFIaXGwPv5pDC8HJj4N0cUhhebgy8m0MKw8uNgXdz9CvEcQF+2X6R+8swBULLISYuS6FDaDnExGUpdAgth5i4LIUOoeUQE5el0CG0HGLi8rhCmPLwLp/yZYAvh6Y8vAvTHFLoLIemPLwL0xxS6CyHpjy8C9McUugsh6Y8vAvTHFLoLIemPLwL0xyLFQJ8mU8BvgxTHt6FaQ4pdODLMOXhXZjmkEIHvgxTHt6FaQ4pdODLMOXhXZjmkEIHvgxTHt6FaY7FCvmUw7uhKQ/vwjSHFDrd0JSHd2GaQwqdbmjKw7swzSGFTjc05eFdmOaQQqcbmvLwLkxzjCuswC/zKQDLvMunFSYuS6HT5dMKE5el0OnyaYWJy1LodPm0wsRlKXS6fFph4nK/wrnwd+emc4F3c0jh9XQu8G4OKbyezgXezSGF19O5wLs5pPB6Ohd4N0eDwrewXyQdPL0KKTzB06uQwhM8vQopPMHTq5DCEzy9igaF9ouQr8OngL1GunaBLHNsnSTUheUWpNDB1klCXVhuQQodbJ0k1IXlFqTQwdZJQl1YbkEKHWydJNSF5RYaFIawvyr9C22dBMuUSpczcVkKHSpdzsRlKXSodDkTl6XQodLlTFyWQodKlzNxuV8h/y9hWgm/DFPAXrvfBWydBMsdSKET3KbYOgmWO5BCJ7hNsXUSLHcghU5wm2LrJFjuQAqd4DbF1kmw3MHLCmEawn6g+8FbfTz20BcpbOaxh75IYTOPPfRFCpt57KEvUtjMYw996VcI2M9HfqFd6FoG+HJlCsByqHsTKXSWK1MAlkPdm0ihs1yZArAc6t5ECp3lyhSA5VD3JlLoLFemACyHujcZVziH/SLk6/Apxx4nwfI8UniNPU6C5Xmk8Bp7nATL80jhNfY4CZbnkcJr7HESLM/ToND+jKHwd0NTgC+HpjzQbUEKD3w5NOWBbgtSeODLoSkPdFuQwgNfDk15oNuCFB74cmjKA90W+hXiuEDlsv1891M5Bd0HkEInlVPQfQApdFI5Bd0HkEInlVPQfQApdFI5Bd0HGFdofyQJ78IUsNdIsPw/dp+ksZtDCh3sPkljN4cUOth9ksZuDil0sPskjd0cUuhg90kauzkWK7T1+8swrWCfvh+8lUIKq9in7wdvpZDCKvbp+8FbKaSwin36fvBWCimsYp++H7yVYrHCCpXLb3V/IYXhy291fyGF4ctvdX8hheHLb3V/IYXhy291fzGusAK/DFO+zLF1cio05cstSOHB1smp0JQvtyCFB1snp0JTvtyCFB5snZwKTflyC1J4sHVyKjTlyy30K5zL3LtwmWPrJFgeQApP4DLH1kmwPIAUnsBljq2TYHkAKTyByxxbJ8HyAFJ4Apc5tk6C5QEaFIp3kcL1SOF6pHA9UrgeKVyPFK5HCtcjheuRwvVI4XqkcD1SuB4pXI8UrkcK1yOF65HC9UjheqRwPVK4HilcjxSu5x939pjKEEUvzwAAAABJRU5ErkJggg=="
+    }
+  }
+}
+```
+
+| 項目  | | 説明 |  
+| ---- | ---- | ----------- |
+| type | | "qrcode" |
+| attributes |  |  |
+| | base64_img| 生成したQRコードのpng画像。（バイナリ文字列　base64形式に変換したもの) |

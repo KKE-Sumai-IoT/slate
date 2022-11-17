@@ -1,0 +1,1598 @@
+
+
+# Notification Subscribers
+
+
+
+## Get all notification subscribers
+
+Returns all notification subscriber types (homogeneous).
+
+### Request
+
+
+#### Endpoint
+
+`GET /notification_subscribers`
+
+```plaintext
+GET /notification_subscribers
+
+```
+
+#### Parameters
+
+
+
+| Name | Description |
+|:-----|:------------|
+| [type]  | Filter by type(s). Supported types: email_notification_subscriber, text_notification_subscriber, and webhook_notification_subscriber |
+| sort  | Sortable attributes: created_at and name, default: created_at ascending |
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+200 OK
+```
+
+```json
+{
+  "data": [
+    {
+      "type": "text_notification_subscriber",
+      "attributes": {
+        "name": "Duncan Grady",
+        "phone": "1-240-921-0021",
+        "carrier": "xfinity",
+        "active": true,
+        "created_at": "2021-11-04T18:13:08Z",
+        "updated_at": "2021-11-04T18:13:08Z"
+      },
+      "id": "60c5041f-810b-4b26-9bcc-6de3d6e6d637",
+      "links": {
+        "self": "http://api.remotelock.dev/notification_subscribers/60c5041f-810b-4b26-9bcc-6de3d6e6d637"
+      }
+    },
+    {
+      "type": "webhook_notification_subscriber",
+      "attributes": {
+        "name": "Alejandro Kovacek",
+        "url": "https://www.google.com",
+        "content_type": "form",
+        "secret": "125637a485314fc348f5c739cf00fe72",
+        "active": true,
+        "created_at": "2021-11-04T18:13:08Z",
+        "updated_at": "2021-11-04T18:13:08Z"
+      },
+      "id": "1a24fe75-497f-4b92-b544-31d6b27f1319",
+      "links": {
+        "self": "http://api.remotelock.dev/notification_subscribers/1a24fe75-497f-4b92-b544-31d6b27f1319"
+      }
+    }
+  ],
+  "meta": {
+    "page": 1,
+    "per_page": 25,
+    "total_count": 2,
+    "total_pages": 1
+  }
+}
+```
+
+
+## Get a notification subscriber
+
+
+### Request
+
+
+#### Endpoint
+
+`GET /notification_subscribers/:id`
+
+```plaintext
+GET /notification_subscribers/4766a9c6-1c5f-4ec2-947e-356cf291233f
+
+```
+
+#### Parameters
+
+
+
+None.
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+200 OK
+```
+
+```json
+{
+  "data": {
+    "type": "text_notification_subscriber",
+    "attributes": {
+      "name": "Sen. Rashida Towne",
+      "phone": "218-220-5512 x7348",
+      "carrier": "metropcs",
+      "active": true,
+      "created_at": "2021-11-04T18:13:08Z",
+      "updated_at": "2021-11-04T18:13:08Z"
+    },
+    "id": "4766a9c6-1c5f-4ec2-947e-356cf291233f",
+    "links": {
+      "self": "http://api.remotelock.dev/notification_subscribers/4766a9c6-1c5f-4ec2-947e-356cf291233f"
+    }
+  }
+}
+```
+
+
+## Update a notification subscriber
+
+Parameters accepted: all used for create
+
+### Request
+
+
+#### Endpoint
+
+`PUT /notification_subscribers/:id`
+
+```plaintext
+PUT /notification_subscribers/36eff854-5dab-4a97-bd68-60978f1ee272
+
+```
+
+#### Parameters
+
+
+```json
+{
+  "attributes": {
+    "active": false
+  }
+}
+```
+
+None.
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+200 OK
+```
+
+```json
+{
+  "data": {
+    "type": "text_notification_subscriber",
+    "attributes": {
+      "name": "Terrie Turcotte",
+      "phone": "1-155-934-7117 x861",
+      "carrier": "bell",
+      "active": false,
+      "created_at": "2021-11-04T18:13:09Z",
+      "updated_at": "2021-11-04T18:13:09Z"
+    },
+    "id": "36eff854-5dab-4a97-bd68-60978f1ee272",
+    "links": {
+      "self": "http://api.remotelock.dev/notification_subscribers/36eff854-5dab-4a97-bd68-60978f1ee272"
+    }
+  }
+}
+```
+
+
+## Delete a notification subscriber
+
+
+### Request
+
+
+#### Endpoint
+
+`DELETE /notification_subscribers/:id`
+
+```plaintext
+DELETE /notification_subscribers/b298e621-3b84-4168-a273-bd0b1933e93f
+
+```
+
+#### Parameters
+
+
+
+None.
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+204 No Content
+```
+
+
+
+## Create an email notification subscriber
+
+
+### Request
+
+
+#### Endpoint
+
+`POST /notification_subscribers`
+
+```plaintext
+POST /notification_subscribers
+
+```
+
+#### Parameters
+
+
+```json
+{
+  "type": "email_notification_subscriber",
+  "attributes": {
+    "active": true,
+    "name": "John Doe",
+    "email": "john@doe.com"
+  }
+}
+```
+
+| Name | Description |
+|:-----|:------------|
+| type *required* | email_notification_subscriber |
+| attributes[active]  | Whether the subscriber is active or not. The subscriber will not receive notifications if set to false. Default: true |
+| attributes[name] *required* | Name |
+| attributes[email] *required* | Email |
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+201 Created
+```
+
+```json
+{
+  "data": {
+    "type": "email_notification_subscriber",
+    "attributes": {
+      "name": "John Doe",
+      "email": "john@doe.com",
+      "active": true,
+      "created_at": "2021-11-04T18:13:10Z",
+      "updated_at": "2021-11-04T18:13:10Z"
+    },
+    "id": "2cca6efc-ab7e-4635-9472-26d0c1018d78",
+    "links": {
+      "self": "http://api.remotelock.dev/notification_subscribers/2cca6efc-ab7e-4635-9472-26d0c1018d78"
+    }
+  }
+}
+```
+
+
+## Create a text notification subscriber
+
+
+### Request
+
+
+#### Endpoint
+
+`POST /notification_subscribers`
+
+```plaintext
+POST /notification_subscribers
+
+```
+
+#### Parameters
+
+
+```json
+{
+  "type": "text_notification_subscriber",
+  "attributes": {
+    "active": true,
+    "name": "John Doe",
+    "phone": "303-317-3422",
+    "carrier": "att"
+  }
+}
+```
+
+| Name | Description |
+|:-----|:------------|
+| type *required* | text_notification_subscriber |
+| attributes[active]  | Whether the subscriber is active or not. The subscriber will not receive notifications if set to false. Default: true |
+| attributes[name] *required* | Name |
+| attributes[phone] *required* | Phone Number |
+| attributes[carrier] *required* | Carrier |
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+201 Created
+```
+
+```json
+{
+  "data": {
+    "type": "text_notification_subscriber",
+    "attributes": {
+      "name": "John Doe",
+      "phone": "303-317-3422",
+      "carrier": "att",
+      "active": true,
+      "created_at": "2021-11-04T18:13:11Z",
+      "updated_at": "2021-11-04T18:13:11Z"
+    },
+    "id": "f74ffd75-3b45-4e21-ad5b-18fde654b34b",
+    "links": {
+      "self": "http://api.remotelock.dev/notification_subscribers/f74ffd75-3b45-4e21-ad5b-18fde654b34b"
+    }
+  }
+}
+```
+
+
+## Create a webhook notification subscriber
+
+Webhooks are HTTP callbacks that you can create to receive events as
+they happen to avoid polling from the events API endpoint.
+
+### Webhook endpoint requirements
+
+1. Must be secured with HTTPS
+2. Validate request from us using the `X-Secret` header provided when
+   webhook was created
+3. Process the request within
+   3 seconds,
+   otherwise the request will timeout and our server will schedule it
+   for retry. To avoid exceeding this deadline, we recommend processing
+   webhook requests outside of the request/response lifecycle
+4. Always respond with 200 range status code, otherwise our server will
+   schedule the request for retry
+
+### Retry logic
+
+Whenever your webhook endpoint responds with a non-200 range status
+code or exceeds the deadline, our server will timeout the request and
+schedule for retry.
+
+Our server will retry failed requests according to the mapping below:
+
+- 1st retry => Delayed by 1 minute
+- 2nd retry => Delayed by 1 hour + 0-60 minutes
+- 3rd retry => Delayed by 12 hours + 0-120 minutes
+- 4th retry => Delayed by 1 day + 0-180 minutes
+- 5th retry => Delayed by 2 days + 0-240 minutes
+- 6th retry => Delayed by 3 days + 0-300 minutes
+
+Most of the time, this is enough to fix an issue on the webhook target server.
+
+### Webhook deactivation
+
+If any message cannot be acknowledged by the webhook endpoint after the
+retries, our server will automatically deactivate the webhook. When this
+happens, we send an email notifying about the deactivated webhook.
+
+### Recover missed data
+
+The best way to recover data from a deactivated webhook is to fetch
+from the `/events` endpoint. A sort by `created_at` is available for
+that endpoint and your application can use data from the last received
+messages via webhook to find the stop point.
+
+A webhook payload has a similar structure to the response of events
+endpoint.
+The important difference is that the root JSON key, `data`, is a single
+object on a webhook payload, whereas `data` is an array of objects on
+the events response.
+
+Make sure the webhook handler is decoupled enough so that it's easy to
+use for a data recover scenario from `/events`.
+
+
+### Request
+
+
+#### Endpoint
+
+`POST /notification_subscribers`
+
+```plaintext
+POST /notification_subscribers
+
+```
+
+#### Parameters
+
+
+```json
+{
+  "type": "webhook_notification_subscriber",
+  "attributes": {
+    "active": true,
+    "name": "John's webhook",
+    "url": "https://google.com",
+    "content_type": "form",
+    "secret": "5f7c5b9ccedea8832a46cfca516da134"
+  }
+}
+```
+
+| Name | Description |
+|:-----|:------------|
+| type *required* | webhook_notification_subscriber |
+| attributes[active]  | Whether the subscriber is active or not. The subscriber will not receive notifications if set to false. Default: true |
+| attributes[name] *required* | Name |
+| attributes[url] *required* | Secure (HTTPS) URL |
+| attributes[content_type] *required* | Content-Type ("form" or "json"). Default is "form". |
+| attributes[secret]  | "X-Secret" request header to verify it came from us |
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+201 Created
+```
+
+```json
+{
+  "data": {
+    "type": "webhook_notification_subscriber",
+    "attributes": {
+      "name": "John's webhook",
+      "url": "https://google.com",
+      "content_type": "form",
+      "secret": "5f7c5b9ccedea8832a46cfca516da134",
+      "active": true,
+      "created_at": "2021-11-04T18:13:11Z",
+      "updated_at": "2021-11-04T18:13:11Z"
+    },
+    "id": "dc4d2e95-2692-4e1a-bd0a-62a041239fc8",
+    "links": {
+      "self": "http://api.remotelock.dev/notification_subscribers/dc4d2e95-2692-4e1a-bd0a-62a041239fc8"
+    }
+  }
+}
+```
+
+
+# Notification Subscriptions
+
+
+
+## Get all notification subscriptions
+
+
+### Request
+
+
+#### Endpoint
+
+`GET /notification_subscriptions`
+
+```plaintext
+GET /notification_subscriptions
+
+```
+
+#### Parameters
+
+
+
+| Name | Description |
+|:-----|:------------|
+| sort  | Sortable attributes: created_at, default: created_at ascending |
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+200 OK
+```
+
+```json
+{
+  "data": [
+    {
+      "type": "notification_subscription",
+      "attributes": {
+        "events": [
+          {
+            "event_type": "access_person_used"
+          }
+        ],
+        "created_at": "2021-11-04T18:13:12Z",
+        "updated_at": "2021-11-04T18:13:12Z",
+        "subscriber_id": "d9649044-4e10-4b63-80ed-fbb9498e4ebd",
+        "subscriber_type": "text_notification_subscriber",
+        "publisher_id": "a5ebd0f6-7a28-4a23-a294-65f8ce96f1ac",
+        "publisher_type": "account"
+      },
+      "id": "1c4a863e-8800-450e-a0a4-4ee8f655a886",
+      "links": {
+        "self": "http://api.remotelock.dev/notification_subscriptions/1c4a863e-8800-450e-a0a4-4ee8f655a886",
+        "subscriber": "http://api.remotelock.dev/notification_subscribers/d9649044-4e10-4b63-80ed-fbb9498e4ebd",
+        "publisher": "http://api.remotelock.dev/accounts/a5ebd0f6-7a28-4a23-a294-65f8ce96f1ac"
+      }
+    }
+  ],
+  "meta": {
+    "page": 1,
+    "per_page": 25,
+    "total_count": 1,
+    "total_pages": 1
+  }
+}
+```
+
+
+## Get a notification subscription
+
+
+### Request
+
+
+#### Endpoint
+
+`GET /notification_subscriptions/:id`
+
+```plaintext
+GET /notification_subscriptions/42bd7a66-48c0-4537-9123-ed4561af5169
+
+```
+
+#### Parameters
+
+
+
+None.
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+200 OK
+```
+
+```json
+{
+  "data": {
+    "type": "notification_subscription",
+    "attributes": {
+      "events": [
+        {
+          "event_type": "access_person_used"
+        }
+      ],
+      "created_at": "2021-11-04T18:13:13Z",
+      "updated_at": "2021-11-04T18:13:13Z",
+      "subscriber_id": "82dd5ef3-f406-496e-9618-f1b7d7aabcc7",
+      "subscriber_type": "text_notification_subscriber",
+      "publisher_id": "3c3fc3c1-4d55-430e-b342-5e68f027b029",
+      "publisher_type": "account"
+    },
+    "id": "42bd7a66-48c0-4537-9123-ed4561af5169",
+    "links": {
+      "self": "http://api.remotelock.dev/notification_subscriptions/42bd7a66-48c0-4537-9123-ed4561af5169",
+      "subscriber": "http://api.remotelock.dev/notification_subscribers/82dd5ef3-f406-496e-9618-f1b7d7aabcc7",
+      "publisher": "http://api.remotelock.dev/accounts/3c3fc3c1-4d55-430e-b342-5e68f027b029"
+    }
+  }
+}
+```
+
+
+## Create a notification subscription
+
+Notification Subscription is the combination of a Publisher, a Subscriber and the events to listen.
+
+The event types contained in events must be compatible with the publisher type. Accounts and
+Locations can be combined with any event_type, but the others only work with their compatible
+event [JSON Schemas](http://json-schema.org):
+
+* Access Person
+
+<div class="center-column"></div>
+```json
+{
+  "type": "object",
+  "properties": {
+    "event_type": {
+      "enum": [
+        "access_person_used"
+      ]
+    },
+    "first_access": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "event_type"
+  ],
+  "additionalProperties": false
+}
+```
+* ACS/Door
+
+<div class="center-column"></div>
+```json
+{
+  "type": "object",
+  "properties": {
+    "event_type": {
+      "enum": [
+        "acs_door_opened",
+        "acs_door_closed",
+        "acs_door_held_open",
+        "access_person_synced",
+        "access_person_sync_failed",
+        "access_guest_late_sync",
+        "reset",
+        "unlocked",
+        "locked",
+        "access_denied",
+        "jammed"
+      ]
+    }
+  },
+  "required": [
+    "event_type"
+  ],
+  "additionalProperties": false
+}
+```
+* Lock
+
+<div class="center-column"></div>
+```json
+{
+  "type": "object",
+  "properties": {
+    "event_type": {
+      "enum": [
+        "connectivity",
+        "power_level_low",
+        "battery_replaced",
+        "access_person_synced",
+        "access_person_sync_failed",
+        "access_guest_late_sync",
+        "reset",
+        "unlocked",
+        "locked",
+        "access_denied",
+        "jammed"
+      ]
+    }
+  },
+  "required": [
+    "event_type"
+  ],
+  "additionalProperties": false
+}
+```
+* Thermostat
+
+<div class="center-column"></div>
+```json
+{
+  "type": "object",
+  "properties": {
+    "event_type": {
+      "enum": [
+        "connectivity",
+        "power_level_low",
+        "temperature_changed",
+        "humidity_changed"
+      ]
+    }
+  },
+  "required": [
+    "event_type"
+  ],
+  "additionalProperties": false
+}
+```
+* Power Plug
+
+<div class="center-column"></div>
+```json
+{
+  "type": "object",
+  "properties": {
+    "event_type": {
+      "enum": [
+        "connectivity",
+        "relay_enabled",
+        "relay_disabled"
+      ]
+    }
+  },
+  "required": [
+    "event_type"
+  ],
+  "additionalProperties": false
+}
+```
+* ACS/Controller
+
+<div class="center-column"></div>
+```json
+{
+  "type": "object",
+  "properties": {
+    "event_type": {
+      "enum": [
+        "connectivity"
+      ]
+    }
+  },
+  "required": [
+    "event_type"
+  ],
+  "additionalProperties": false
+}
+```
+* ZWave Lock
+
+<div class="center-column"></div>
+```json
+{
+  "type": "object",
+  "properties": {
+    "event_type": {
+      "enum": [
+        "connectivity",
+        "power_level_low",
+        "access_person_synced",
+        "access_person_sync_failed",
+        "access_guest_late_sync",
+        "reset",
+        "unlocked",
+        "locked",
+        "access_denied",
+        "jammed"
+      ]
+    }
+  },
+  "required": [
+    "event_type"
+  ],
+  "additionalProperties": false
+}
+```
+* Schlage Home/Lock
+
+<div class="center-column"></div>
+```json
+{
+  "type": "object",
+  "properties": {
+    "event_type": {
+      "enum": [
+        "connectivity",
+        "power_level_low",
+        "access_person_synced",
+        "access_person_sync_failed",
+        "access_guest_late_sync",
+        "reset",
+        "unlocked",
+        "locked",
+        "access_denied",
+        "jammed"
+      ]
+    }
+  },
+  "required": [
+    "event_type"
+  ],
+  "additionalProperties": false
+}
+```
+* Kore/Ready PIN
+
+<div class="center-column"></div>
+```json
+{
+  "type": "object",
+  "properties": {
+    "event_type": {
+      "enum": [
+        "kore_ready_pin_used"
+      ]
+    }
+  },
+  "required": [
+    "event_type"
+  ],
+  "additionalProperties": false
+}
+```
+* ACS/Elevator
+
+<div class="center-column"></div>
+```json
+{
+  "type": "object",
+  "properties": {
+    "event_type": {
+      "enum": [
+        "unlocked",
+        "locked",
+        "access_denied",
+        "jammed"
+      ]
+    }
+  },
+  "required": [
+    "event_type"
+  ],
+  "additionalProperties": false
+}
+```
+* ACS/Elevator Floor
+
+<div class="center-column"></div>
+```json
+{
+  "type": "object",
+  "properties": {
+    "event_type": {
+      "enum": [
+        "access_person_synced",
+        "access_person_sync_failed",
+        "access_guest_late_sync",
+        "reset",
+        "unlockedlocked"
+      ]
+    }
+  },
+  "required": [
+    "event_type"
+  ],
+  "additionalProperties": false
+}
+```
+
+
+
+### Request
+
+
+#### Endpoint
+
+`POST /notification_subscriptions`
+
+```plaintext
+POST /notification_subscriptions
+
+```
+
+#### Parameters
+
+
+```json
+{
+  "attributes": {
+    "events": [
+      {
+        "event_type": "access_person_used"
+      },
+      {
+        "event_type": "acs_door_opened"
+      },
+      {
+        "event_type": "acs_door_closed"
+      },
+      {
+        "event_type": "acs_door_held_open"
+      },
+      {
+        "event_type": "access_person_synced"
+      },
+      {
+        "event_type": "access_person_sync_failed"
+      },
+      {
+        "event_type": "access_guest_late_sync"
+      },
+      {
+        "event_type": "reset"
+      },
+      {
+        "event_type": "unlocked"
+      },
+      {
+        "event_type": "locked"
+      },
+      {
+        "event_type": "access_denied"
+      },
+      {
+        "event_type": "jammed"
+      },
+      {
+        "event_type": "connectivity"
+      },
+      {
+        "event_type": "power_level_low"
+      },
+      {
+        "event_type": "battery_replaced"
+      },
+      {
+        "event_type": "temperature_changed"
+      },
+      {
+        "event_type": "humidity_changed"
+      },
+      {
+        "event_type": "relay_enabled"
+      },
+      {
+        "event_type": "relay_disabled"
+      },
+      {
+        "event_type": "kore_ready_pin_used"
+      },
+      {
+        "event_type": "unlockedlocked"
+      }
+    ],
+    "publisher_type": "account",
+    "publisher_id": "e50b64ee-1863-486e-9822-ee927d2cfdeb",
+    "subscriber_type": "text_notification_subscriber",
+    "subscriber_id": "98bc324c-fdba-46ac-a804-71a98a2480ef"
+  }
+}
+```
+
+| Name | Description |
+|:-----|:------------|
+| attributes[events] *required* | [{ "event_type": "a supported event type" }, ...] |
+| attributes[publisher_type] *required* | Publisher type: account, location, access_user, access_guest, kore_ready_pin, lock, thermostat, power_plug, acs_door, acs_controller, acs_elevator, acs_elevator_floor, zwave_lock or schlage_home_lock |
+| attributes[publisher_id] *required* | Publisher id |
+| attributes[subscriber_type] *required* | Subscriber type: text_notification_subscriber, email_notification_subscriber or webhook_notification_subscriber |
+| attributes[subscriber_id] *required* | Subscriber id |
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+201 Created
+```
+
+```json
+{
+  "data": {
+    "type": "notification_subscription",
+    "attributes": {
+      "events": [
+        {
+          "event_type": "access_person_used"
+        },
+        {
+          "event_type": "acs_door_opened"
+        },
+        {
+          "event_type": "acs_door_closed"
+        },
+        {
+          "event_type": "acs_door_held_open"
+        },
+        {
+          "event_type": "access_person_synced"
+        },
+        {
+          "event_type": "access_person_sync_failed"
+        },
+        {
+          "event_type": "access_guest_late_sync"
+        },
+        {
+          "event_type": "reset"
+        },
+        {
+          "event_type": "unlocked"
+        },
+        {
+          "event_type": "locked"
+        },
+        {
+          "event_type": "access_denied"
+        },
+        {
+          "event_type": "jammed"
+        },
+        {
+          "event_type": "connectivity"
+        },
+        {
+          "event_type": "power_level_low"
+        },
+        {
+          "event_type": "battery_replaced"
+        },
+        {
+          "event_type": "temperature_changed"
+        },
+        {
+          "event_type": "humidity_changed"
+        },
+        {
+          "event_type": "relay_enabled"
+        },
+        {
+          "event_type": "relay_disabled"
+        },
+        {
+          "event_type": "kore_ready_pin_used"
+        },
+        {
+          "event_type": "unlockedlocked"
+        }
+      ],
+      "created_at": "2021-11-04T18:13:14Z",
+      "updated_at": "2021-11-04T18:13:14Z",
+      "subscriber_id": "98bc324c-fdba-46ac-a804-71a98a2480ef",
+      "subscriber_type": "text_notification_subscriber",
+      "publisher_id": "e50b64ee-1863-486e-9822-ee927d2cfdeb",
+      "publisher_type": "account"
+    },
+    "id": "0c55b066-fe2e-438b-861c-16bbb33043a1",
+    "links": {
+      "self": "http://api.remotelock.dev/notification_subscriptions/0c55b066-fe2e-438b-861c-16bbb33043a1",
+      "subscriber": "http://api.remotelock.dev/notification_subscribers/98bc324c-fdba-46ac-a804-71a98a2480ef",
+      "publisher": "http://api.remotelock.dev/account"
+    }
+  }
+}
+```
+
+
+## Update a notification subscription
+
+
+### Request
+
+
+#### Endpoint
+
+`PUT /notification_subscriptions/:id`
+
+```plaintext
+PUT /notification_subscriptions/6e92884c-8edd-4f40-a11f-8b95fa9f139b
+
+```
+
+#### Parameters
+
+
+```json
+{
+  "attributes": {
+    "events": [
+      {
+        "event_type": "access_person_used"
+      },
+      {
+        "event_type": "acs_door_held_open"
+      }
+    ]
+  }
+}
+```
+
+| Name | Description |
+|:-----|:------------|
+| attributes[events]  | [{ "event_type": "a supported event type" }, ...] |
+| attributes[publisher_type]  | Publisher type: account, location, access_user, access_guest, kore_ready_pin, lock, thermostat, power_plug, acs_door, acs_controller, acs_elevator, acs_elevator_floor, zwave_lock or schlage_home_lock |
+| attributes[publisher_id]  | Publisher id |
+| attributes[subscriber_type]  | Subscriber type: text_notification_subscriber, email_notification_subscriber or webhook_notification_subscriber |
+| attributes[subscriber_id]  | Subscriber id |
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+200 OK
+```
+
+```json
+{
+  "data": {
+    "type": "notification_subscription",
+    "attributes": {
+      "events": [
+        {
+          "event_type": "access_person_used"
+        },
+        {
+          "event_type": "acs_door_held_open"
+        }
+      ],
+      "created_at": "2021-11-04T18:13:15Z",
+      "updated_at": "2021-11-04T18:13:15Z",
+      "subscriber_id": "66985d8d-db57-4276-b208-34e3bf295032",
+      "subscriber_type": "text_notification_subscriber",
+      "publisher_id": "87fdb337-1717-467f-9a4a-f5a4b4ee68e7",
+      "publisher_type": "account"
+    },
+    "id": "6e92884c-8edd-4f40-a11f-8b95fa9f139b",
+    "links": {
+      "self": "http://api.remotelock.dev/notification_subscriptions/6e92884c-8edd-4f40-a11f-8b95fa9f139b",
+      "subscriber": "http://api.remotelock.dev/notification_subscribers/66985d8d-db57-4276-b208-34e3bf295032",
+      "publisher": "http://api.remotelock.dev/accounts/87fdb337-1717-467f-9a4a-f5a4b4ee68e7"
+    }
+  }
+}
+```
+
+
+## Delete a notification subscription
+
+
+### Request
+
+
+#### Endpoint
+
+`DELETE /notification_subscriptions/:id`
+
+```plaintext
+DELETE /notification_subscriptions/6c0f8b54-fd8e-461b-a9d6-3e2b9e731393
+
+```
+
+#### Parameters
+
+
+
+None.
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+204 No Content
+```
+
+
+
+# Notifications
+
+
+
+## Get all notifications
+
+
+### Request
+
+
+#### Endpoint
+
+`GET /notifications`
+
+```plaintext
+GET /notifications
+
+```
+
+#### Parameters
+
+
+
+None.
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+200 OK
+```
+
+```json
+{
+  "data": [
+    {
+      "type": "notification",
+      "attributes": {
+        "created_at": "2021-11-04T18:13:16Z",
+        "updated_at": "2021-11-04T18:13:16Z",
+        "subscriber_id": "08aed5d9-6663-4970-a2a0-aa234d23bf3b",
+        "subscriber_type": "text_notification_subscriber",
+        "publisher_id": "351e8d2f-b970-4847-9b9b-9420feef1b14",
+        "publisher_type": "lock",
+        "event_id": "b88fcc0b-83d6-4b8d-a604-c544ea1afa88",
+        "event_type": "unlocked_event"
+      },
+      "id": "aeaf81cf-6ee8-453e-ba67-1fc35abe3037",
+      "links": {
+        "self": "http://api.remotelock.dev/notifications/aeaf81cf-6ee8-453e-ba67-1fc35abe3037",
+        "subscriber": "http://api.remotelock.dev/notification_subscribers/08aed5d9-6663-4970-a2a0-aa234d23bf3b",
+        "publisher": "http://api.remotelock.dev/devices/351e8d2f-b970-4847-9b9b-9420feef1b14",
+        "event": "http://api.remotelock.dev/events/b88fcc0b-83d6-4b8d-a604-c544ea1afa88"
+      }
+    },
+    {
+      "type": "notification",
+      "attributes": {
+        "created_at": "2021-11-04T18:13:16Z",
+        "updated_at": "2021-11-04T18:13:16Z",
+        "subscriber_id": "85600db0-cbe4-44bb-9260-9060cac3280d",
+        "subscriber_type": "email_notification_subscriber",
+        "publisher_id": "351e8d2f-b970-4847-9b9b-9420feef1b14",
+        "publisher_type": "lock",
+        "event_id": "b88fcc0b-83d6-4b8d-a604-c544ea1afa88",
+        "event_type": "unlocked_event"
+      },
+      "id": "1529c9f4-622c-4073-8a5a-8f048a4cf157",
+      "links": {
+        "self": "http://api.remotelock.dev/notifications/1529c9f4-622c-4073-8a5a-8f048a4cf157",
+        "subscriber": "http://api.remotelock.dev/notification_subscribers/85600db0-cbe4-44bb-9260-9060cac3280d",
+        "publisher": "http://api.remotelock.dev/devices/351e8d2f-b970-4847-9b9b-9420feef1b14",
+        "event": "http://api.remotelock.dev/events/b88fcc0b-83d6-4b8d-a604-c544ea1afa88"
+      }
+    }
+  ],
+  "meta": {
+    "page": 1,
+    "per_page": 25,
+    "total_count": 2,
+    "total_pages": 1
+  }
+}
+```
+
+# Events
+
+
+
+## Get all events
+
+
+### Request
+
+
+#### Endpoint
+
+`GET /events`
+
+```plaintext
+GET /events
+
+```
+
+#### Parameters
+
+
+
+| Name | Description |
+|:-----|:------------|
+| sort  | Sortable attributes: created_at and occurred_at, default: occurred_at descending |
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+200 OK
+```
+
+```json
+{
+  "data": [
+    {
+      "type": "access_person_used_event",
+      "attributes": {
+        "source": "user",
+        "status": "failed",
+        "time_zone": "America/Denver",
+        "occurred_at": "2021-11-04T15:33:43Z",
+        "created_at": "2021-11-04T18:09:43Z",
+        "updated_at": "2021-11-04T18:09:43Z",
+        "associated_resource_name": null,
+        "status_info": null,
+        "method": null,
+        "pin": null,
+        "card": null,
+        "publisher_id": "c420935f-74a9-43ea-a2e4-50e0b6b23bea",
+        "publisher_type": "access_guest",
+        "associated_resource_id": "beac36af-6f69-4b2c-b9e9-8a90918666d4",
+        "associated_resource_type": "lock"
+      },
+      "id": "01b0c15d-be7f-4799-909e-94afc3e5963f",
+      "links": {
+        "self": "http://api.remotelock.dev/events/01b0c15d-be7f-4799-909e-94afc3e5963f",
+        "publisher": "http://api.remotelock.dev/access_persons/c420935f-74a9-43ea-a2e4-50e0b6b23bea",
+        "associated_resource": "http://api.remotelock.dev/devices/beac36af-6f69-4b2c-b9e9-8a90918666d4"
+      }
+    },
+    {
+      "type": "unlocked_event",
+      "attributes": {
+        "source": "user",
+        "status": "succeeded",
+        "time_zone": "America/Denver",
+        "occurred_at": "2021-11-04T12:11:43Z",
+        "created_at": "2021-11-04T18:09:43Z",
+        "updated_at": "2021-11-04T18:09:43Z",
+        "associated_resource_name": null,
+        "status_info": null,
+        "method": "pin",
+        "pin": "1234",
+        "card": null,
+        "publisher_id": "beac36af-6f69-4b2c-b9e9-8a90918666d4",
+        "publisher_type": "lock",
+        "associated_resource_id": "a8c8d1ef-777e-46d8-a320-dfddd0930c60",
+        "associated_resource_type": "access_user"
+      },
+      "id": "849c2634-16b6-4fdc-bc88-7fe9ed77b2ee",
+      "links": {
+        "self": "http://api.remotelock.dev/events/849c2634-16b6-4fdc-bc88-7fe9ed77b2ee",
+        "publisher": "http://api.remotelock.dev/devices/beac36af-6f69-4b2c-b9e9-8a90918666d4",
+        "associated_resource": "http://api.remotelock.dev/access_persons/a8c8d1ef-777e-46d8-a320-dfddd0930c60"
+      }
+    },
+    {
+      "type": "connectivity_event",
+      "attributes": {
+        "source": "user",
+        "status": "succeeded",
+        "time_zone": "America/Denver",
+        "occurred_at": "2021-11-04T09:29:43Z",
+        "created_at": "2021-11-04T18:09:43Z",
+        "updated_at": "2021-11-04T18:09:43Z",
+        "connected_at": "2021-11-03T07:38:43Z",
+        "publisher_id": "beac36af-6f69-4b2c-b9e9-8a90918666d4",
+        "publisher_type": "lock"
+      },
+      "id": "3d856874-67a5-4d31-b9bc-af33839296c5",
+      "links": {
+        "self": "http://api.remotelock.dev/events/3d856874-67a5-4d31-b9bc-af33839296c5",
+        "publisher": "http://api.remotelock.dev/devices/beac36af-6f69-4b2c-b9e9-8a90918666d4"
+      }
+    },
+    {
+      "type": "access_person_sync_failed_event",
+      "attributes": {
+        "source": "user",
+        "status": "succeeded",
+        "time_zone": "America/Denver",
+        "occurred_at": "2021-11-04T06:36:44Z",
+        "created_at": "2021-11-04T18:09:44Z",
+        "updated_at": "2021-11-04T18:09:44Z",
+        "associated_resource_name": null,
+        "status_info": "timeout",
+        "publisher_id": "beac36af-6f69-4b2c-b9e9-8a90918666d4",
+        "publisher_type": "lock",
+        "associated_resource_id": "26e174f1-791a-46ff-b531-4234415ed85e",
+        "associated_resource_type": "access_user"
+      },
+      "id": "2539acdf-db2d-472b-9345-abd5b3e766d0",
+      "links": {
+        "self": "http://api.remotelock.dev/events/2539acdf-db2d-472b-9345-abd5b3e766d0",
+        "publisher": "http://api.remotelock.dev/devices/beac36af-6f69-4b2c-b9e9-8a90918666d4",
+        "associated_resource": "http://api.remotelock.dev/access_persons/26e174f1-791a-46ff-b531-4234415ed85e"
+      }
+    },
+    {
+      "type": "access_guest_late_sync_event",
+      "attributes": {
+        "source": "user",
+        "status": "succeeded",
+        "time_zone": "America/Denver",
+        "occurred_at": "2021-11-04T04:54:43Z",
+        "created_at": "2021-11-04T18:09:43Z",
+        "updated_at": "2021-11-04T18:09:43Z",
+        "associated_resource_name": null,
+        "publisher_id": "beac36af-6f69-4b2c-b9e9-8a90918666d4",
+        "publisher_type": "lock",
+        "associated_resource_id": "5ac02f7a-42bd-4b72-ad1e-ea4ae6f41dbc",
+        "associated_resource_type": "access_guest"
+      },
+      "id": "945821f4-c71a-46cc-86ef-5de514c4f08d",
+      "links": {
+        "self": "http://api.remotelock.dev/events/945821f4-c71a-46cc-86ef-5de514c4f08d",
+        "publisher": "http://api.remotelock.dev/devices/beac36af-6f69-4b2c-b9e9-8a90918666d4",
+        "associated_resource": "http://api.remotelock.dev/access_persons/5ac02f7a-42bd-4b72-ad1e-ea4ae6f41dbc"
+      }
+    },
+    {
+      "type": "access_person_synced_event",
+      "attributes": {
+        "source": "user",
+        "status": "succeeded",
+        "time_zone": "America/Denver",
+        "occurred_at": "2021-11-04T02:06:44Z",
+        "created_at": "2021-11-04T18:09:44Z",
+        "updated_at": "2021-11-04T18:09:44Z",
+        "associated_resource_name": null,
+        "publisher_id": "beac36af-6f69-4b2c-b9e9-8a90918666d4",
+        "publisher_type": "lock",
+        "associated_resource_id": "98d8f6a5-9090-4dce-84dc-2a2cbb81ab12",
+        "associated_resource_type": "access_user"
+      },
+      "id": "1c10693c-7d85-4871-9077-041b1d0e2fc9",
+      "links": {
+        "self": "http://api.remotelock.dev/events/1c10693c-7d85-4871-9077-041b1d0e2fc9",
+        "publisher": "http://api.remotelock.dev/devices/beac36af-6f69-4b2c-b9e9-8a90918666d4",
+        "associated_resource": "http://api.remotelock.dev/access_persons/98d8f6a5-9090-4dce-84dc-2a2cbb81ab12"
+      }
+    },
+    {
+      "type": "access_person_used_event",
+      "attributes": {
+        "source": "user",
+        "status": "succeeded",
+        "time_zone": "America/Denver",
+        "occurred_at": "2021-11-04T01:52:43Z",
+        "created_at": "2021-11-04T18:09:43Z",
+        "updated_at": "2021-11-04T18:09:43Z",
+        "associated_resource_name": null,
+        "status_info": null,
+        "method": null,
+        "pin": null,
+        "card": null,
+        "publisher_id": "2c9de746-2915-4dda-95f1-f44ff1f122d6",
+        "publisher_type": "access_user",
+        "associated_resource_id": "beac36af-6f69-4b2c-b9e9-8a90918666d4",
+        "associated_resource_type": "lock"
+      },
+      "id": "1249b3ce-13e6-49ff-a924-580aae6c7068",
+      "links": {
+        "self": "http://api.remotelock.dev/events/1249b3ce-13e6-49ff-a924-580aae6c7068",
+        "publisher": "http://api.remotelock.dev/access_persons/2c9de746-2915-4dda-95f1-f44ff1f122d6",
+        "associated_resource": "http://api.remotelock.dev/devices/beac36af-6f69-4b2c-b9e9-8a90918666d4"
+      }
+    },
+    {
+      "type": "power_level_low_event",
+      "attributes": {
+        "source": "user",
+        "status": "succeeded",
+        "time_zone": "America/Denver",
+        "occurred_at": "2021-11-04T01:29:43Z",
+        "created_at": "2021-11-04T18:09:43Z",
+        "updated_at": "2021-11-04T18:09:43Z",
+        "power_level": 26,
+        "publisher_id": "beac36af-6f69-4b2c-b9e9-8a90918666d4",
+        "publisher_type": "lock"
+      },
+      "id": "d4202e02-0936-4c21-8ace-5d6054ee5319",
+      "links": {
+        "self": "http://api.remotelock.dev/events/d4202e02-0936-4c21-8ace-5d6054ee5319",
+        "publisher": "http://api.remotelock.dev/devices/beac36af-6f69-4b2c-b9e9-8a90918666d4"
+      }
+    }
+  ],
+  "meta": {
+    "page": 1,
+    "per_page": 25,
+    "total_count": 8,
+    "total_pages": 1
+  }
+}
+```
+
+
+#### Fields
+
+| Name       | Description         |
+|:-----------|:--------------------|
+| type | access_person_used, acs_door_opened, acs_door_closed, acs_door_held_open, access_person_synced, access_person_sync_failed, access_guest_late_sync, reset, unlocked, locked, access_denied, jammed, connectivity, power_level_low, battery_replaced, temperature_changed, humidity_changed, relay_enabled, relay_disabled, kore_ready_pin_used or unlockedlocked |
+| source | user, network or device |
+| status | succeeded and failed |
+| associated_resource_name | If associated_resource is deleted, this field is populated with associated_resource name |
+## Get an event
+
+
+### Request
+
+
+#### Endpoint
+
+`GET /events/:id`
+
+```plaintext
+GET /events/cc72ade3-4e11-4f66-9ef3-fdda4d8060a9
+
+```
+
+#### Parameters
+
+
+
+None.
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+200 OK
+```
+
+```json
+{
+  "data": {
+    "type": "unlocked_event",
+    "attributes": {
+      "source": "user",
+      "status": "succeeded",
+      "time_zone": "America/Denver",
+      "occurred_at": "2021-11-04T05:20:49Z",
+      "created_at": "2021-11-04T18:09:49Z",
+      "updated_at": "2021-11-04T18:09:49Z",
+      "associated_resource_name": null,
+      "status_info": null,
+      "method": "pin",
+      "pin": "1234",
+      "card": null,
+      "publisher_id": "b1d9598c-6a75-4f61-af8d-734c0242ae92",
+      "publisher_type": "lock",
+      "associated_resource_id": "1ecb7f92-e071-4314-a37d-391b6332923a",
+      "associated_resource_type": "access_user"
+    },
+    "id": "cc72ade3-4e11-4f66-9ef3-fdda4d8060a9",
+    "links": {
+      "self": "http://api.remotelock.dev/events/cc72ade3-4e11-4f66-9ef3-fdda4d8060a9",
+      "publisher": "http://api.remotelock.dev/devices/b1d9598c-6a75-4f61-af8d-734c0242ae92",
+      "associated_resource": "http://api.remotelock.dev/access_persons/1ecb7f92-e071-4314-a37d-391b6332923a"
+    }
+  }
+}
+```
+
+
+#### Fields
+
+| Name       | Description         |
+|:-----------|:--------------------|
+| type | access_person_used, acs_door_opened, acs_door_closed, acs_door_held_open, access_person_synced, access_person_sync_failed, access_guest_late_sync, reset, unlocked, locked, access_denied, jammed, connectivity, power_level_low, battery_replaced, temperature_changed, humidity_changed, relay_enabled, relay_disabled, kore_ready_pin_used or unlockedlocked |
+| source | user, network or device |
+| status | succeeded and failed |
+| associated_resource_name | If associated_resource is deleted, this field is populated with associated_resource name |
+
+

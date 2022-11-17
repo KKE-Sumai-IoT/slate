@@ -615,6 +615,14 @@ html, body {
   color: #909090;
 }
 
+.highlight .err {
+  color: #fff; //added
+}
+
+.highlight .nl {
+  color: #ff00b2; //added
+}
+
 .highlight, .highlight .w {
   background-color: $code-bg;
 }

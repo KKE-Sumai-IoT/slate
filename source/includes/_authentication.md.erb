@@ -1,0 +1,207 @@
+<h1 id="authentication">API認証</h1>
+
+RemoteLOCK APIは、モバイルデバイスや外部サーバーからのアクセスに対応するため、OAuth 2.0認証方式を採用しています。
+
+<h2 id="authentication-flow">認証フロー</h2>
+認証フローは下記の2通りを用意していますが、**URL1サーバーに関しては現時点ではAuthorization Code Grantのみ** ご利用いただけます。Client Credentials Grantは後日対応予定です。  
+
+### 1. Authorization Code Grant（認可コードグラント） - [RFC 6749-Section 4.1](http://tools.ietf.org/html/rfc6749#section-4.1)
+
+認可エンドポイントに認可リクエストを投げるとRemoteLOCKの管理画面でのログインを促されるため、正常にログインすることで、そのレスポンスとして認可コードを受け取ることができます。  
+その発行された認可コードをトークンエンドポイントでアクセストークンと交換するフローです。
+
+このフローにより取得されるアクセストークンでは、アプリケーションでログインしたアカウントへのアクセスが可能です。
+
+![認証フロー](https://remotelock.kke.co.jp/hubfs/EBOOKS/API/confidential/apidoc_assets/APIFunctionDetails/API_Authentication_Flow.png)
+
+### 1.1. 認可コードの初期設定
+![許可コードの取得](https://remotelock.kke.co.jp/hubfs/EBOOKS/API/confidential/apidoc_assets/APIFunctionDetails/API_AuthenticationFlow_GetAuthorizationCode_1.png)
+![許可コードの取得](https://remotelock.kke.co.jp/hubfs/EBOOKS/API/confidential/apidoc_assets/APIFunctionDetails/API_AuthenticationFlow_OAuthAppRegistration_2.png)
+
+OAuthアプリから初めてユーザーアカウントにアクセスする際は、アプリからはウェブブラウザやウェブビューで**Authorize URL**を読み込むことになります。
+ユーザーがアカウント情報を入力すると、サーバーは**Callback URL**にリダイレクトされ、そこで**authorization code**が表示されます。
+
+
+例:
+アプリケーションの設定を次のようなものと仮定します。
+
+`Application ID: abc`  
+`Secret: xyz`  
+`Callback URL: http://your.server/oauth_callback`  
+
+
+**Authorize URL**は次のようになり、
+
+`https://api.remotelock-pf.jp/oauth/authorize?client_id=a1b2c3&response_type=code&redirect_uri=http://your.server/oauth_callback`
+
+
+OAuthアプリがブラウザ上で上記URLを読み込んで、ユーザーが正しいアカウント情報を入力すると、サーバーは次のURLへリダイレクトされます。
+
+`http://your.server/oauth_callback?code=123`
+
+
+ここでの**123**が**認可コード**となります。  
+認可コードは発行から**10分間**有効です。また、1度アクセストークンの取得に使用されると、そのコードの再利用はできません。  
+このコードをキャプチャしてアクセストークンを取得するためには、OAuthアプリでこのURLを扱える必要があります。
+
+### 1.2. アクセストークンの取得
+
+<div class="center-column"></div>
+
+```
+POST /oauth/token
+Host: api.remotelock-pf.jp
+Content-Type: application/x-www-form-urlencoded
+
+code=123&
+client_id=abc&
+client_secret=xyz&
+redirect_uri=http://your.server/oauth_callback&
+grant_type=authorization_code
+```
+
+* アクセストークンとリフレッシュトークンを取得するために右のトークンエンドポイントでリクエストを作成します
+
+<div class="center-column"></div>
+
+```json
+{
+  "access_token": "1/4cc3ss-t0k3n",
+  "expires_in": 7200,
+  "token_type": "Bearer",
+  "refresh_token": "1/r3fR3sH-t0k3n"
+}
+```
+* 上記リクエストのレスポンスは右のようなJSONとなります
+
+
+
+
+### 1.3. リフレッシュトークンからアクセストークンの取得
+
+アクセストークンは7,200秒 = 2時間で無効となります。  
+トークンエンドポイントのレスポンスに含まれる**リフレッシュトークン**を使うことで、新しい**アクセストークン**を取得することができます。
+この際には認可コードを再び使う必要はありません。
+
+<div class="center-column"></div>
+
+```
+POST /oauth/token
+Host: api.remotelock-pf.jp
+Content-Type: application/x-www-form-urlencoded
+
+client_id=abc&
+client_secret=123&
+refresh_token=1/r3fR3sH-t0k3n&
+grant_type=refresh_token
+```
+
+* リフレッシュトークンからアクセストークンを取得するには右のPOSTリクエストを作成します
+
+<div class="center-column"></div>
+
+```json
+{
+  "access_token": "1/N3w-4cc3ss-T0k3n",
+  "expires_in": 7200,
+  "refresh_token": "1/n3w-r3fR3sH-t0k3n",
+  "token_type": "Bearer"
+}
+```
+
+* 上記リクエストのレスポンスは右のようなJSONとなります
+
+
+OAuthアプリ内に、アクセストークンとリフレッシュトークンの両方を格納できる構成にすることを推奨しています。
+それにより、アクセストークンの期限が切れた場合も、
+リフレッシュトークンから新しいアクセストークンを発行することができ継続的にAPI接続が行えます。
+
+
+
+
+### 2. Client Credentials Grant（クライアントクレデンシャルグラント） - [RFC 6749-Section 4.4](http://tools.ietf.org/html/rfc6749#section-4.4)
+
+APIアクセスには、クライエントIDとクライアントシークレットのみが使われます。  
+このフローにより取得されるアクセストークンでは、アプリケーションが登録されているアカウントへのアクセスだけが可能です。  
+一度認証されると、全てのAPIリクエストには有効なアクセストークンが含まれる必要があります。
+
+
+例:  
+アプリケーションの設定を次のようなものと仮定します。
+
+`Application ID: abc`  
+`Secret: xyz`
+
+
+### 2.1. アクセストークンの取得
+
+<div class="center-column"></div>
+
+```
+POST /oauth/token
+Host: api.remotelock-pf.jp
+Content-Type: application/x-www-form-urlencoded
+
+client_id=abc&
+client_secret=xyz&
+grant_type=client_credentials
+```
+
+* アクセストークンとリフレッシュトークンを取得するために右のトークンエンドポイントでリクエストを作成します
+
+<div class="center-column"></div>
+
+```json
+{
+  "access_token": "1/4cc3ss-t0k3n",
+  "expires_in": 7200,
+  "token_type": "Bearer",
+}
+```
+* 上記リクエストのレスポンスは右のようなJSONとなります
+
+
+このフローでのトークンエンドポイントのレスポンスには、リフレッシュトークンが含まれません。  
+そのため、アクセストークンが期限切れになった場合には、2.1.のリクエストを再び実行する必要があります。
+
+
+<h2 id="authentication-create-a-request">アクセストークンでのリクエスト作成</h2>
+
+有効なアクセストークンを使ったGET リクエストは、右のように作成します。
+
+<div class="center-column"></div>
+
+```
+GET /locations
+Host: api.remotelock-pf.jp
+Accept: application/vnd.lockstate.v1+json
+Authorization: Bearer 1/4cc3ss-t0k3n
+```
+
+<h2 id="authentication-revoke-a-request">アクセストークンの取り消し</h2>
+
+アクセストークンを今すぐに無効化したい場合は、右のPOSTリクエストを送ります。
+
+<div class="center-column"></div>
+
+```
+POST /oauth/revoke
+Host: api.remotelock-pf.jp
+Content-Type: application/x-www-form-urlencoded
+
+client_id=abc&
+client_secret=xyz&
+token=1/4cc3ss-t0k3n
+```
+
+
+<h2 id="authentication-choose-library">開発言語に応じたOAuth2クライアントライブラリの選択</h2>
+
+RemoteLOCKとの連携をシンプルにするために、開発言語で利用できるオープンソースのOAuth2クライアントライブラリをお使いになることを**強くお勧め**します。多くのOAuth2クライアントライブラリは、このドキュメントに記載されている多くのフォーマットには対応しています。
+
+OAuth2はオープンプロトコルなので、Google検索でもいくつかのオプションが見つかります。  
+こちらはその一部です:
+
+- **iOS:** [https://github.com/OAuthSwift/OAuthSwift](https://github.com/OAuthSwift/OAuthSwift)
+- **Android:** [https://github.com/wuman/android-oauth-client](https://github.com/wuman/android-oauth-client)
+- **Ruby:** [https://github.com/intridea/oauth2](https://github.com/intridea/oauth2)

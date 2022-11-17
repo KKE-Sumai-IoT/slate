@@ -1,0 +1,566 @@
+#Device Settings  
+
+## Register an OpenEdge RG/BG/CG (formerly 5i/3i/7i) lock
+
+
+### Request
+
+
+#### Endpoint
+
+`POST /devices`
+
+```plaintext
+POST /devices
+
+```
+
+#### Parameters
+
+
+```json
+{
+  "attributes": {
+    "name": "Home Lock",
+    "location_id": "687435b9-be6d-4648-b189-bbed697e7f02",
+    "serial_number": "AC000W000213429"
+  }
+}
+```
+
+| Name | Description |
+|:-----|:------------|
+| attributes[name] *required* | Name |
+| attributes[serial_number] *required* | Serial number |
+| attributes[model_id]  | Model |
+| attributes[location_id] *required* | Location |
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+201 Created
+```
+
+```json
+{
+  "data": {
+    "type": "lock",
+    "attributes": {
+      "name": "Home Lock",
+      "heartbeat_interval": 1200,
+      "wifi_level": 0,
+      "signal_quality": 2,
+      "connected": false,
+      "alive": true,
+      "power_source": "alkaline_battery",
+      "connected_at": "2021-11-04T18:07:36Z",
+      "serial_number": "AC000W000213429",
+      "connectivity_enabled": true,
+      "algorithmic_pin_enabled": true,
+      "auto_lock": true,
+      "auto_lock_timeout": 20,
+      "created_at": "2021-11-04T18:08:36Z",
+      "default_guest_end_time": null,
+      "default_guest_start_time": null,
+      "local_pins": [
+        "1234"
+      ],
+      "mac_address": "64:a3:5e:71:9a:e9",
+      "manual_auto_lock_timeout": 0,
+      "muted": false,
+      "nfc": "no_nfc",
+      "no_enter_code": false,
+      "online_auto_lock": false,
+      "power_level": 5,
+      "programming_code": "123456",
+      "ready_pin_seed": "",
+      "state": "unlocked",
+      "updated_at": "2021-11-04T18:08:36Z",
+      "wake_wifi": "user_action",
+      "wifi_enabled": true,
+      "model_id": "4e756aab-16d4-472a-918d-dcc2ed8cce33",
+      "location_id": "687435b9-be6d-4648-b189-bbed697e7f02"
+    },
+    "id": "73b695d0-3cb3-421e-bf59-bf17c6570044",
+    "links": {
+      "self": "http://api.remotelock.dev/devices/73b695d0-3cb3-421e-bf59-bf17c6570044",
+      "model": "http://api.remotelock.dev/models/4e756aab-16d4-472a-918d-dcc2ed8cce33",
+      "location": "http://api.remotelock.dev/locations/687435b9-be6d-4648-b189-bbed697e7f02"
+    }
+  }
+}
+```
+
+
+#### Fields
+
+| Name       | Description         |
+|:-----------|:--------------------|
+| heartbeat_interval | Number of seconds between connections. |
+| connected | Is the device connected at this moment? |
+| alive | Is the device "heartbeating" regularly? |
+| signal_quality | Wi-Fi signal quality, values 0 to 4 |
+| power_level | Battery power level (percentage) |
+| wake_wifi | When the lock is synced with the cloud. |
+| auto_lock | Automatically lock after an unlock event. |
+| auto_lock_timeout | Number of seconds before relocking. |
+| connected_at | Time of last successful connection. |
+
+
+
+## Update a lock
+
+Your settings changes might be lost if you make this request before the
+lock wakes up for the first time - which means you should wait until
+`connected_at` has a timestamp before making this request. This is
+because we request the current lock settings whenever it's registered.
+
+
+### Request
+
+
+#### Endpoint
+
+`PUT /devices/:id`
+
+```plaintext
+PUT /devices/b7e524b7-4178-4306-9e2f-c5e565383e6b
+
+```
+
+#### Parameters
+
+
+```json
+{
+  "attributes": {
+    "name": "Backdoor Lock",
+    "location_id": "a5cc3e6c-423b-4354-ac40-f7fd5b66c739",
+    "default_guest_start_time": "11:15:00",
+    "power_source": "alkaline_battery",
+    "local_pins": [
+      "1234"
+    ]
+  }
+}
+```
+
+| Name | Description |
+|:-----|:------------|
+| attributes[name]  | Name |
+| attributes[serial_number]  | Device serial number |
+| attributes[programming_code]  | Programming code |
+| attributes[heartbeat_interval]  | Heartbeat interval |
+| attributes[wake_wifi]  | Controls what events cause the lock to sync with the cloud. Can be `user_action` or `heartbeat_interval`. Additionally, model LS-5i supports `user_action_except_manual`, which excludes interaction with the knob. |
+| attributes[muted]  | Muted |
+| attributes[auto_lock]  | Auto-lock |
+| attributes[auto_lock_timeout]  | Auto-lock timeout |
+| attributes[auto_lock_schedule_id]  | Auto-lock Schedule |
+| attributes[lock_action_schedule_id]  | Lock Action Schedule |
+| attributes[location_id]  | Location |
+| attributes[default_guest_start_time]  | Default Access Guest start time, ISO 8601 24 hour time format |
+| attributes[default_guest_end_time]  | Default Access Guest end time, ISO 8601 24 hour time format |
+| attributes[power_source]  | One of `hardwire`, `alkaline_battery`, or `lithium_battery`. This affects the battery level percentage as well as "low battery" notifications. |
+| attributes[local_pins]  | Array of PINs programmed via the device keypad. This is a "set" operation. Only PIN removal is supported. |
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+200 OK
+```
+
+```json
+{
+  "data": {
+    "type": "lock",
+    "attributes": {
+      "name": "Backdoor Lock",
+      "heartbeat_interval": 1200,
+      "wifi_level": 0,
+      "signal_quality": 2,
+      "connected": true,
+      "alive": true,
+      "power_source": "alkaline_battery",
+      "connected_at": "2021-11-04T18:07:41Z",
+      "serial_number": "AC000W003963344",
+      "connectivity_enabled": true,
+      "algorithmic_pin_enabled": true,
+      "auto_lock": true,
+      "auto_lock_timeout": 20,
+      "created_at": "2021-11-04T18:08:41Z",
+      "default_guest_end_time": null,
+      "default_guest_start_time": "11:15:00",
+      "local_pins": [
+        "1234"
+      ],
+      "mac_address": "12:05:00:8e:10:a5",
+      "manual_auto_lock_timeout": 0,
+      "muted": false,
+      "nfc": "no_nfc",
+      "no_enter_code": false,
+      "online_auto_lock": false,
+      "power_level": 15,
+      "programming_code": "123456",
+      "ready_pin_seed": "",
+      "state": "locked",
+      "updated_at": "2021-11-04T18:08:41Z",
+      "wake_wifi": "user_action",
+      "wifi_enabled": true,
+      "model_id": "4009f771-bce8-4f1e-89f1-b6a3671ce059",
+      "location_id": "a5cc3e6c-423b-4354-ac40-f7fd5b66c739"
+    },
+    "id": "b7e524b7-4178-4306-9e2f-c5e565383e6b",
+    "links": {
+      "self": "http://api.remotelock.dev/devices/b7e524b7-4178-4306-9e2f-c5e565383e6b",
+      "model": "http://api.remotelock.dev/models/4009f771-bce8-4f1e-89f1-b6a3671ce059",
+      "location": "http://api.remotelock.dev/locations/a5cc3e6c-423b-4354-ac40-f7fd5b66c739"
+    }
+  }
+}
+```
+
+
+## Replace the device
+
+
+### Request
+
+
+#### Endpoint
+
+`PUT /devices/:id/replace`
+
+```plaintext
+PUT /devices/6085fc07-f519-4e6f-ba18-65c29a390d37/replace
+
+```
+
+#### Parameters
+
+
+```json
+{
+  "attributes": {
+    "serial_number": "20F85E123456"
+  }
+}
+```
+
+| Name | Description |
+|:-----|:------------|
+| attributes[serial_number] *required* | New serial number |
+| attributes[model_id]  | New model of same type as the current device |
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+200 OK
+```
+
+```json
+{
+  "data": {
+    "type": "lock",
+    "attributes": {
+      "name": "LS-6i - AC000W009955532",
+      "heartbeat_interval": 1200,
+      "wifi_level": 0,
+      "signal_quality": 4,
+      "connected": true,
+      "alive": true,
+      "power_source": "alkaline_battery",
+      "connected_at": "2021-11-04T18:08:19Z",
+      "serial_number": "20F85E123456",
+      "connectivity_enabled": true,
+      "algorithmic_pin_enabled": true,
+      "auto_lock": true,
+      "auto_lock_timeout": 20,
+      "created_at": "2021-11-04T18:09:19Z",
+      "default_guest_end_time": null,
+      "default_guest_start_time": null,
+      "local_pins": [
+        "1234"
+      ],
+      "mac_address": "c8:24:86:59:7f:6a",
+      "manual_auto_lock_timeout": 0,
+      "muted": false,
+      "nfc": "no_nfc",
+      "no_enter_code": false,
+      "online_auto_lock": false,
+      "power_level": 5,
+      "programming_code": "123456",
+      "ready_pin_seed": "",
+      "state": "unlocked",
+      "updated_at": "2021-11-04T18:09:19Z",
+      "wake_wifi": "user_action",
+      "wifi_enabled": true,
+      "model_id": "ae6a362a-ba04-42bc-8fd6-a518c1bf193f",
+      "location_id": "115b87ad-b401-42dc-a527-7c77e3c2d51d",
+      "lock_action_schedule_id": "f14b7976-34f6-4ac3-af4e-8183ca2a0ae4"
+    },
+    "id": "6085fc07-f519-4e6f-ba18-65c29a390d37",
+    "links": {
+      "self": "http://api.remotelock.dev/devices/6085fc07-f519-4e6f-ba18-65c29a390d37",
+      "model": "http://api.remotelock.dev/models/ae6a362a-ba04-42bc-8fd6-a518c1bf193f",
+      "location": "http://api.remotelock.dev/locations/115b87ad-b401-42dc-a527-7c77e3c2d51d",
+      "lock_action_schedule": "http://api.remotelock.dev/schedules/f14b7976-34f6-4ac3-af4e-8183ca2a0ae4"
+    },
+    "meta": {
+      "restricted_actions": [
+        "replace"
+      ]
+    }
+  }
+}
+```
+
+
+## Deregister a device
+
+
+### Request
+
+
+#### Endpoint
+
+`DELETE /devices/:id`
+
+```plaintext
+DELETE /devices/60ebc747-8c3a-46d1-873c-8a472936b7ca
+
+```
+
+#### Parameters
+
+
+
+None.
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+204 No Content
+```
+
+
+
+## Register a ResortLock
+
+
+### Request
+
+
+#### Endpoint
+
+`POST /devices`
+
+```plaintext
+POST /devices
+
+```
+
+#### Parameters
+
+
+```json
+{
+  "attributes": {
+    "name": "My Resort Lock",
+    "serial_number": "AB57EF010F4FBE01",
+    "location_id": "6faa1764-0fd6-4ee2-a2af-bdf920222fd4",
+    "model_id": "2cf6072a-1049-41f2-9561-2190bb2a4974",
+    "default_guest_start_time": "11:30:00",
+    "default_guest_end_time": "14:15:00"
+  }
+}
+```
+
+| Name | Description |
+|:-----|:------------|
+| attributes[name] *required* | Name |
+| attributes[serial_number] *required* | Device serial number |
+| attributes[location_id] *required* | Location |
+| attributes[model_id]  | Model |
+| attributes[default_guest_start_time]  | Default Access Guest start time, ISO 8601 24 hour time format |
+| attributes[default_guest_end_time]  | Default Access Guest end time, ISO 8601 24 hour time format |
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+201 Created
+```
+
+```json
+{
+  "data": {
+    "type": "resort_lock",
+    "attributes": {
+      "name": "My Resort Lock",
+      "default_guest_start_time": "11:30:00",
+      "default_guest_end_time": "14:15:00",
+      "created_at": "2021-11-04T18:13:39Z",
+      "updated_at": "2021-11-04T18:13:39Z",
+      "serial_number": "AB57EF010F4FBE01",
+      "model_id": "2cf6072a-1049-41f2-9561-2190bb2a4974",
+      "location_id": "6faa1764-0fd6-4ee2-a2af-bdf920222fd4"
+    },
+    "id": "406c4b42-b858-40e9-b9b1-317acb1a2396",
+    "links": {
+      "self": "http://api.remotelock.dev/devices/406c4b42-b858-40e9-b9b1-317acb1a2396",
+      "model": "http://api.remotelock.dev/models/2cf6072a-1049-41f2-9561-2190bb2a4974",
+      "location": "http://api.remotelock.dev/locations/6faa1764-0fd6-4ee2-a2af-bdf920222fd4"
+    }
+  }
+}
+```
+
+
+## Update a ResortLock
+
+
+### Request
+
+
+#### Endpoint
+
+`PUT /devices/:id`
+
+```plaintext
+PUT /devices/00f49edb-50ce-4332-82de-867a6fac9983
+
+```
+
+#### Parameters
+
+
+```json
+{
+  "attributes": {
+    "name": "Backdoor Resort Lock",
+    "default_guest_start_time": "10:00:00"
+  }
+}
+```
+
+| Name | Description |
+|:-----|:------------|
+| attributes[name]  | Name |
+| attributes[location_id]  | Location |
+| attributes[serial_number]  | Device serial number |
+| attributes[default_guest_start_time]  | Default Access Guest start time, ISO 8601 24 hour time format |
+| attributes[default_guest_end_time]  | Default Access Guest end time, ISO 8601 24 hour time format |
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+200 OK
+```
+
+```json
+{
+  "data": {
+    "type": "resort_lock",
+    "attributes": {
+      "name": "Backdoor Resort Lock",
+      "default_guest_start_time": "10:00:00",
+      "default_guest_end_time": null,
+      "created_at": "2021-11-04T18:13:42Z",
+      "updated_at": "2021-11-04T18:13:42Z",
+      "serial_number": "5LZCGPZQ0B4FBE01",
+      "model_id": "19b166bd-0d64-41f6-8552-ccb0917e2c27",
+      "location_id": "e46419da-3dc0-4a4b-b961-5da223e18504"
+    },
+    "id": "00f49edb-50ce-4332-82de-867a6fac9983",
+    "links": {
+      "self": "http://api.remotelock.dev/devices/00f49edb-50ce-4332-82de-867a6fac9983",
+      "model": "http://api.remotelock.dev/models/19b166bd-0d64-41f6-8552-ccb0917e2c27",
+      "location": "http://api.remotelock.dev/locations/e46419da-3dc0-4a4b-b961-5da223e18504"
+    }
+  }
+}
+```
+
+
+
+## Update a ZWave lock  
+
+
+### Request
+
+
+#### Endpoint
+
+`PUT /devices/:id`
+
+```plaintext
+PUT /devices/b0be5cbb-d8ed-4454-8938-7b02e90ad5a2
+
+```
+
+#### Parameters
+
+
+```json
+{
+  "attributes": {
+    "name": "East door"
+  }
+}
+```
+
+| Name | Description |
+|:-----|:------------|
+| attributes[name]  | Name |
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+200 OK
+```
+
+```json
+{
+  "data": {
+    "type": "zwave_lock",
+    "attributes": {
+      "connectivity_enabled": true,
+      "name": "East door",
+      "state": "locked",
+      "connected": false,
+      "power_level": 0,
+      "protocol": "",
+      "created_at": "2021-11-04T18:08:55Z",
+      "updated_at": "2021-11-04T18:08:55Z",
+      "location_id": "bcc63577-f3cb-4238-9a85-4fc3c8defe52",
+      "model_id": "f9d3d817-0ab0-46ce-a7e2-40a364037a26"
+    },
+    "id": "b0be5cbb-d8ed-4454-8938-7b02e90ad5a2",
+    "links": {
+      "self": "http://api.remotelock.dev/devices/b0be5cbb-d8ed-4454-8938-7b02e90ad5a2",
+      "location": "http://api.remotelock.dev/locations/bcc63577-f3cb-4238-9a85-4fc3c8defe52",
+      "model": "http://api.remotelock.dev/models/f9d3d817-0ab0-46ce-a7e2-40a364037a26"
+    }
+  }
+}
+```

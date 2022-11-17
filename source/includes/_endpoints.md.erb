@@ -1,0 +1,4119 @@
+
+# Access Persons
+
+
+
+## Get access persons
+
+Returns all access person types (homogeneous).
+
+### Status
+
+Statuses for `access_guest` type:
+
+- `upcoming` initial status when start time has not met yet
+- `current` initial status when start time has already met
+- `expired` when end time has already met
+- `deactivated` when a user manually deactivates it. See new endpoint below
+
+Statuses for `access_user` type:
+
+- `current` initial status
+- `deactivated` when a user manually deactivates it. See new endpoint below
+
+This endpoint returns only current and upcoming by default.
+See next example to fetch `expired` and `deactivated` access persons.
+
+
+### Request
+
+
+#### Endpoint
+
+`GET /access_persons`
+
+```plaintext
+GET /access_persons
+
+```
+
+#### Parameters
+
+
+
+| Name | Description |
+|:-----|:------------|
+| [type]  | Filter by type(s). Supported types: access_user and access_guest |
+| sort  | Sortable attributes: created_at, updated_at, name, department, starts_at, and ends_at, default: created_at ascending |
+| attributes[status]  | Status: current, upcoming, deactivated or expired. Default: current and upcoming. Supports array query |
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+200 OK
+```
+
+```json
+{
+  "data": [
+    {
+      "type": "access_user",
+      "attributes": {
+        "name": "Glinda Heller",
+        "email": "kirk@sawayn-white.co",
+        "phone": null,
+        "department": null,
+        "status": "current",
+        "source": null,
+        "guest_source": null,
+        "created_at": "2021-11-04T18:04:50Z",
+        "updated_at": "2021-11-04T18:04:50Z",
+        "pin": "1158",
+        "card_number": null
+      },
+      "id": "095cdabb-57be-4554-a408-2b4095c6a09d",
+      "links": {
+        "self": "http://api.remotelock.dev/access_persons/095cdabb-57be-4554-a408-2b4095c6a09d"
+      }
+    },
+    {
+      "type": "access_guest",
+      "attributes": {
+        "name": "Celinda McClure",
+        "email": "elois@stamm.info",
+        "phone": null,
+        "department": null,
+        "status": "current",
+        "source": null,
+        "guest_source": null,
+        "created_at": "2021-11-04T18:04:50Z",
+        "updated_at": "2021-11-04T18:04:50Z",
+        "pin": "1159",
+        "card_number": null,
+        "starts_at": "2021-11-05T00:00:00",
+        "ends_at": "2021-11-28T18:04:50"
+      },
+      "id": "0dabd518-fed3-4d5b-8835-69e3d944bd26",
+      "links": {
+        "self": "http://api.remotelock.dev/access_persons/0dabd518-fed3-4d5b-8835-69e3d944bd26"
+      }
+    }
+  ],
+  "meta": {
+    "page": 1,
+    "per_page": 25,
+    "total_count": 2,
+    "total_pages": 1
+  }
+}
+```
+
+
+## Get access persons filtered by status
+
+
+### Request
+
+
+#### Endpoint
+
+`GET /access_persons`
+
+```plaintext
+GET /access_persons?attributes[status][]=deactivated&attributes[status][]=expired
+
+```
+
+#### Parameters
+
+```json
+attributes: {status&quot;=&gt;[&quot;deactivated&quot;, &quot;expired&quot;]}
+```
+
+
+| Name | Description |
+|:-----|:------------|
+| [type]  | Filter by type(s). Supported types: access_user and access_guest |
+| sort  | Sortable attributes: created_at, updated_at, name, department, starts_at, and ends_at, default: created_at ascending |
+| attributes[status]  | Status: current, upcoming, deactivated or expired. Default: current and upcoming. Supports array query |
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+200 OK
+```
+
+```json
+{
+  "data": [
+    {
+      "type": "access_user",
+      "attributes": {
+        "name": "Ms. Lavern Christiansen",
+        "email": "jame@pacocha.org",
+        "phone": null,
+        "department": null,
+        "status": "deactivated",
+        "source": null,
+        "guest_source": null,
+        "created_at": "2021-11-04T18:04:50Z",
+        "updated_at": "2021-11-04T18:04:50Z",
+        "pin": "1160",
+        "card_number": null
+      },
+      "id": "cb065d8a-d48f-4f3b-854a-7158b5e86084",
+      "links": {
+        "self": "http://api.remotelock.dev/access_persons/cb065d8a-d48f-4f3b-854a-7158b5e86084"
+      },
+      "meta": {
+        "restricted_actions": [
+          "update"
+        ]
+      }
+    },
+    {
+      "type": "access_guest",
+      "attributes": {
+        "name": "Bobbye Kiehn",
+        "email": "lanita@littel-durgan.co",
+        "phone": null,
+        "department": null,
+        "status": "expired",
+        "source": null,
+        "guest_source": null,
+        "created_at": "2021-11-04T18:04:50Z",
+        "updated_at": "2021-11-04T18:04:50Z",
+        "pin": "1162",
+        "card_number": null,
+        "starts_at": "2021-11-01T18:04:50",
+        "ends_at": "2021-11-03T18:04:50"
+      },
+      "id": "3b67953e-4068-4199-854c-2f3ba6aa888a",
+      "links": {
+        "self": "http://api.remotelock.dev/access_persons/3b67953e-4068-4199-854c-2f3ba6aa888a"
+      },
+      "meta": {
+        "restricted_actions": [
+          "update"
+        ]
+      }
+    }
+  ],
+  "meta": {
+    "page": 1,
+    "per_page": 25,
+    "total_count": 2,
+    "total_pages": 1
+  }
+}
+```
+
+
+## Get an access person
+
+
+### Request
+
+
+#### Endpoint
+
+`GET /access_persons/:id`
+
+```plaintext
+GET /access_persons/5d1060de-ccad-4e1d-963f-111564b1ce23
+
+```
+
+#### Parameters
+
+
+
+None.
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+200 OK
+```
+
+```json
+{
+  "data": {
+    "type": "access_user",
+    "attributes": {
+      "name": "Shanika Bruen DVM",
+      "email": "modesto@jakubowski.org",
+      "phone": null,
+      "department": null,
+      "status": "current",
+      "source": null,
+      "guest_source": null,
+      "created_at": "2021-11-04T18:04:55Z",
+      "updated_at": "2021-11-04T18:04:55Z",
+      "pin": "1173",
+      "card_number": null
+    },
+    "id": "5d1060de-ccad-4e1d-963f-111564b1ce23",
+    "links": {
+      "self": "http://api.remotelock.dev/access_persons/5d1060de-ccad-4e1d-963f-111564b1ce23"
+    }
+  }
+}
+```
+
+
+## Create an access user
+
+'Access user' is a permanent access person type. The only difference from 'access guest' is it doesn't accept 'starts_at' and 'ends_at' parameters.
+
+### Request
+
+
+#### Endpoint
+
+`POST /access_persons`
+
+```plaintext
+POST /access_persons
+
+```
+
+#### Parameters
+
+
+```json
+{
+  "type": "access_user",
+  "attributes": {
+    "name": "Ann Smith",
+    "email": "ann.smith@example.com",
+    "department": "Human Resources",
+    "pin": "1234",
+    "card_number": "23456"
+  }
+}
+```
+
+| Name | Description |
+|:-----|:------------|
+| type *required* | access_user |
+| attributes[name] *required* | Name |
+| attributes[email]  | Email |
+| attributes[pin]  | Access person pin (pin, generate_pin or card_number are required) |
+| attributes[card_number]  | Card number (pin, generate_pin or card_number are required) |
+| attributes[generate_pin]  | When true, a random pin is generated (pin, generate_pin or card_number are required). Default: false |
+| attributes[generate_card_number]  | When true, a card number is generated (pin, generate_pin, card_number or generate_card_number are required). Default: false |
+| attributes[deliver_as_qr_code]  | When true, the card number is delivered as a QR code. Default: false |
+| attributes[department]  | Department name |
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+201 Created
+```
+
+```json
+{
+  "data": {
+    "type": "access_user",
+    "attributes": {
+      "name": "Ann Smith",
+      "email": "ann.smith@example.com",
+      "phone": null,
+      "department": "Human Resources",
+      "deliver_as_qr_code": false,
+      "status": "current",
+      "source": null,
+      "guest_source": null,
+      "deliver_as_url_credential": false,
+      "require_pin_verification": false,
+      "created_at": "2021-11-04T18:04:56Z",
+      "updated_at": "2021-11-04T18:04:56Z",
+      "pin": "1234",
+      "card_number": "23456"
+    },
+    "id": "6fc191af-64bc-4d72-bcc9-53553be09b6b",
+    "links": {
+      "self": "http://api.remotelock.dev/access_persons/6fc191af-64bc-4d72-bcc9-53553be09b6b"
+    }
+  }
+}
+```
+
+
+## Create an access guest
+
+'Access guest' is a temporary access person type. It has all the same features as 'access user', with the addition of 'starts_at' and 'ends_at' parameters that enable additional access limiting.
+
+### Request
+
+
+#### Endpoint
+
+`POST /access_persons`
+
+```plaintext
+POST /access_persons
+
+```
+
+#### Parameters
+
+
+```json
+{
+  "type": "access_guest",
+  "attributes": {
+    "starts_at": "2020-01-02T16:04:00",
+    "ends_at": "2020-01-30T16:04:00",
+    "name": "Ann Smith",
+    "pin": "1234"
+  }
+}
+```
+
+| Name | Description |
+|:-----|:------------|
+| type *required* | access_guest |
+| attributes[name] *required* | Name |
+| attributes[email]  | Email |
+| attributes[pin]  | Access person pin (pin, generate_pin or card_number are required) |
+| attributes[card_number]  | Card number (pin, generate_pin or card_number are required) |
+| attributes[generate_pin]  | When true, a random pin is generated (pin, generate_pin or card_number are required). Default: false |
+| attributes[generate_card_number]  | When true, a card number is generated (pin, generate_pin, card_number or generate_card_number are required). Default: false |
+| attributes[deliver_as_qr_code]  | 	When true, the card number is delivered as a QR code. Default: false |
+| attributes[starts_at] *required* | Starts at ISO 8601 timestamp without time zone |
+| attributes[ends_at] *required* | Ends at ISO 8601 timestamp without time zone |
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+201 Created
+```
+
+```json
+{
+  "data": {
+    "type": "access_guest",
+    "attributes": {
+      "name": "Ann Smith",
+      "email": null,
+      "phone": null,
+      "department": null,
+      "status": "expired",
+      "source": null,
+      "guest_source": null,
+      "created_at": "2021-11-04T18:04:58Z",
+      "updated_at": "2021-11-04T18:04:58Z",
+      "pin": "1234",
+      "card_number": null,
+      "starts_at": "2020-01-02T16:04:00",
+      "ends_at": "2020-01-30T16:04:00"
+    },
+    "id": "8cf95fea-eff1-4055-a48b-f6776378173f",
+    "links": {
+      "self": "http://api.remotelock.dev/access_persons/8cf95fea-eff1-4055-a48b-f6776378173f"
+    },
+    "meta": {
+      "restricted_actions": [
+        "update"
+      ]
+    }
+  }
+}
+```
+
+
+## Update an access user
+
+
+### Request
+
+
+#### Endpoint
+
+`PUT /access_persons/:id`
+
+```plaintext
+PUT /access_persons/042fc144-b80e-4dec-a6a4-ebee87dbf92e
+
+```
+
+#### Parameters
+
+
+```json
+{
+  "attributes": {
+    "name": "House Owner",
+    "pin": "2345"
+  }
+}
+```
+
+| Name | Description |
+|:-----|:------------|
+| attributes[name]  | Name |
+| attributes[email]  | Email |
+| attributes[pin]  | Access person pin (pin, generate_pin or card_number are required) |
+| attributes[card_number]  | Card number (pin, generate_pin or card_number are required) |
+| attributes[generate_pin]  | When true, a random pin is generated (pin, generate_pin or card_number are required). Default: false |
+| attributes[department]  | Department name |
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+200 OK
+```
+
+```json
+{
+  "data": {
+    "type": "access_user",
+    "attributes": {
+      "name": "House Owner",
+      "email": "cornelia.rogahn@lowe-schoen.biz",
+      "phone": null,
+      "department": null,
+      "status": "current",
+      "source": null,
+      "guest_source": null,
+      "created_at": "2021-11-04T18:05:06Z",
+      "updated_at": "2021-11-04T18:05:06Z",
+      "pin": "2345",
+      "card_number": null
+    },
+    "id": "042fc144-b80e-4dec-a6a4-ebee87dbf92e",
+    "links": {
+      "self": "http://api.remotelock.dev/access_persons/042fc144-b80e-4dec-a6a4-ebee87dbf92e"
+    }
+  }
+}
+```
+
+
+## Update an access guest
+
+
+### Request
+
+
+#### Endpoint
+
+`PUT /access_persons/:id`
+
+```plaintext
+PUT /access_persons/711c19b0-1adf-4a79-ab29-0d533229f96c
+
+```
+
+#### Parameters
+
+
+```json
+{
+  "attributes": {
+    "name": "Cleaning Crew",
+    "ends_at": "2021-11-15T00:00:00Z"
+  }
+}
+```
+
+| Name | Description |
+|:-----|:------------|
+| attributes[name]  | Name |
+| attributes[email]  | Email |
+| attributes[pin]  | Access person pin (pin, generate_pin or card_number are required) |
+| attributes[card_number]  | Card number (pin, generate_pin or card_number are required) |
+| attributes[generate_pin]  | When true, a random pin is generated (pin, generate_pin or card_number are required). Default: false |
+| attributes[starts_at]  | Starts at ISO 8601 timestamp without time zone |
+| attributes[ends_at]  | Ends at ISO 8601 timestamp without time zone |
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+200 OK
+```
+
+```json
+{
+  "data": {
+    "type": "access_guest",
+    "attributes": {
+      "name": "Cleaning Crew",
+      "email": "tatiana.armstrong@towne-weber.io",
+      "phone": null,
+      "department": null,
+      "status": "current",
+      "source": null,
+      "guest_source": null,
+      "created_at": "2021-11-04T18:05:07Z",
+      "updated_at": "2021-11-04T18:05:07Z",
+      "pin": "1200",
+      "card_number": null,
+      "starts_at": "2021-11-05T00:00:00",
+      "ends_at": "2021-11-15T00:00:00"
+    },
+    "id": "711c19b0-1adf-4a79-ab29-0d533229f96c",
+    "links": {
+      "self": "http://api.remotelock.dev/access_persons/711c19b0-1adf-4a79-ab29-0d533229f96c"
+    }
+  }
+}
+```
+
+
+## Deactivates an access person
+
+        We recommend using this endpoint rather than `DELETE /access_persons/:id`
+        because it allows you to fetch `deactivated` and `expired` access persons.
+
+
+### Request
+
+
+#### Endpoint
+
+`PUT /access_persons/:id/deactivate`
+
+```plaintext
+PUT /access_persons/e6ad9029-6c2e-4ea8-9291-993495e607b6/deactivate
+
+```
+
+#### Parameters
+
+
+
+None.
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+200 OK
+```
+
+```json
+{
+  "data": {
+    "type": "access_user",
+    "attributes": {
+      "name": "Jeanine Dickens DC",
+      "email": "rickie.heathcote@oreilly.org",
+      "phone": null,
+      "department": null,
+      "status": "deactivated",
+      "source": null,
+      "guest_source": null,
+      "created_at": "2021-11-04T18:05:08Z",
+      "updated_at": "2021-11-04T18:05:08Z",
+      "pin": "1201",
+      "card_number": null
+    },
+    "id": "e6ad9029-6c2e-4ea8-9291-993495e607b6",
+    "links": {
+      "self": "http://api.remotelock.dev/access_persons/e6ad9029-6c2e-4ea8-9291-993495e607b6"
+    },
+    "meta": {
+      "restricted_actions": [
+        "update"
+      ]
+    }
+  }
+}
+```
+
+
+## Delete an access person
+
+
+### Request
+
+
+#### Endpoint
+
+`DELETE /access_persons/:id`
+
+```plaintext
+DELETE /access_persons/83bd82f4-c342-48dc-be28-698cdb8bab34
+
+```
+
+#### Parameters
+
+
+
+None.
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+204 No Content
+```
+
+
+
+## Schedule sending access instructions email in days
+
+
+### Request
+
+
+#### Endpoint
+
+`POST /access_persons/:id/email/notify`
+
+```plaintext
+POST /access_persons/b3eda80f-ea3e-4cbb-897e-2c435869bced/email/notify
+
+```
+
+#### Parameters
+
+
+```json
+{
+  "attributes": {
+    "days_before": 1
+  }
+}
+```
+
+| Name | Description |
+|:-----|:------------|
+| attributes[days_before]  | Schedule sending email a number of days beforeguest start time. Default: sends the email immediately. |
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+200 OK
+```
+
+
+
+## Get all of an access person&#39;s accesses
+
+
+### Request
+
+
+#### Endpoint
+
+`GET /access_persons/:access_person_id/accesses`
+
+```plaintext
+GET /access_persons/5d518968-7ca1-4d0e-bfdd-fdc8fc883c69/accesses
+
+```
+
+#### Parameters
+
+
+
+None.
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+200 OK
+```
+
+```json
+{
+  "data": [
+    {
+      "type": "access_person_access",
+      "attributes": {
+        "guest_start_time": null,
+        "guest_end_time": null,
+        "devices_count": 1,
+        "devices_synced_count": 0,
+        "devices_pending_sync_count": 1,
+        "devices_failed_sync_count": 0,
+        "accessible_type": "lock",
+        "created_at": "2021-11-04T18:05:15Z",
+        "updated_at": "2021-11-04T18:05:15Z",
+        "access_person_id": "5d518968-7ca1-4d0e-bfdd-fdc8fc883c69",
+        "access_person_type": "access_user",
+        "accessible_id": "c9d06b7e-9b4e-4ba7-b033-7ac5edf8a8cd"
+      },
+      "id": "92263fbe-9d5f-46b2-8206-41876adfac00",
+      "links": {
+        "self": "http://api.remotelock.dev/access_persons/5d518968-7ca1-4d0e-bfdd-fdc8fc883c69/accesses/92263fbe-9d5f-46b2-8206-41876adfac00",
+        "access_person": "http://api.remotelock.dev/access_persons/5d518968-7ca1-4d0e-bfdd-fdc8fc883c69",
+        "accessible": "http://api.remotelock.dev/devices/c9d06b7e-9b4e-4ba7-b033-7ac5edf8a8cd"
+      }
+    },
+    {
+      "type": "access_person_access",
+      "attributes": {
+        "guest_start_time": null,
+        "guest_end_time": null,
+        "devices_count": 0,
+        "devices_synced_count": 0,
+        "devices_pending_sync_count": 0,
+        "devices_failed_sync_count": 0,
+        "accessible_type": "acs_door",
+        "created_at": "2021-11-04T18:05:15Z",
+        "updated_at": "2021-11-04T18:05:15Z",
+        "access_person_id": "5d518968-7ca1-4d0e-bfdd-fdc8fc883c69",
+        "access_person_type": "access_user",
+        "accessible_id": "4cb5d404-3858-420a-a00c-caa4b2ddb0eb"
+      },
+      "id": "1e66b4cb-a613-4b0d-bf9b-9b5a39a69b31",
+      "links": {
+        "self": "http://api.remotelock.dev/access_persons/5d518968-7ca1-4d0e-bfdd-fdc8fc883c69/accesses/1e66b4cb-a613-4b0d-bf9b-9b5a39a69b31",
+        "access_person": "http://api.remotelock.dev/access_persons/5d518968-7ca1-4d0e-bfdd-fdc8fc883c69",
+        "accessible": "http://api.remotelock.dev/devices/4cb5d404-3858-420a-a00c-caa4b2ddb0eb"
+      }
+    },
+    {
+      "type": "access_person_access",
+      "attributes": {
+        "guest_start_time": null,
+        "guest_end_time": null,
+        "devices_count": 0,
+        "devices_synced_count": 0,
+        "devices_pending_sync_count": 0,
+        "devices_failed_sync_count": 0,
+        "accessible_type": "door_group",
+        "created_at": "2021-11-04T18:05:16Z",
+        "updated_at": "2021-11-04T18:05:16Z",
+        "access_person_id": "5d518968-7ca1-4d0e-bfdd-fdc8fc883c69",
+        "access_person_type": "access_user",
+        "accessible_id": "560f4ff9-77c2-46e8-86e9-f1e7d8bb6bd3"
+      },
+      "id": "95b4d4b2-f660-400d-9247-2ed303a76db5",
+      "links": {
+        "self": "http://api.remotelock.dev/access_persons/5d518968-7ca1-4d0e-bfdd-fdc8fc883c69/accesses/95b4d4b2-f660-400d-9247-2ed303a76db5",
+        "access_person": "http://api.remotelock.dev/access_persons/5d518968-7ca1-4d0e-bfdd-fdc8fc883c69",
+        "accessible": "http://api.remotelock.dev/groups/560f4ff9-77c2-46e8-86e9-f1e7d8bb6bd3"
+      }
+    },
+    {
+      "type": "access_person_access",
+      "attributes": {
+        "guest_start_time": null,
+        "guest_end_time": null,
+        "devices_count": 0,
+        "devices_synced_count": 0,
+        "devices_pending_sync_count": 0,
+        "devices_failed_sync_count": 0,
+        "accessible_type": "location",
+        "created_at": "2021-11-04T18:05:16Z",
+        "updated_at": "2021-11-04T18:05:16Z",
+        "access_person_id": "5d518968-7ca1-4d0e-bfdd-fdc8fc883c69",
+        "access_person_type": "access_user",
+        "accessible_id": "1e669d97-7069-4e8e-a728-73a0d32b8201"
+      },
+      "id": "5a661730-c4a7-4bdf-9704-9b1f3f7610db",
+      "links": {
+        "self": "http://api.remotelock.dev/access_persons/5d518968-7ca1-4d0e-bfdd-fdc8fc883c69/accesses/5a661730-c4a7-4bdf-9704-9b1f3f7610db",
+        "access_person": "http://api.remotelock.dev/access_persons/5d518968-7ca1-4d0e-bfdd-fdc8fc883c69",
+        "accessible": "http://api.remotelock.dev/locations/1e669d97-7069-4e8e-a728-73a0d32b8201"
+      }
+    }
+  ],
+  "meta": {
+    "page": 1,
+    "per_page": 25,
+    "total_count": 4,
+    "total_pages": 1
+  }
+}
+```
+
+
+## Get an access person&#39;s access
+
+
+### Request
+
+
+#### Endpoint
+
+`GET /access_persons/:access_person_id/accesses/:id`
+
+```plaintext
+GET /access_persons/b286a839-9578-4665-a784-3a549145a656/accesses/47c720a9-1d60-4450-9f65-4c821b7d5e24
+
+```
+
+#### Parameters
+
+
+
+None.
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+200 OK
+```
+
+```json
+{
+  "data": {
+    "type": "access_person_access",
+    "attributes": {
+      "guest_start_time": null,
+      "guest_end_time": null,
+      "devices_count": 1,
+      "devices_synced_count": 0,
+      "devices_pending_sync_count": 1,
+      "devices_failed_sync_count": 0,
+      "accessible_type": "lock",
+      "created_at": "2021-11-04T18:05:16Z",
+      "updated_at": "2021-11-04T18:05:16Z",
+      "access_person_id": "b286a839-9578-4665-a784-3a549145a656",
+      "access_person_type": "access_user",
+      "accessible_id": "794c639e-a428-4862-9b7b-23a12b8f85c6"
+    },
+    "id": "47c720a9-1d60-4450-9f65-4c821b7d5e24",
+    "links": {
+      "self": "http://api.remotelock.dev/access_persons/b286a839-9578-4665-a784-3a549145a656/accesses/47c720a9-1d60-4450-9f65-4c821b7d5e24",
+      "access_person": "http://api.remotelock.dev/access_persons/b286a839-9578-4665-a784-3a549145a656",
+      "accessible": "http://api.remotelock.dev/devices/794c639e-a428-4862-9b7b-23a12b8f85c6"
+    }
+  }
+}
+```
+
+
+## Grant an access person access
+
+Accessible can be one of: acs_door, acs_elevator_floor, lock, zwave_lock, schlage_home_lock, door_group or location
+
+### Request
+
+
+#### Endpoint
+
+`POST /access_persons/:access_person_id/accesses`
+
+```plaintext
+POST /access_persons/d2e7324f-cfab-4112-b757-4d5a70ab4c67/accesses
+
+```
+
+#### Parameters
+
+
+```json
+{
+  "attributes": {
+    "accessible_id": "89d11f35-054e-463d-9c72-64ed856ae712",
+    "accessible_type": "lock",
+    "guest_start_time": "14:00",
+    "access_schedule_id": "a10d15f7-cfeb-4229-bb1d-d2b539d518f7"
+  }
+}
+```
+
+| Name | Description |
+|:-----|:------------|
+| attributes[accessible_type] *required* | Accessible type: acs_door, acs_elevator_floor, lock, zwave_lock, schlage_home_lock, door_group or location |
+| attributes[accessible_id] *required* | Accessible id |
+| attributes[access_schedule_id]  | Access schedule id |
+| attributes[guest_start_time]  | Access Guest start time override, ISO 8601 24 hour time format |
+| attributes[guest_end_time]  | Access Guest end time override, ISO 8601 24 hour time format |
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+201 Created
+```
+
+```json
+{
+  "data": {
+    "type": "access_person_access",
+    "attributes": {
+      "guest_start_time": "14:00:00",
+      "guest_end_time": null,
+      "devices_count": 0,
+      "devices_synced_count": 0,
+      "devices_pending_sync_count": 0,
+      "devices_failed_sync_count": 0,
+      "accessible_type": "lock",
+      "created_at": "2021-11-04T18:05:30Z",
+      "updated_at": "2021-11-04T18:05:30Z",
+      "access_schedule_id": "a10d15f7-cfeb-4229-bb1d-d2b539d518f7",
+      "access_person_id": "d2e7324f-cfab-4112-b757-4d5a70ab4c67",
+      "access_person_type": "access_guest",
+      "accessible_id": "89d11f35-054e-463d-9c72-64ed856ae712"
+    },
+    "id": "e649c20e-297b-44ea-9fa3-f038740c3876",
+    "links": {
+      "self": "http://api.remotelock.dev/access_persons/d2e7324f-cfab-4112-b757-4d5a70ab4c67/accesses/e649c20e-297b-44ea-9fa3-f038740c3876",
+      "access_schedule": "http://api.remotelock.dev/schedules/a10d15f7-cfeb-4229-bb1d-d2b539d518f7",
+      "access_person": "http://api.remotelock.dev/access_persons/d2e7324f-cfab-4112-b757-4d5a70ab4c67",
+      "accessible": "http://api.remotelock.dev/devices/89d11f35-054e-463d-9c72-64ed856ae712"
+    }
+  }
+}
+```
+
+
+## Update an access person&#39;s access
+
+Only updating the access schedule is supported. To change the accessible, revoke the access and grant a new one.
+
+### Request
+
+
+#### Endpoint
+
+`PUT /access_persons/:access_person_id/accesses/:id`
+
+```plaintext
+PUT /access_persons/7942b4d3-1257-4586-bf9a-f93f576380e8/accesses/ea44d2b0-de80-4345-9f6e-5ba5aa3c8af0
+
+```
+
+#### Parameters
+
+
+```json
+{
+  "attributes": {
+    "access_schedule_id": "75ae370c-6a1a-4148-baef-1cfe44c0ce62"
+  }
+}
+```
+
+| Name | Description |
+|:-----|:------------|
+| attributes[access_schedule_id]  | Access schedule id |
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+200 OK
+```
+
+```json
+{
+  "data": {
+    "type": "access_person_access",
+    "attributes": {
+      "guest_start_time": null,
+      "guest_end_time": null,
+      "devices_count": 1,
+      "devices_synced_count": 0,
+      "devices_pending_sync_count": 1,
+      "devices_failed_sync_count": 0,
+      "accessible_type": "lock",
+      "created_at": "2021-11-04T18:05:33Z",
+      "updated_at": "2021-11-04T18:05:33Z",
+      "access_schedule_id": "75ae370c-6a1a-4148-baef-1cfe44c0ce62",
+      "access_person_id": "7942b4d3-1257-4586-bf9a-f93f576380e8",
+      "access_person_type": "access_user",
+      "accessible_id": "27f01f2d-0219-4970-948b-fd274fe1c5d8"
+    },
+    "id": "ea44d2b0-de80-4345-9f6e-5ba5aa3c8af0",
+    "links": {
+      "self": "http://api.remotelock.dev/access_persons/7942b4d3-1257-4586-bf9a-f93f576380e8/accesses/ea44d2b0-de80-4345-9f6e-5ba5aa3c8af0",
+      "access_schedule": "http://api.remotelock.dev/schedules/75ae370c-6a1a-4148-baef-1cfe44c0ce62",
+      "access_person": "http://api.remotelock.dev/access_persons/7942b4d3-1257-4586-bf9a-f93f576380e8",
+      "accessible": "http://api.remotelock.dev/devices/27f01f2d-0219-4970-948b-fd274fe1c5d8"
+    }
+  }
+}
+```
+
+
+## Revoke an access person&#39;s access
+
+
+### Request
+
+
+#### Endpoint
+
+`DELETE /access_persons/:access_person_id/accesses/:id`
+
+```plaintext
+DELETE /access_persons/ac374c56-36db-4b51-9b6a-cd1bf080c594/accesses/d944152f-4382-4428-b24d-5bb812773201
+
+```
+
+#### Parameters
+
+
+
+None.
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+204 No Content
+```
+
+
+
+
+
+# Devices Access  
+
+
+
+
+## Access person accesses of a lock
+
+
+### Request
+
+
+#### Endpoint
+
+`GET /devices/:id/access_person_accesses`
+
+```plaintext
+GET /devices/28a5c6f7-4ffb-4883-9f3c-cefbcdb392c8/access_person_accesses?attributes[access_person_type]=access_user
+
+```
+
+#### Parameters
+
+```json
+attributes: {&quot;access_person_type&quot;=&gt;&quot;access_user&quot;}
+```
+
+
+| Name | Description |
+|:-----|:------------|
+| attributes[access_person_type]  | Filter by type(s). Supported types: access_user and access_guest |
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+200 OK
+```
+
+```json
+{
+  "data": [
+    {
+      "type": "access_person_access",
+      "attributes": {
+        "guest_start_time": null,
+        "guest_end_time": null,
+        "devices_count": 0,
+        "devices_synced_count": 0,
+        "devices_pending_sync_count": 0,
+        "devices_failed_sync_count": 0,
+        "accessible_type": "location",
+        "created_at": "2021-11-04T18:08:46Z",
+        "updated_at": "2021-11-04T18:08:46Z",
+        "access_person_id": "019b6f54-145f-4883-9f25-679cd9efb735",
+        "access_person_type": "access_user",
+        "accessible_id": "059fa33f-30eb-46c2-aa13-837e1a3fbd91"
+      },
+      "id": "a3bf235e-afe7-4fc7-909f-069e913b69fc",
+      "links": {
+        "self": "http://api.remotelock.dev/access_persons/019b6f54-145f-4883-9f25-679cd9efb735/accesses/a3bf235e-afe7-4fc7-909f-069e913b69fc",
+        "access_person": "http://api.remotelock.dev/access_persons/019b6f54-145f-4883-9f25-679cd9efb735",
+        "accessible": "http://api.remotelock.dev/locations/059fa33f-30eb-46c2-aa13-837e1a3fbd91"
+      }
+    },
+    {
+      "type": "access_person_access",
+      "attributes": {
+        "guest_start_time": null,
+        "guest_end_time": null,
+        "devices_count": 0,
+        "devices_synced_count": 0,
+        "devices_pending_sync_count": 0,
+        "devices_failed_sync_count": 0,
+        "accessible_type": "lock",
+        "created_at": "2021-11-04T18:08:46Z",
+        "updated_at": "2021-11-04T18:08:46Z",
+        "access_person_id": "9aa9dcf2-0366-48c0-bcf3-bec404051f95",
+        "access_person_type": "access_user",
+        "accessible_id": "28a5c6f7-4ffb-4883-9f3c-cefbcdb392c8"
+      },
+      "id": "99ea9bf0-7e6f-435a-8b79-f65bf1a72dbd",
+      "links": {
+        "self": "http://api.remotelock.dev/access_persons/9aa9dcf2-0366-48c0-bcf3-bec404051f95/accesses/99ea9bf0-7e6f-435a-8b79-f65bf1a72dbd",
+        "access_person": "http://api.remotelock.dev/access_persons/9aa9dcf2-0366-48c0-bcf3-bec404051f95",
+        "accessible": "http://api.remotelock.dev/devices/28a5c6f7-4ffb-4883-9f3c-cefbcdb392c8"
+      }
+    }
+  ],
+  "meta": {
+    "page": 1,
+    "per_page": 25,
+    "total_count": 2,
+    "total_pages": 1
+  }
+}
+```
+
+
+## Accesses of a lock
+
+
+### Request
+
+
+#### Endpoint
+
+`GET /devices/:id/accesses`
+
+```plaintext
+GET /devices/b3ca05f2-a9e6-41b2-8f4a-deb2791c5488/accesses
+
+```
+
+#### Parameters
+
+
+
+| Name | Description |
+|:-----|:------------|
+| attributes[access_person_type]  | Filter by type(s). Supported types: access_user and access_guest |
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+200 OK
+```
+
+```json
+{
+  "data": [
+    {
+      "type": "kore_ready_pin",
+      "attributes": {
+        "uuid": "4ffbd39a-3bd3-4aa2-9e00-04ad2460259b",
+        "name": "Ivana Wolff",
+        "email": "karen@sporer.org",
+        "starts_at": "2021-11-04T00:00:00",
+        "ends_at": "2021-11-06T00:00:00",
+        "status": "current",
+        "source": null,
+        "created_at": "2021-11-04T18:08:47Z",
+        "updated_at": "2021-11-04T18:08:47Z",
+        "pin": "8422753515",
+        "associated_lock_has_connectivity_enabled": true,
+        "lock_id": "b3ca05f2-a9e6-41b2-8f4a-deb2791c5488"
+      },
+      "id": "4ffbd39a-3bd3-4aa2-9e00-04ad2460259b",
+      "links": {
+        "self": "http://api.remotelock.dev/kore_ready_pins/4ffbd39a-3bd3-4aa2-9e00-04ad2460259b",
+        "lock": "http://api.remotelock.dev/devices/b3ca05f2-a9e6-41b2-8f4a-deb2791c5488"
+      }
+    },
+    {
+      "type": "access_person_access",
+      "attributes": {
+        "guest_start_time": null,
+        "guest_end_time": null,
+        "devices_count": 0,
+        "devices_synced_count": 0,
+        "devices_pending_sync_count": 0,
+        "devices_failed_sync_count": 0,
+        "accessible_type": "lock",
+        "created_at": "2021-11-04T18:08:47Z",
+        "updated_at": "2021-11-04T18:08:47Z",
+        "accessible_name": "OEMAIN - AC000W004898996",
+        "access_schedule_name": null,
+        "access_person_id": "c33c44e7-fdd7-45a8-91b1-33da352f2ccb",
+        "access_person_type": "access_guest",
+        "accessible_id": "b3ca05f2-a9e6-41b2-8f4a-deb2791c5488"
+      },
+      "id": "f227d193-7205-4edd-84b6-cedcb5f76e07",
+      "links": {
+        "self": "http://api.remotelock.dev/access_persons/c33c44e7-fdd7-45a8-91b1-33da352f2ccb/accesses/f227d193-7205-4edd-84b6-cedcb5f76e07",
+        "access_person": "http://api.remotelock.dev/access_persons/c33c44e7-fdd7-45a8-91b1-33da352f2ccb",
+        "accessible": "http://api.remotelock.dev/devices/b3ca05f2-a9e6-41b2-8f4a-deb2791c5488"
+      }
+    },
+    {
+      "type": "access_person_access",
+      "attributes": {
+        "guest_start_time": null,
+        "guest_end_time": null,
+        "devices_count": 0,
+        "devices_synced_count": 0,
+        "devices_pending_sync_count": 0,
+        "devices_failed_sync_count": 0,
+        "accessible_type": "lock",
+        "created_at": "2021-11-04T18:08:47Z",
+        "updated_at": "2021-11-04T18:08:47Z",
+        "accessible_name": "OEMAIN - AC000W004898996",
+        "access_schedule_name": null,
+        "access_person_id": "cd4149d9-76f4-4281-9c64-091f529ad0d3",
+        "access_person_type": "access_user",
+        "accessible_id": "b3ca05f2-a9e6-41b2-8f4a-deb2791c5488"
+      },
+      "id": "ba6cef3c-73ba-4192-bd26-99a1df728be2",
+      "links": {
+        "self": "http://api.remotelock.dev/access_persons/cd4149d9-76f4-4281-9c64-091f529ad0d3/accesses/ba6cef3c-73ba-4192-bd26-99a1df728be2",
+        "access_person": "http://api.remotelock.dev/access_persons/cd4149d9-76f4-4281-9c64-091f529ad0d3",
+        "accessible": "http://api.remotelock.dev/devices/b3ca05f2-a9e6-41b2-8f4a-deb2791c5488"
+      }
+    },
+    {
+      "type": "access_person_access",
+      "attributes": {
+        "guest_start_time": null,
+        "guest_end_time": null,
+        "devices_count": 0,
+        "devices_synced_count": 0,
+        "devices_pending_sync_count": 0,
+        "devices_failed_sync_count": 0,
+        "accessible_type": "location",
+        "created_at": "2021-11-04T18:08:47Z",
+        "updated_at": "2021-11-04T18:08:47Z",
+        "accessible_name": "Enterprise-wide client-server complexity",
+        "access_schedule_name": null,
+        "access_person_id": "eb28b3f5-b0dc-416c-a1c8-40648f8602ec",
+        "access_person_type": "access_user",
+        "accessible_id": "c912fb95-b930-4b84-bf8c-08d8d1c072a4"
+      },
+      "id": "a9d7f99d-ad31-4520-b18a-3008d742f671",
+      "links": {
+        "self": "http://api.remotelock.dev/access_persons/eb28b3f5-b0dc-416c-a1c8-40648f8602ec/accesses/a9d7f99d-ad31-4520-b18a-3008d742f671",
+        "access_person": "http://api.remotelock.dev/access_persons/eb28b3f5-b0dc-416c-a1c8-40648f8602ec",
+        "accessible": "http://api.remotelock.dev/locations/c912fb95-b930-4b84-bf8c-08d8d1c072a4"
+      }
+    }
+  ],
+  "meta": {
+    "page": 1,
+    "per_page": 25,
+    "total_count": 4,
+    "total_pages": 1
+  }
+}
+```
+
+
+
+
+
+
+## Access person accesses of a Schlage Home lock
+
+
+### Request
+
+
+#### Endpoint
+
+`GET /devices/:id/access_person_accesses`
+
+```plaintext
+GET /devices/9bdbeb01-9d4c-48e9-aedb-5e6efa2e2a7a/access_person_accesses?attributes[access_person_type]=access_user
+
+```
+
+#### Parameters
+
+```json
+attributes: {&quot;access_person_type&quot;=&gt;&quot;access_user&quot;}
+```
+
+
+| Name | Description |
+|:-----|:------------|
+| attributes[access_person_type]  | Filter by type(s). Supported types: access_user and access_guest |
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+200 OK
+```
+
+```json
+{
+  "data": [
+    {
+      "type": "access_person_access",
+      "attributes": {
+        "guest_start_time": null,
+        "guest_end_time": null,
+        "devices_count": 0,
+        "devices_synced_count": 0,
+        "devices_pending_sync_count": 0,
+        "devices_failed_sync_count": 0,
+        "accessible_type": "location",
+        "created_at": "2021-11-04T18:08:53Z",
+        "updated_at": "2021-11-04T18:08:53Z",
+        "access_person_id": "a94b4795-d570-4dca-8657-b2e317a3e640",
+        "access_person_type": "access_user",
+        "accessible_id": "37a4e707-786f-44ec-a71d-908bfdfc744d"
+      },
+      "id": "1bb6ba71-c12e-4641-8790-5ff0e77fb218",
+      "links": {
+        "self": "http://api.remotelock.dev/access_persons/a94b4795-d570-4dca-8657-b2e317a3e640/accesses/1bb6ba71-c12e-4641-8790-5ff0e77fb218",
+        "access_person": "http://api.remotelock.dev/access_persons/a94b4795-d570-4dca-8657-b2e317a3e640",
+        "accessible": "http://api.remotelock.dev/locations/37a4e707-786f-44ec-a71d-908bfdfc744d"
+      }
+    },
+    {
+      "type": "access_person_access",
+      "attributes": {
+        "guest_start_time": null,
+        "guest_end_time": null,
+        "devices_count": 0,
+        "devices_synced_count": 0,
+        "devices_pending_sync_count": 0,
+        "devices_failed_sync_count": 0,
+        "accessible_type": "schlage_home_lock",
+        "created_at": "2021-11-04T18:08:53Z",
+        "updated_at": "2021-11-04T18:08:53Z",
+        "access_person_id": "01dce4d4-bf88-4f8f-896e-eed0b669a306",
+        "access_person_type": "access_user",
+        "accessible_id": "9bdbeb01-9d4c-48e9-aedb-5e6efa2e2a7a"
+      },
+      "id": "604967d0-6ce5-4550-b8ef-08ebbbe48b1c",
+      "links": {
+        "self": "http://api.remotelock.dev/access_persons/01dce4d4-bf88-4f8f-896e-eed0b669a306/accesses/604967d0-6ce5-4550-b8ef-08ebbbe48b1c",
+        "access_person": "http://api.remotelock.dev/access_persons/01dce4d4-bf88-4f8f-896e-eed0b669a306",
+        "accessible": "http://api.remotelock.dev/devices/9bdbeb01-9d4c-48e9-aedb-5e6efa2e2a7a"
+      }
+    }
+  ],
+  "meta": {
+    "page": 1,
+    "per_page": 25,
+    "total_count": 2,
+    "total_pages": 1
+  }
+}
+```
+
+
+
+
+
+
+
+
+
+## Access person accesses of a ZWave lock
+
+
+### Request
+
+
+#### Endpoint
+
+`GET /devices/:id/access_person_accesses`
+
+```plaintext
+GET /devices/d6571644-4631-4084-8ff4-00fd7847a21b/access_person_accesses?attributes[access_person_type]=access_user
+
+```
+
+#### Parameters
+
+```json
+attributes: {&quot;access_person_type&quot;=&gt;&quot;access_user&quot;}
+```
+
+
+| Name | Description |
+|:-----|:------------|
+| attributes[access_person_type]  | Filter by type(s). Supported types: access_user and access_guest |
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+200 OK
+```
+
+```json
+{
+  "data": [
+    {
+      "type": "access_person_access",
+      "attributes": {
+        "guest_start_time": null,
+        "guest_end_time": null,
+        "devices_count": 0,
+        "devices_synced_count": 0,
+        "devices_pending_sync_count": 0,
+        "devices_failed_sync_count": 0,
+        "accessible_type": "location",
+        "created_at": "2021-11-04T18:08:57Z",
+        "updated_at": "2021-11-04T18:08:57Z",
+        "access_person_id": "c9d6b9e9-f8d8-4ca5-9c0b-35b462fc3404",
+        "access_person_type": "access_user",
+        "accessible_id": "bb0c7a42-552f-4573-9868-3272f1bdd7e9"
+      },
+      "id": "75a2fa10-fc63-45da-a35b-736f71dfb300",
+      "links": {
+        "self": "http://api.remotelock.dev/access_persons/c9d6b9e9-f8d8-4ca5-9c0b-35b462fc3404/accesses/75a2fa10-fc63-45da-a35b-736f71dfb300",
+        "access_person": "http://api.remotelock.dev/access_persons/c9d6b9e9-f8d8-4ca5-9c0b-35b462fc3404",
+        "accessible": "http://api.remotelock.dev/locations/bb0c7a42-552f-4573-9868-3272f1bdd7e9"
+      }
+    },
+    {
+      "type": "access_person_access",
+      "attributes": {
+        "guest_start_time": null,
+        "guest_end_time": null,
+        "devices_count": 0,
+        "devices_synced_count": 0,
+        "devices_pending_sync_count": 0,
+        "devices_failed_sync_count": 0,
+        "accessible_type": "zwave_lock",
+        "created_at": "2021-11-04T18:08:57Z",
+        "updated_at": "2021-11-04T18:08:57Z",
+        "access_person_id": "9740f989-92b1-4b9a-86ae-a9a9ed7644cd",
+        "access_person_type": "access_user",
+        "accessible_id": "d6571644-4631-4084-8ff4-00fd7847a21b"
+      },
+      "id": "57ad5b41-62c7-4b3e-a18c-2d740cb3b0a4",
+      "links": {
+        "self": "http://api.remotelock.dev/access_persons/9740f989-92b1-4b9a-86ae-a9a9ed7644cd/accesses/57ad5b41-62c7-4b3e-a18c-2d740cb3b0a4",
+        "access_person": "http://api.remotelock.dev/access_persons/9740f989-92b1-4b9a-86ae-a9a9ed7644cd",
+        "accessible": "http://api.remotelock.dev/devices/d6571644-4631-4084-8ff4-00fd7847a21b"
+      }
+    }
+  ],
+  "meta": {
+    "page": 1,
+    "per_page": 25,
+    "total_count": 2,
+    "total_pages": 1
+  }
+}
+```
+# Schedules
+
+
+
+## Get all schedule types (homogeneous)
+
+
+### Request
+
+
+#### Endpoint
+
+`GET /schedules`
+
+```plaintext
+GET /schedules
+
+```
+
+#### Parameters
+
+
+
+| Name | Description |
+|:-----|:------------|
+| [type]  | Filter by type(s). Supported types: auto_lock_schedule, lock_action_schedule, access_schedule, power_plug_schedule, and thermostat_schedule |
+| sort  | Sortable attributes: created_at and name, default: created_at ascending |
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+200 OK
+```
+
+```json
+{
+  "data": [
+    {
+      "type": "access_schedule",
+      "attributes": {
+        "name": "Voluptas vero qui numquam.",
+        "mon": [
+          {
+            "start_time": "09:00",
+            "end_time": "17:00"
+          }
+        ],
+        "tue": [
+          {
+            "start_time": "09:00",
+            "end_time": "17:00"
+          }
+        ],
+        "wed": [
+          {
+            "start_time": "09:00",
+            "end_time": "17:00"
+          }
+        ],
+        "thu": [
+          {
+            "start_time": "09:00",
+            "end_time": "17:00"
+          }
+        ],
+        "fri": [
+          {
+            "start_time": "09:00",
+            "end_time": "15:00"
+          }
+        ],
+        "sat": [
+          {
+            "start_time": "09:00",
+            "end_time": "15:00"
+          }
+        ],
+        "sun": [
+          {
+            "start_time": "09:00",
+            "end_time": "15:00"
+          }
+        ],
+        "created_at": "2021-11-04T18:13:48Z",
+        "updated_at": "2021-11-04T18:13:48Z"
+      },
+      "id": "910ce416-c5f5-4dbc-8c08-e6e4b2f257d3",
+      "links": {
+        "self": "http://api.remotelock.dev/schedules/910ce416-c5f5-4dbc-8c08-e6e4b2f257d3"
+      }
+    },
+    {
+      "type": "auto_lock_schedule",
+      "attributes": {
+        "name": "At sit accusamus ut.",
+        "mon": [
+          {
+            "time": "09:00",
+            "enable": false
+          },
+          {
+            "time": "17:00",
+            "enable": true
+          }
+        ],
+        "tue": [
+          {
+            "time": "09:00",
+            "enable": false
+          },
+          {
+            "time": "17:00",
+            "enable": true
+          }
+        ],
+        "wed": [
+          {
+            "time": "09:00",
+            "enable": false
+          },
+          {
+            "time": "17:00",
+            "enable": true
+          }
+        ],
+        "thu": [
+          {
+            "time": "09:00",
+            "enable": false
+          },
+          {
+            "time": "17:00",
+            "enable": true
+          }
+        ],
+        "fri": [
+          {
+            "time": "09:00",
+            "enable": false
+          },
+          {
+            "time": "15:00",
+            "enable": true
+          }
+        ],
+        "sat": [
+          {
+            "time": "09:00",
+            "enable": false
+          },
+          {
+            "time": "15:00",
+            "enable": true
+          }
+        ],
+        "sun": [
+          {
+            "time": "09:00",
+            "enable": false
+          },
+          {
+            "time": "15:00",
+            "enable": true
+          }
+        ],
+        "created_at": "2021-11-04T18:13:48Z",
+        "updated_at": "2021-11-04T18:13:48Z"
+      },
+      "id": "e008dd1e-3496-4c6c-b50b-dc1736a72784",
+      "links": {
+        "self": "http://api.remotelock.dev/schedules/e008dd1e-3496-4c6c-b50b-dc1736a72784"
+      }
+    }
+  ],
+  "meta": {
+    "page": 1,
+    "per_page": 25,
+    "total_count": 2,
+    "total_pages": 1
+  }
+}
+```
+
+
+## Get a schedule
+
+
+### Request
+
+
+#### Endpoint
+
+`GET /schedules/:id`
+
+```plaintext
+GET /schedules/b8f32266-6369-44a0-9ce6-ab20cbabe2b8
+
+```
+
+#### Parameters
+
+
+
+None.
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+200 OK
+```
+
+```json
+{
+  "data": {
+    "type": "access_schedule",
+    "attributes": {
+      "name": "Est id enim nobis.",
+      "mon": [
+        {
+          "start_time": "09:00",
+          "end_time": "17:00"
+        }
+      ],
+      "tue": [
+        {
+          "start_time": "09:00",
+          "end_time": "17:00"
+        }
+      ],
+      "wed": [
+        {
+          "start_time": "09:00",
+          "end_time": "17:00"
+        }
+      ],
+      "thu": [
+        {
+          "start_time": "09:00",
+          "end_time": "17:00"
+        }
+      ],
+      "fri": [
+        {
+          "start_time": "09:00",
+          "end_time": "15:00"
+        }
+      ],
+      "sat": [
+        {
+          "start_time": "09:00",
+          "end_time": "15:00"
+        }
+      ],
+      "sun": [
+        {
+          "start_time": "09:00",
+          "end_time": "15:00"
+        }
+      ],
+      "created_at": "2021-11-04T18:13:48Z",
+      "updated_at": "2021-11-04T18:13:48Z"
+    },
+    "id": "b8f32266-6369-44a0-9ce6-ab20cbabe2b8",
+    "links": {
+      "self": "http://api.remotelock.dev/schedules/b8f32266-6369-44a0-9ce6-ab20cbabe2b8"
+    }
+  }
+}
+```
+
+
+## Update a schedule
+
+Parameters accepted: all used for create
+
+### Request
+
+
+#### Endpoint
+
+`PUT /schedules/:id`
+
+```plaintext
+PUT /schedules/ec4b9b0d-7d19-49f1-ae06-b28760f4415c
+
+```
+
+#### Parameters
+
+
+```json
+{
+  "attributes": {
+    "name": "New schedule name"
+  }
+}
+```
+
+None.
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+200 OK
+```
+
+```json
+{
+  "data": {
+    "type": "access_schedule",
+    "attributes": {
+      "name": "New schedule name",
+      "mon": [
+        {
+          "start_time": "09:00",
+          "end_time": "17:00"
+        }
+      ],
+      "tue": [
+        {
+          "start_time": "09:00",
+          "end_time": "17:00"
+        }
+      ],
+      "wed": [
+        {
+          "start_time": "09:00",
+          "end_time": "17:00"
+        }
+      ],
+      "thu": [
+        {
+          "start_time": "09:00",
+          "end_time": "17:00"
+        }
+      ],
+      "fri": [
+        {
+          "start_time": "09:00",
+          "end_time": "15:00"
+        }
+      ],
+      "sat": [
+        {
+          "start_time": "09:00",
+          "end_time": "15:00"
+        }
+      ],
+      "sun": [
+        {
+          "start_time": "09:00",
+          "end_time": "15:00"
+        }
+      ],
+      "created_at": "2021-11-04T18:13:49Z",
+      "updated_at": "2021-11-04T18:13:49Z"
+    },
+    "id": "ec4b9b0d-7d19-49f1-ae06-b28760f4415c",
+    "links": {
+      "self": "http://api.remotelock.dev/schedules/ec4b9b0d-7d19-49f1-ae06-b28760f4415c"
+    }
+  }
+}
+```
+
+
+## Delete a schedule
+
+
+### Request
+
+
+#### Endpoint
+
+`DELETE /schedules/:id`
+
+```plaintext
+DELETE /schedules/56025465-e365-4ac5-8ecd-610fb6379f90
+
+```
+
+#### Parameters
+
+
+
+None.
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+204 No Content
+```
+
+
+
+## Create an access schedule
+
+
+### Request
+
+
+#### Endpoint
+
+`POST /schedules`
+
+```plaintext
+POST /schedules
+
+```
+
+#### Parameters
+
+
+```json
+{
+  "type": "access_schedule",
+  "attributes": {
+    "name": "Work access schedule",
+    "mon": [
+      {
+        "start_time": "08:00",
+        "end_time": "12:00"
+      },
+      {
+        "start_time": "13:00",
+        "end_time": "18:00"
+      }
+    ],
+    "wed": [
+      {
+        "start_time": "08:00",
+        "end_time": "12:00"
+      },
+      {
+        "start_time": "13:00",
+        "end_time": "18:00"
+      }
+    ],
+    "fri": [
+      {
+        "start_time": "08:00",
+        "end_time": "12:00"
+      },
+      {
+        "start_time": "13:00",
+        "end_time": "18:00"
+      }
+    ],
+    "access_exception_id": "2db8c972-2ad5-496c-98f8-d02477f4a169"
+  }
+}
+```
+
+| Name | Description |
+|:-----|:------------|
+| type *required* | access_schedule |
+| attributes[name] *required* | Schedule name |
+| attributes[mon]  | [{ "start_time": "08:00", "end_time": "12:00" }, ...] or [] |
+| attributes[tue]  | [{ "start_time": "08:00", "end_time": "12:00" }, ...] or [] |
+| attributes[wed]  | [{ "start_time": "08:00", "end_time": "12:00" }, ...] or [] |
+| attributes[thu]  | [{ "start_time": "08:00", "end_time": "12:00" }, ...] or [] |
+| attributes[fri]  | [{ "start_time": "08:00", "end_time": "12:00" }, ...] or [] |
+| attributes[sat]  | [{ "start_time": "08:00", "end_time": "12:00" }, ...] or [] |
+| attributes[sun]  | [{ "start_time": "08:00", "end_time": "12:00" }, ...] or [] |
+| attributes[access_exception_id]  | Access Exception |
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+201 Created
+```
+
+```json
+{
+  "data": {
+    "type": "access_schedule",
+    "attributes": {
+      "name": "Work access schedule",
+      "mon": [
+        {
+          "start_time": "08:00",
+          "end_time": "12:00"
+        },
+        {
+          "start_time": "13:00",
+          "end_time": "18:00"
+        }
+      ],
+      "tue": [
+
+      ],
+      "wed": [
+        {
+          "start_time": "08:00",
+          "end_time": "12:00"
+        },
+        {
+          "start_time": "13:00",
+          "end_time": "18:00"
+        }
+      ],
+      "thu": [
+
+      ],
+      "fri": [
+        {
+          "start_time": "08:00",
+          "end_time": "12:00"
+        },
+        {
+          "start_time": "13:00",
+          "end_time": "18:00"
+        }
+      ],
+      "sat": [
+
+      ],
+      "sun": [
+
+      ],
+      "created_at": "2021-11-04T18:13:50Z",
+      "updated_at": "2021-11-04T18:13:50Z",
+      "access_exception_id": "2db8c972-2ad5-496c-98f8-d02477f4a169"
+    },
+    "id": "1c4465a1-ce0f-41aa-90da-a2c56be4c7e8",
+    "links": {
+      "self": "http://api.remotelock.dev/schedules/1c4465a1-ce0f-41aa-90da-a2c56be4c7e8",
+      "access_exception": "http://api.remotelock.dev/access_exceptions/2db8c972-2ad5-496c-98f8-d02477f4a169"
+    }
+  }
+}
+```
+
+
+## Create an auto lock schedule
+
+
+### Request
+
+
+#### Endpoint
+
+`POST /schedules`
+
+```plaintext
+POST /schedules
+
+```
+
+#### Parameters
+
+
+```json
+{
+  "type": "auto_lock_schedule",
+  "attributes": {
+    "name": "Switch auto-lock mode in working period",
+    "mon": [
+      {
+        "time": "08:00",
+        "enable": false
+      },
+      {
+        "time": "18:00",
+        "enable": true
+      }
+    ],
+    "wed": [
+      {
+        "time": "08:00",
+        "enable": false
+      },
+      {
+        "time": "18:00",
+        "enable": true
+      }
+    ],
+    "fri": [
+      {
+        "time": "08:00",
+        "enable": false
+      },
+      {
+        "time": "18:00",
+        "enable": true
+      }
+    ]
+  }
+}
+```
+
+| Name | Description |
+|:-----|:------------|
+| type *required* | auto_lock_schedule |
+| attributes[name] *required* | Schedule name |
+| attributes[mon]  | [{ "time": "08:00", enable: false }, { "time": "18:00", enable: true }, ...] or [] |
+| attributes[tue]  | [{ "time": "08:00", enable: false }, { "time": "18:00", enable: true }, ...] or [] |
+| attributes[wed]  | [{ "time": "08:00", enable: false }, { "time": "18:00", enable: true }, ...] or [] |
+| attributes[thu]  | [{ "time": "08:00", enable: false }, { "time": "18:00", enable: true }, ...] or [] |
+| attributes[fri]  | [{ "time": "08:00", enable: false }, { "time": "18:00", enable: true }, ...] or [] |
+| attributes[sat]  | [{ "time": "08:00", enable: false }, { "time": "18:00", enable: true }, ...] or [] |
+| attributes[sun]  | [{ "time": "08:00", enable: false }, { "time": "18:00", enable: true }, ...] or [] |
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+201 Created
+```
+
+```json
+{
+  "data": {
+    "type": "auto_lock_schedule",
+    "attributes": {
+      "name": "Switch auto-lock mode in working period",
+      "mon": [
+        {
+          "time": "08:00",
+          "enable": false
+        },
+        {
+          "time": "18:00",
+          "enable": true
+        }
+      ],
+      "tue": [
+
+      ],
+      "wed": [
+        {
+          "time": "08:00",
+          "enable": false
+        },
+        {
+          "time": "18:00",
+          "enable": true
+        }
+      ],
+      "thu": [
+
+      ],
+      "fri": [
+        {
+          "time": "08:00",
+          "enable": false
+        },
+        {
+          "time": "18:00",
+          "enable": true
+        }
+      ],
+      "sat": [
+
+      ],
+      "sun": [
+
+      ],
+      "created_at": "2021-11-04T18:13:51Z",
+      "updated_at": "2021-11-04T18:13:51Z"
+    },
+    "id": "622c13cb-b693-4d23-81ce-8210f4e60094",
+    "links": {
+      "self": "http://api.remotelock.dev/schedules/622c13cb-b693-4d23-81ce-8210f4e60094"
+    }
+  }
+}
+```
+
+
+## Create a lock action schedule
+
+
+### Request
+
+
+#### Endpoint
+
+`POST /schedules`
+
+```plaintext
+POST /schedules
+
+```
+
+#### Parameters
+
+
+```json
+{
+  "type": "lock_action_schedule",
+  "attributes": {
+    "name": "Automatically unlock and lock",
+    "mon": [
+      {
+        "time": "08:00",
+        "action": "unlock"
+      },
+      {
+        "time": "18:00",
+        "action": "lock"
+      }
+    ],
+    "wed": [
+      {
+        "time": "08:00",
+        "action": "unlock"
+      },
+      {
+        "time": "18:00",
+        "action": "lock"
+      }
+    ],
+    "fri": [
+      {
+        "time": "08:00",
+        "action": "unlock"
+      },
+      {
+        "time": "18:00",
+        "action": "lock"
+      }
+    ]
+  }
+}
+```
+
+| Name | Description |
+|:-----|:------------|
+| type *required* | lock_action_schedule |
+| attributes[name] *required* | Schedule name |
+| attributes[mon]  | [{ "time": "08:00", action: "unlock" }, { "time": "18:00", action: "lock" }, ...] or [] |
+| attributes[tue]  | [{ "time": "08:00", action: "unlock" }, { "time": "18:00", action: "lock" }, ...] or [] |
+| attributes[wed]  | [{ "time": "08:00", action: "unlock" }, { "time": "18:00", action: "lock" }, ...] or [] |
+| attributes[thu]  | [{ "time": "08:00", action: "unlock" }, { "time": "18:00", action: "lock" }, ...] or [] |
+| attributes[fri]  | [{ "time": "08:00", action: "unlock" }, { "time": "18:00", action: "lock" }, ...] or [] |
+| attributes[sat]  | [{ "time": "08:00", action: "unlock" }, { "time": "18:00", action: "lock" }, ...] or [] |
+| attributes[sun]  | [{ "time": "08:00", action: "unlock" }, { "time": "18:00", action: "lock" }, ...] or [] |
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+201 Created
+```
+
+```json
+{
+  "data": {
+    "type": "lock_action_schedule",
+    "attributes": {
+      "name": "Automatically unlock and lock",
+      "mon": [
+        {
+          "time": "08:00",
+          "action": "unlock"
+        },
+        {
+          "time": "18:00",
+          "action": "lock"
+        }
+      ],
+      "tue": [
+
+      ],
+      "wed": [
+        {
+          "time": "08:00",
+          "action": "unlock"
+        },
+        {
+          "time": "18:00",
+          "action": "lock"
+        }
+      ],
+      "thu": [
+
+      ],
+      "fri": [
+        {
+          "time": "08:00",
+          "action": "unlock"
+        },
+        {
+          "time": "18:00",
+          "action": "lock"
+        }
+      ],
+      "sat": [
+
+      ],
+      "sun": [
+
+      ],
+      "created_at": "2021-11-04T18:13:51Z",
+      "updated_at": "2021-11-04T18:13:51Z"
+    },
+    "id": "857aa3df-8beb-43e0-b8a6-357ec3ddba27",
+    "links": {
+      "self": "http://api.remotelock.dev/schedules/857aa3df-8beb-43e0-b8a6-357ec3ddba27"
+    }
+  }
+}
+```
+
+
+## Create a power plug schedule
+
+
+### Request
+
+
+#### Endpoint
+
+`POST /schedules`
+
+```plaintext
+POST /schedules
+
+```
+
+#### Parameters
+
+
+```json
+{
+  "type": "power_plug_schedule",
+  "attributes": {
+    "name": "Automatically turn on and off",
+    "mon": [
+      {
+        "time": "08:00",
+        "action": "on"
+      },
+      {
+        "time": "18:00",
+        "action": "off"
+      }
+    ],
+    "wed": [
+      {
+        "time": "08:00",
+        "action": "on"
+      },
+      {
+        "time": "18:00",
+        "action": "off"
+      }
+    ],
+    "fri": [
+      {
+        "time": "08:00",
+        "action": "on"
+      },
+      {
+        "time": "18:00",
+        "action": "off"
+      }
+    ]
+  }
+}
+```
+
+| Name | Description |
+|:-----|:------------|
+| type *required* | power_plug_schedule |
+| attributes[name] *required* | Schedule name |
+| attributes[mon]  | [{ "time": "08:00", action: "on" }, { "time": "18:00", action: "off" }, ...] or [] |
+| attributes[tue]  | [{ "time": "08:00", action: "on" }, { "time": "18:00", action: "off" }, ...] or [] |
+| attributes[wed]  | [{ "time": "08:00", action: "on" }, { "time": "18:00", action: "off" }, ...] or [] |
+| attributes[thu]  | [{ "time": "08:00", action: "on" }, { "time": "18:00", action: "off" }, ...] or [] |
+| attributes[fri]  | [{ "time": "08:00", action: "on" }, { "time": "18:00", action: "off" }, ...] or [] |
+| attributes[sat]  | [{ "time": "08:00", action: "on" }, { "time": "18:00", action: "off" }, ...] or [] |
+| attributes[sun]  | [{ "time": "08:00", action: "on" }, { "time": "18:00", action: "off" }, ...] or [] |
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+201 Created
+```
+
+```json
+{
+  "data": {
+    "type": "power_plug_schedule",
+    "attributes": {
+      "name": "Automatically turn on and off",
+      "mon": [
+        {
+          "time": "08:00",
+          "action": "on"
+        },
+        {
+          "time": "18:00",
+          "action": "off"
+        }
+      ],
+      "tue": [
+
+      ],
+      "wed": [
+        {
+          "time": "08:00",
+          "action": "on"
+        },
+        {
+          "time": "18:00",
+          "action": "off"
+        }
+      ],
+      "thu": [
+
+      ],
+      "fri": [
+        {
+          "time": "08:00",
+          "action": "on"
+        },
+        {
+          "time": "18:00",
+          "action": "off"
+        }
+      ],
+      "sat": [
+
+      ],
+      "sun": [
+
+      ],
+      "created_at": "2021-11-04T18:13:52Z",
+      "updated_at": "2021-11-04T18:13:52Z"
+    },
+    "id": "6f80ccd9-8cc0-4f90-b363-36a42254406d",
+    "links": {
+      "self": "http://api.remotelock.dev/schedules/6f80ccd9-8cc0-4f90-b363-36a42254406d"
+    }
+  }
+}
+```
+
+
+## Create a thermostat schedule
+
+
+### Request
+
+
+#### Endpoint
+
+`POST /schedules`
+
+```plaintext
+POST /schedules
+
+```
+
+#### Parameters
+
+
+```json
+{
+  "type": "thermostat_schedule",
+  "attributes": {
+    "name": "Changes thermostat cool/heat temperatures",
+    "mon": [
+      {
+        "time": "08:00",
+        "cool": 60,
+        "heat": 70
+      },
+      {
+        "time": "18:00",
+        "cool": 40,
+        "heat": 80
+      }
+    ],
+    "tue": [
+      {
+        "time": "08:00",
+        "cool": 60,
+        "heat": 70
+      },
+      {
+        "time": "18:00",
+        "cool": 40,
+        "heat": 80
+      }
+    ],
+    "wed": [
+      {
+        "time": "08:00",
+        "cool": 60,
+        "heat": 70
+      },
+      {
+        "time": "18:00",
+        "cool": 40,
+        "heat": 80
+      }
+    ],
+    "thu": [
+      {
+        "time": "08:00",
+        "cool": 60,
+        "heat": 70
+      },
+      {
+        "time": "18:00",
+        "cool": 40,
+        "heat": 80
+      }
+    ],
+    "fri": [
+      {
+        "time": "08:00",
+        "cool": 60,
+        "heat": 70
+      },
+      {
+        "time": "18:00",
+        "cool": 40,
+        "heat": 80
+      }
+    ],
+    "sat": [
+      {
+        "time": "08:00",
+        "cool": 60,
+        "heat": 70
+      },
+      {
+        "time": "18:00",
+        "cool": 40,
+        "heat": 80
+      }
+    ],
+    "sun": [
+      {
+        "time": "08:00",
+        "cool": 60,
+        "heat": 70
+      },
+      {
+        "time": "18:00",
+        "cool": 40,
+        "heat": 80
+      }
+    ]
+  }
+}
+```
+
+| Name | Description |
+|:-----|:------------|
+| type *required* | thermostat_schedule |
+| attributes[name] *required* | Schedule name |
+| attributes[mon]  | [{ "time": "08:00", "cool": 40, "heat": 80 }, ...] |
+| attributes[tue]  | [{ "time": "08:00", "cool": 40, "heat": 80 }, ...] |
+| attributes[wed]  | [{ "time": "08:00", "cool": 40, "heat": 80 }, ...] |
+| attributes[thu]  | [{ "time": "08:00", "cool": 40, "heat": 80 }, ...] |
+| attributes[fri]  | [{ "time": "08:00", "cool": 40, "heat": 80 }, ...] |
+| attributes[sat]  | [{ "time": "08:00", "cool": 40, "heat": 80 }, ...] |
+| attributes[sun]  | [{ "time": "08:00", "cool": 40, "heat": 80 }, ...] |
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+201 Created
+```
+
+```json
+{
+  "data": {
+    "type": "thermostat_schedule",
+    "attributes": {
+      "name": "Changes thermostat cool/heat temperatures",
+      "mon": [
+        {
+          "time": "08:00",
+          "cool": 60,
+          "heat": 70
+        },
+        {
+          "time": "18:00",
+          "cool": 40,
+          "heat": 80
+        }
+      ],
+      "tue": [
+        {
+          "time": "08:00",
+          "cool": 60,
+          "heat": 70
+        },
+        {
+          "time": "18:00",
+          "cool": 40,
+          "heat": 80
+        }
+      ],
+      "wed": [
+        {
+          "time": "08:00",
+          "cool": 60,
+          "heat": 70
+        },
+        {
+          "time": "18:00",
+          "cool": 40,
+          "heat": 80
+        }
+      ],
+      "thu": [
+        {
+          "time": "08:00",
+          "cool": 60,
+          "heat": 70
+        },
+        {
+          "time": "18:00",
+          "cool": 40,
+          "heat": 80
+        }
+      ],
+      "fri": [
+        {
+          "time": "08:00",
+          "cool": 60,
+          "heat": 70
+        },
+        {
+          "time": "18:00",
+          "cool": 40,
+          "heat": 80
+        }
+      ],
+      "sat": [
+        {
+          "time": "08:00",
+          "cool": 60,
+          "heat": 70
+        },
+        {
+          "time": "18:00",
+          "cool": 40,
+          "heat": 80
+        }
+      ],
+      "sun": [
+        {
+          "time": "08:00",
+          "cool": 60,
+          "heat": 70
+        },
+        {
+          "time": "18:00",
+          "cool": 40,
+          "heat": 80
+        }
+      ],
+      "created_at": "2021-11-04T18:13:52Z",
+      "updated_at": "2021-11-04T18:13:52Z"
+    },
+    "id": "d8c30fcf-783f-44e6-acac-58ab05962540",
+    "links": {
+      "self": "http://api.remotelock.dev/schedules/d8c30fcf-783f-44e6-acac-58ab05962540"
+    }
+  }
+}
+```
+
+
+
+
+
+
+
+
+
+# Igloo Guests
+
+
+
+## Get all igloo lock guests
+
+
+### Request
+
+
+#### Endpoint
+
+`GET /igloo_guests`
+
+```plaintext
+GET /igloo_guests
+
+```
+
+#### Parameters
+
+
+
+None.
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+200 OK
+```
+
+```json
+{
+  "data": [
+    {
+      "type": "igloo_guest",
+      "attributes": {
+        "name": "Cedrick Schmeler",
+        "email": "babara@nader.net",
+        "starts_at": "2021-11-09T00:00:00",
+        "ends_at": "2021-12-06T00:00:00",
+        "created_at": "2021-11-04T18:12:29Z",
+        "updated_at": "2021-11-04T18:12:29Z",
+        "code": "1234567",
+        "igloo_lock_id": "2033648c-b995-4f18-9809-f538b3bb4b1f"
+      },
+      "id": "bfa64786-3017-4b5d-97de-c90531584395",
+      "links": {
+        "self": "http://api.remotelock.dev/igloo_guests/bfa64786-3017-4b5d-97de-c90531584395",
+        "igloo_lock": "http://api.remotelock.dev/devices/2033648c-b995-4f18-9809-f538b3bb4b1f"
+      }
+    },
+    {
+      "type": "igloo_guest",
+      "attributes": {
+        "name": "Lesley Wolf",
+        "email": "danial@mann.biz",
+        "starts_at": "2021-11-10T00:00:00",
+        "ends_at": "2021-12-06T00:00:00",
+        "created_at": "2021-11-04T18:12:29Z",
+        "updated_at": "2021-11-04T18:12:29Z",
+        "code": "1234567",
+        "igloo_lock_id": "2033648c-b995-4f18-9809-f538b3bb4b1f"
+      },
+      "id": "49d49a3e-f2de-4091-a6f2-ef5d9ce6c721",
+      "links": {
+        "self": "http://api.remotelock.dev/igloo_guests/49d49a3e-f2de-4091-a6f2-ef5d9ce6c721",
+        "igloo_lock": "http://api.remotelock.dev/devices/2033648c-b995-4f18-9809-f538b3bb4b1f"
+      }
+    },
+    {
+      "type": "igloo_guest",
+      "attributes": {
+        "name": "Patria Dickinson V",
+        "email": "josef@goyette.name",
+        "starts_at": "2021-11-19T00:00:00",
+        "ends_at": "2021-12-17T00:00:00",
+        "created_at": "2021-11-04T18:12:30Z",
+        "updated_at": "2021-11-04T18:12:30Z",
+        "code": "1234567",
+        "igloo_lock_id": "f74bc8a3-0c17-4518-8ba0-808c7b4085cc"
+      },
+      "id": "e8c2a02e-edd8-4652-aa19-1c62d5ee70e1",
+      "links": {
+        "self": "http://api.remotelock.dev/igloo_guests/e8c2a02e-edd8-4652-aa19-1c62d5ee70e1",
+        "igloo_lock": "http://api.remotelock.dev/devices/f74bc8a3-0c17-4518-8ba0-808c7b4085cc"
+      }
+    }
+  ],
+  "meta": {
+    "page": 1,
+    "per_page": 25,
+    "total_count": 3,
+    "total_pages": 1
+  }
+}
+```
+
+
+## Get an igloo guest
+
+
+### Request
+
+
+#### Endpoint
+
+`GET /igloo_guests/:id`
+
+```plaintext
+GET /igloo_guests/972c97af-fff2-4bdd-95e5-cf7c118d8d36
+
+```
+
+#### Parameters
+
+
+
+None.
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+200 OK
+```
+
+```json
+{
+  "data": {
+    "type": "igloo_guest",
+    "attributes": {
+      "name": "Randell Parisian Sr.",
+      "email": "antoine_feil@auer-franecki.io",
+      "starts_at": "2021-11-06T00:00:00",
+      "ends_at": "2021-11-28T00:00:00",
+      "created_at": "2021-11-04T18:12:31Z",
+      "updated_at": "2021-11-04T18:12:31Z",
+      "code": "1234567",
+      "igloo_lock_id": "c646a372-b037-4e71-84da-c85a9c119539"
+    },
+    "id": "972c97af-fff2-4bdd-95e5-cf7c118d8d36",
+    "links": {
+      "self": "http://api.remotelock.dev/igloo_guests/972c97af-fff2-4bdd-95e5-cf7c118d8d36",
+      "igloo_lock": "http://api.remotelock.dev/devices/c646a372-b037-4e71-84da-c85a9c119539"
+    }
+  }
+}
+```
+
+
+## Create an igloo guest
+
+
+### Request
+
+
+#### Endpoint
+
+`POST /igloo_guests`
+
+```plaintext
+POST /igloo_guests
+
+```
+
+#### Parameters
+
+
+```json
+{
+  "attributes": {
+    "igloo_lock_id": "5b786a60-7a30-40e9-80d7-6b944c6fc5b6",
+    "name": "Ann Smith",
+    "starts_at": "2020-01-02T13:00:00",
+    "ends_at": "2020-02-02T16:00:00",
+    "email": "temeka.altenwerth@botsford.name"
+  }
+}
+```
+
+| Name | Description |
+|:-----|:------------|
+| attributes[igloo_lock_id] *required* | Igloo Lock |
+| attributes[name] *required* | Name |
+| attributes[starts_at] *required* | Starts at ISO 8601 timestamp without time zone. Only hours are supported (minutes and seconds will be converted to zeros). |
+| attributes[ends_at] *required* | Ends at ISO 8601 timestamp without time zone. Only hours are supported (minutes and seconds will be converted to zeros). |
+| attributes[email]  | E-mail address of the guest |
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+201 Created
+```
+
+```json
+{
+  "data": {
+    "type": "igloo_guest",
+    "attributes": {
+      "name": "Ann Smith",
+      "email": "temeka.altenwerth@botsford.name",
+      "starts_at": "2020-01-02T13:00:00",
+      "ends_at": "2020-02-02T16:00:00",
+      "created_at": "2021-11-04T18:12:32Z",
+      "updated_at": "2021-11-04T18:12:32Z",
+      "code": "1234567",
+      "igloo_lock_id": "5b786a60-7a30-40e9-80d7-6b944c6fc5b6"
+    },
+    "id": "b8807d84-fbc1-4915-a2b7-635fda0d69ec",
+    "links": {
+      "self": "http://api.remotelock.dev/igloo_guests/b8807d84-fbc1-4915-a2b7-635fda0d69ec",
+      "igloo_lock": "http://api.remotelock.dev/devices/5b786a60-7a30-40e9-80d7-6b944c6fc5b6"
+    }
+  }
+}
+```
+
+
+## Update an igloo guest
+
+
+### Request
+
+
+#### Endpoint
+
+`PUT /igloo_guests/:id`
+
+```plaintext
+PUT /igloo_guests/fa902077-3044-4eb1-b02e-af17da63049b
+
+```
+
+#### Parameters
+
+
+```json
+{
+  "attributes": {
+    "name": "Jonatan Doery"
+  }
+}
+```
+
+| Name | Description |
+|:-----|:------------|
+| attributes[name]  | Name |
+| attributes[email]  | Email |
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+200 OK
+```
+
+```json
+{
+  "data": {
+    "type": "igloo_guest",
+    "attributes": {
+      "name": "Jonatan Doery",
+      "email": "long@gorczany-schimmel.com",
+      "starts_at": "2021-11-08T00:00:00",
+      "ends_at": "2021-12-05T00:00:00",
+      "created_at": "2021-11-04T18:12:33Z",
+      "updated_at": "2021-11-04T18:12:33Z",
+      "code": "1234567",
+      "igloo_lock_id": "ecfb2259-517a-4e2e-808e-7bbc4714ed60"
+    },
+    "id": "fa902077-3044-4eb1-b02e-af17da63049b",
+    "links": {
+      "self": "http://api.remotelock.dev/igloo_guests/fa902077-3044-4eb1-b02e-af17da63049b",
+      "igloo_lock": "http://api.remotelock.dev/devices/ecfb2259-517a-4e2e-808e-7bbc4714ed60"
+    }
+  }
+}
+```
+
+
+## Discard an igloo guest
+
+
+### Request
+
+
+#### Endpoint
+
+`DELETE /igloo_guests/:id`
+
+```plaintext
+DELETE /igloo_guests/e2a2d8f0-f4fa-425e-9403-92ddcfa780dc
+
+```
+
+#### Parameters
+
+
+
+None.
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+204 No Content
+```
+
+
+
+# Kore ReadyPINs
+
+
+
+## Get all ReadyPINs
+
+ReadyPINs are ideal for providing date/time based temporary guest access to
+locks without a network. Instead of relying on a network connection to the
+lock, the access information is actually carried within the PIN code itself.
+
+- The maximum duration is 32 days.
+- The `pin` lenght is always 10 digits.
+- The `starts_at` and `ends_at` have hourly resolution only.
+
+### Status
+
+- `upcoming` initial status when start time has not met yet
+- `current` initial status when start time has already met
+- `expired` when end time has already met
+
+
+### Request
+
+
+#### Endpoint
+
+`GET /kore_ready_pins`
+
+```plaintext
+GET /kore_ready_pins
+
+```
+
+#### Parameters
+
+
+
+None.
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+200 OK
+```
+
+```json
+{
+  "data": [
+    {
+      "type": "kore_ready_pin",
+      "attributes": {
+        "uuid": "6c76e018-3b61-4aad-b599-508ef3c5b9ca",
+        "name": "Dr. Margy Spinka",
+        "email": "roscoe@wyman.name",
+        "starts_at": "2021-11-04T00:00:00",
+        "ends_at": "2021-11-06T00:00:00",
+        "status": "current",
+        "source": null,
+        "created_at": "2021-11-04T18:12:44Z",
+        "updated_at": "2021-11-04T18:12:44Z",
+        "pin": "8858482790",
+        "lock_id": "615e2c92-8797-4ab4-8611-349bccf64e28"
+      },
+      "id": "6c76e018-3b61-4aad-b599-508ef3c5b9ca",
+      "links": {
+        "self": "http://api.remotelock.dev/kore_ready_pins/6c76e018-3b61-4aad-b599-508ef3c5b9ca",
+        "lock": "http://api.remotelock.dev/devices/615e2c92-8797-4ab4-8611-349bccf64e28"
+      }
+    }
+  ],
+  "meta": {
+    "page": 1,
+    "per_page": 25,
+    "total_count": 1,
+    "total_pages": 1
+  }
+}
+```
+
+
+## Get a ReadyPIN
+
+
+### Request
+
+
+#### Endpoint
+
+`GET /kore_ready_pins/:id`
+
+```plaintext
+GET /kore_ready_pins/ccc165d7-5a3b-4fc9-8798-022e1ac21a4c
+
+```
+
+#### Parameters
+
+
+
+None.
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+200 OK
+```
+
+```json
+{
+  "data": {
+    "type": "kore_ready_pin",
+    "attributes": {
+      "uuid": "ccc165d7-5a3b-4fc9-8798-022e1ac21a4c",
+      "name": "Denisse Terry",
+      "email": "matt.lueilwitz@beahan.co",
+      "starts_at": "2021-11-04T00:00:00",
+      "ends_at": "2021-11-06T00:00:00",
+      "status": "current",
+      "source": null,
+      "created_at": "2021-11-04T18:12:44Z",
+      "updated_at": "2021-11-04T18:12:44Z",
+      "pin": "1024338118",
+      "lock_id": "f17489d0-227f-48f1-af8c-c9e8b36dea05"
+    },
+    "id": "ccc165d7-5a3b-4fc9-8798-022e1ac21a4c",
+    "links": {
+      "self": "http://api.remotelock.dev/kore_ready_pins/ccc165d7-5a3b-4fc9-8798-022e1ac21a4c",
+      "lock": "http://api.remotelock.dev/devices/f17489d0-227f-48f1-af8c-c9e8b36dea05"
+    }
+  }
+}
+```
+
+
+## Create a ReadyPIN
+
+
+### Request
+
+
+#### Endpoint
+
+`POST /kore_ready_pins`
+
+```plaintext
+POST /kore_ready_pins
+
+```
+
+#### Parameters
+
+
+```json
+{
+  "attributes": {
+    "name": "Ann Smith",
+    "lock_id": "5aeacc3b-8f0f-4418-858b-4e29a8523a2e",
+    "starts_at": "2021-03-20T09:00:00",
+    "ends_at": "2021-03-27T17:00:00",
+    "email": "ann@smith.com"
+  }
+}
+```
+
+| Name | Description |
+|:-----|:------------|
+| attributes[name] *required* | Name |
+| attributes[lock_id] *required* | Lock |
+| attributes[starts_at] *required* | Starts at ISO 8601 timestamp without time zone (only hours are supported). |
+| attributes[ends_at] *required* | Ends at ISO 8601 timestamp without time zone (only hours are supported). |
+| attributes[email]  | Email |
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+201 Created
+```
+
+```json
+{
+  "data": {
+    "type": "kore_ready_pin",
+    "attributes": {
+      "uuid": "ceb15559-493a-435e-9b64-f76d3a6e408e",
+      "name": "Ann Smith",
+      "email": "ann@smith.com",
+      "starts_at": "2021-03-20T09:00:00",
+      "ends_at": "2021-03-27T17:00:00",
+      "status": "current",
+      "source": null,
+      "created_at": "2021-03-22T00:00:00Z",
+      "updated_at": "2021-03-22T00:00:00Z",
+      "pin": "1234512345",
+      "lock_id": "5aeacc3b-8f0f-4418-858b-4e29a8523a2e"
+    },
+    "id": "ceb15559-493a-435e-9b64-f76d3a6e408e",
+    "links": {
+      "self": "http://api.remotelock.dev/kore_ready_pins/ceb15559-493a-435e-9b64-f76d3a6e408e",
+      "lock": "http://api.remotelock.dev/devices/5aeacc3b-8f0f-4418-858b-4e29a8523a2e"
+    }
+  }
+}
+```
+
+
+## Update a ReadyPIN
+
+Updating of `starts_at` or `ends_at` is not allowed.
+
+
+### Request
+
+
+#### Endpoint
+
+`PUT /kore_ready_pins/:id`
+
+```plaintext
+PUT /kore_ready_pins/eee34512-f037-4734-99f7-bac19c7469be
+
+```
+
+#### Parameters
+
+
+```json
+{
+  "attributes": {
+    "name": "Mike Smith",
+    "email": "mike@smith.com"
+  }
+}
+```
+
+| Name | Description |
+|:-----|:------------|
+| attributes[name]  | Name |
+| attributes[email]  | Email |
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+200 OK
+```
+
+```json
+{
+  "data": {
+    "type": "kore_ready_pin",
+    "attributes": {
+      "uuid": "eee34512-f037-4734-99f7-bac19c7469be",
+      "name": "Mike Smith",
+      "email": "mike@smith.com",
+      "starts_at": "2021-11-04T00:00:00",
+      "ends_at": "2021-11-06T00:00:00",
+      "status": "current",
+      "source": null,
+      "created_at": "2021-11-04T18:12:46Z",
+      "updated_at": "2021-11-04T18:12:46Z",
+      "pin": "2376994914",
+      "lock_id": "b3d303d2-160f-48c2-9773-510d06139c00"
+    },
+    "id": "eee34512-f037-4734-99f7-bac19c7469be",
+    "links": {
+      "self": "http://api.remotelock.dev/kore_ready_pins/eee34512-f037-4734-99f7-bac19c7469be",
+      "lock": "http://api.remotelock.dev/devices/b3d303d2-160f-48c2-9773-510d06139c00"
+    }
+  }
+}
+```
+
+
+## Delete an expired ReadyPIN
+
+Trying to delete a ReadyPIN will result in a 422 HTTP error if it's not expired.
+
+
+### Request
+
+
+#### Endpoint
+
+`DELETE /kore_ready_pins/:id`
+
+```plaintext
+DELETE /kore_ready_pins/baeb9280-dc53-4248-97c7-1553079087b6
+
+```
+
+#### Parameters
+
+
+
+None.
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+204 No Content
+```
+
+
+
+
+
+
+
+
+
+# Resort Lock Guests
+
+
+
+## Get all resort lock guests
+
+
+### Request
+
+
+#### Endpoint
+
+`GET /resort_lock_guests`
+
+```plaintext
+GET /resort_lock_guests
+
+```
+
+#### Parameters
+
+
+
+| Name | Description |
+|:-----|:------------|
+| sort  | Sortable attributes: created_at, name, starts_at, and ends_at, default: created_at ascending |
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+200 OK
+```
+
+```json
+{
+  "data": [
+    {
+      "type": "resort_lock_guest",
+      "attributes": {
+        "name": "John Doe",
+        "email": "john.doe@email.com",
+        "starts_at": "2021-11-14T18:00:00",
+        "ends_at": "2021-11-18T18:00:00",
+        "one_time_access": false,
+        "status": "upcoming",
+        "source": null,
+        "guest_source": null,
+        "created_at": "2021-11-04T18:13:29Z",
+        "updated_at": "2021-11-04T18:13:29Z",
+        "pin": "1234567890",
+        "resort_lock_id": "816c5aa3-b669-4bfe-a44f-7532b2cc4632"
+      },
+      "id": "db73ff68-64e4-4b96-8dac-c32adb6a58b5",
+      "links": {
+        "self": "http://api.remotelock.dev/resort_lock_guests/db73ff68-64e4-4b96-8dac-c32adb6a58b5",
+        "resort_lock": "http://api.remotelock.dev/devices/816c5aa3-b669-4bfe-a44f-7532b2cc4632"
+      }
+    },
+    {
+      "type": "resort_lock_guest",
+      "attributes": {
+        "name": "Mrs. Lance Sporer",
+        "email": "douglas.wintheiser@nienow.com",
+        "starts_at": "2021-11-04T18:00:00",
+        "ends_at": "2021-11-06T18:00:00",
+        "one_time_access": false,
+        "status": "current",
+        "source": null,
+        "guest_source": null,
+        "created_at": "2021-11-04T18:13:29Z",
+        "updated_at": "2021-11-04T18:13:29Z",
+        "pin": "1104860990",
+        "resort_lock_id": "816c5aa3-b669-4bfe-a44f-7532b2cc4632"
+      },
+      "id": "1f7f8be6-f463-4b73-8e33-846a10d29b25",
+      "links": {
+        "self": "http://api.remotelock.dev/resort_lock_guests/1f7f8be6-f463-4b73-8e33-846a10d29b25",
+        "resort_lock": "http://api.remotelock.dev/devices/816c5aa3-b669-4bfe-a44f-7532b2cc4632"
+      }
+    }
+  ],
+  "meta": {
+    "page": 1,
+    "per_page": 25,
+    "total_count": 2,
+    "total_pages": 1
+  }
+}
+```
+
+
+## Get a resort lock guest
+
+
+### Request
+
+
+#### Endpoint
+
+`GET /resort_lock_guests/:id`
+
+```plaintext
+GET /resort_lock_guests/73b26ce5-be9c-467e-a468-2efca3b20dd2
+
+```
+
+#### Parameters
+
+
+
+None.
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+200 OK
+```
+
+```json
+{
+  "data": {
+    "type": "resort_lock_guest",
+    "attributes": {
+      "name": "John Doe",
+      "email": "john.doe@email.com",
+      "starts_at": "2021-11-14T18:00:00",
+      "ends_at": "2021-11-18T18:00:00",
+      "one_time_access": false,
+      "status": "upcoming",
+      "source": null,
+      "guest_source": null,
+      "created_at": "2021-11-04T18:13:30Z",
+      "updated_at": "2021-11-04T18:13:30Z",
+      "pin": "1234567890",
+      "resort_lock_id": "8388f8ac-c629-4911-9cf3-d4b9e1bd3087"
+    },
+    "id": "73b26ce5-be9c-467e-a468-2efca3b20dd2",
+    "links": {
+      "self": "http://api.remotelock.dev/resort_lock_guests/73b26ce5-be9c-467e-a468-2efca3b20dd2",
+      "resort_lock": "http://api.remotelock.dev/devices/8388f8ac-c629-4911-9cf3-d4b9e1bd3087"
+    }
+  }
+}
+```
+
+
+## Create a resort lock guest
+
+'Resort lock guest' has temporary location access limited by 'starts_at' and 'ends_at' parameters.
+
+### Request
+
+
+#### Endpoint
+
+`POST /resort_lock_guests`
+
+```plaintext
+POST /resort_lock_guests
+
+```
+
+#### Parameters
+
+
+```json
+{
+  "attributes": {
+    "resort_lock_id": "a775747a-c214-4193-b44b-a4c88793864a",
+    "name": "Ann Smith",
+    "starts_at": "2020-01-02T13:00:00",
+    "ends_at": "2021-01-02T16:00:00",
+    "email": "darrell@veum.org"
+  }
+}
+```
+
+| Name | Description |
+|:-----|:------------|
+| attributes[resort_lock_id] *required* | Resort Lock |
+| attributes[name] *required* | Name |
+| attributes[starts_at] *required* | Starts at ISO 8601 timestamp without time zone. Only hours are supported (minutes and seconds will be converted to zeros). |
+| attributes[ends_at] *required* | Ends at ISO 8601 timestamp without time zone. Only hours are supported (minutes and seconds will be converted to zeros). |
+| attributes[email]  | Email |
+| attributes[one_time_access]  | This PIN is only valid for a *single* entry between `starts_at` and `ends_at`. Default is `false`. |
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+201 Created
+```
+
+```json
+{
+  "data": {
+    "type": "resort_lock_guest",
+    "attributes": {
+      "name": "Ann Smith",
+      "email": "darrell@veum.org",
+      "starts_at": "2020-01-02T13:00:00",
+      "ends_at": "2021-01-02T16:00:00",
+      "one_time_access": false,
+      "status": "expired",
+      "source": null,
+      "guest_source": null,
+      "created_at": "2021-11-04T18:13:31Z",
+      "updated_at": "2021-11-04T18:13:31Z",
+      "pin": "619543987809",
+      "resort_lock_id": "a775747a-c214-4193-b44b-a4c88793864a"
+    },
+    "id": "31590403-4901-4999-a789-240ea2f19307",
+    "links": {
+      "self": "http://api.remotelock.dev/resort_lock_guests/31590403-4901-4999-a789-240ea2f19307",
+      "resort_lock": "http://api.remotelock.dev/devices/a775747a-c214-4193-b44b-a4c88793864a"
+    }
+  }
+}
+```
+
+
+## Update a resort lock guest
+
+
+### Request
+
+
+#### Endpoint
+
+`PUT /resort_lock_guests/:id`
+
+```plaintext
+PUT /resort_lock_guests/8edd05da-b93a-494d-a261-5772dbecd2bf
+
+```
+
+#### Parameters
+
+
+```json
+{
+  "attributes": {
+    "name": "Jonatan Doery"
+  }
+}
+```
+
+| Name | Description |
+|:-----|:------------|
+| attributes[name]  | Name |
+| attributes[email]  | Email |
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+200 OK
+```
+
+```json
+{
+  "data": {
+    "type": "resort_lock_guest",
+    "attributes": {
+      "name": "Jonatan Doery",
+      "email": "john.doe@email.com",
+      "starts_at": "2021-11-14T18:00:00",
+      "ends_at": "2021-11-18T18:00:00",
+      "one_time_access": false,
+      "status": "upcoming",
+      "source": null,
+      "guest_source": null,
+      "created_at": "2021-11-04T18:13:35Z",
+      "updated_at": "2021-11-04T18:13:35Z",
+      "pin": "1234567890",
+      "resort_lock_id": "e2acda7b-4f34-48d6-9eb3-a1496057dcbc"
+    },
+    "id": "8edd05da-b93a-494d-a261-5772dbecd2bf",
+    "links": {
+      "self": "http://api.remotelock.dev/resort_lock_guests/8edd05da-b93a-494d-a261-5772dbecd2bf",
+      "resort_lock": "http://api.remotelock.dev/devices/e2acda7b-4f34-48d6-9eb3-a1496057dcbc"
+    }
+  }
+}
+```
+
+
+## Delete a resort lock guest
+
+
+### Request
+
+
+#### Endpoint
+
+`DELETE /resort_lock_guests/:id`
+
+```plaintext
+DELETE /resort_lock_guests/d23d3b51-6465-4c34-acdc-c1b7a0cf541e
+
+```
+
+#### Parameters
+
+
+
+None.
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+204 No Content
+```
+
+
+
+## Send access instructions email to resort lock guest
+
+
+### Request
+
+
+#### Endpoint
+
+`POST /resort_lock_guests/:id/email/notify`
+
+```plaintext
+POST /resort_lock_guests/129cac79-0bbb-4878-bffc-89ba7270114c/email/notify
+
+```
+
+#### Parameters
+
+
+
+None.
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+200 OK
+```
+
+
+
+## Preview resort lock guest access instructions email
+
+
+### Request
+
+
+#### Endpoint
+
+`GET /resort_lock_guests/:id/email/preview`
+
+```plaintext
+GET /resort_lock_guests/799e63df-c70c-47e1-ab9d-02537dbff7bd/email/preview
+
+```
+
+#### Parameters
+
+
+
+None.
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+200 OK
+```
+
+```json
+{
+  "data": {
+    "type": "access_instruction_guest_email_template",
+    "attributes": {
+      "subject": "Access instructions",
+      "body": "<p>Dear John Doe,</p>\n\n<p>Here is your access code for your upcoming stay with us. Our property is equipped with a keyless entry door lock for your convenience.</p>\n\n<p>Access Code: 123-456-7890</p>\n\n<table cellspacing=\"0\" cellpadding=\"0\" width=\"100%\" id=\"access-instructions\">\n  \n    <tr>\n      <td colspan=\"3\" width=\"100%\" align=\"left\" valign=\"top\">\n        Polarised zero administration application\n        (1638 Kathie Plains)\n      </td>\n    </tr>\n\n    \n      <tr>\n        <td width=\"3%\" align=\"left\" valign=\"top\"></td>\n        <td colspan=\"2\" width=\"97%\" align=\"left\" valign=\"top\">\n          <b>RL-4000 - 5NMCKCG30B4FBE01</b>\n        </td>\n      </tr>\n      <tr>\n        <td width=\"3%\" align=\"left\" valign=\"top\"></td>\n        <td width=\"3%\" align=\"left\" valign=\"top\"></td>\n        <td width=\"94%\" align=\"left\" valign=\"top\">\n          \n            Access times:\n            November 14, 2021  6:00 PM to November 18, 2021  6:00 PM\n            <br/>\n          \n          Access instruction:\n          <p><strong>Lock Instructions:</strong><br>\nThere are two methods to opening the lock on your vacation rental. One is to simply enter the 10 (or 12 if provided) digit Access Code above, followed by the &#39;#&#39; key. The other is to create your own shorter code for use during your stay.</p>\n\n<p>Method 1: Use Default Access Code Enter the following on the lock’s keypad: Access Code, # (Door will unlock)</p>\n\n<p>Method 2: Create Your Own Code (Can be 3 – 5 Digits)<br>\nStep 1: Hold the * key until green light is solid (About 2 seconds), then release.<br>\nStep 2: While green light is lit, enter Access Code, #, Your Own Code, #<br>\nNow you have programmed your own code into the lock. Next step is to unlock the door using the code you just created.<br>\nStep 3: Enter Your Code, # (Door will unlock)</p>\n\n        </td>\n      </tr>\n    \n  \n</table>\n\n<p>If you have any questions, please feel free to call us at (Phone not provided) or email at <a href=\"mailto:shirly@cummerata.io\">shirly@cummerata.io</a>.</p>\n\n<p>Regards,</p>\n\n<p>Rev. Joesph Krajcik</p>\n",
+      "from_name": "Rev. Joesph Krajcik",
+      "reply_to": "shirly@cummerata.io",
+      "cc": null,
+      "bcc": null
+    },
+    "links": {
+      "self": "http://api.remotelock.dev/access_instruction_guest_email_template/preview"
+    }
+  }
+}
+```
+
+
+
+# Access Exceptions
+
+
+
+## Get all access exceptions
+
+
+### Request
+
+
+#### Endpoint
+
+`GET /access_exceptions`
+
+```plaintext
+GET /access_exceptions
+
+```
+
+#### Parameters
+
+
+
+| Name | Description |
+|:-----|:------------|
+| sort  | Sortable attributes: created_at and name, default: created_at ascending |
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+200 OK
+```
+
+```json
+{
+  "data": [
+    {
+      "type": "access_exception",
+      "attributes": {
+        "name": "Non eum qui et.",
+        "dates": [
+          {
+            "start_date": "2016-11-24",
+            "end_date": "2016-11-25"
+          },
+          {
+            "start_date": "2015-12-25",
+            "end_date": "2015-12-25"
+          }
+        ],
+        "created_at": "2021-11-04T18:03:47Z",
+        "updated_at": "2021-11-04T18:03:47Z"
+      },
+      "id": "1c8385f4-192a-426a-998a-6a080878ba40",
+      "links": {
+        "self": "http://api.remotelock.dev/access_exceptions/1c8385f4-192a-426a-998a-6a080878ba40"
+      }
+    }
+  ],
+  "meta": {
+    "page": 1,
+    "per_page": 25,
+    "total_count": 1,
+    "total_pages": 1
+  }
+}
+```
+
+
+## Get an access exception
+
+
+### Request
+
+
+#### Endpoint
+
+`GET /access_exceptions/:id`
+
+```plaintext
+GET /access_exceptions/40b59e03-3a60-4be6-ad57-026675722a49
+
+```
+
+#### Parameters
+
+
+
+None.
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+200 OK
+```
+
+```json
+{
+  "data": {
+    "type": "access_exception",
+    "attributes": {
+      "name": "Officia voluptatum qui minus.",
+      "dates": [
+        {
+          "start_date": "2016-11-24",
+          "end_date": "2016-11-25"
+        },
+        {
+          "start_date": "2015-12-25",
+          "end_date": "2015-12-25"
+        }
+      ],
+      "created_at": "2021-11-04T18:03:48Z",
+      "updated_at": "2021-11-04T18:03:48Z"
+    },
+    "id": "40b59e03-3a60-4be6-ad57-026675722a49",
+    "links": {
+      "self": "http://api.remotelock.dev/access_exceptions/40b59e03-3a60-4be6-ad57-026675722a49"
+    }
+  }
+}
+```
+
+
+## Create an access exception
+
+
+### Request
+
+
+#### Endpoint
+
+`POST /access_exceptions`
+
+```plaintext
+POST /access_exceptions
+
+```
+
+#### Parameters
+
+
+```json
+{
+  "attributes": {
+    "name": "Thanks Giving and Christmas",
+    "dates": [
+      {
+        "start_date": "2016-11-24",
+        "end_date": "2016-11-25"
+      },
+      {
+        "start_date": "2015-12-25",
+        "end_date": "2015-12-25"
+      }
+    ]
+  }
+}
+```
+
+| Name | Description |
+|:-----|:------------|
+| attributes[name] *required* | Access exception name |
+| attributes[dates] *required* | [{ "start_date": "2016-01-01", "end_date": "2016-01-01" }, ...] |
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+201 Created
+```
+
+```json
+{
+  "data": {
+    "type": "access_exception",
+    "attributes": {
+      "name": "Thanks Giving and Christmas",
+      "dates": [
+        {
+          "start_date": "2016-11-24",
+          "end_date": "2016-11-25"
+        },
+        {
+          "start_date": "2015-12-25",
+          "end_date": "2015-12-25"
+        }
+      ],
+      "created_at": "2021-11-04T18:03:48Z",
+      "updated_at": "2021-11-04T18:03:48Z"
+    },
+    "id": "835bb363-f983-4a87-8e9a-2b67051f9a73",
+    "links": {
+      "self": "http://api.remotelock.dev/access_exceptions/835bb363-f983-4a87-8e9a-2b67051f9a73"
+    }
+  }
+}
+```
+
+
+## Update an access exception
+
+
+### Request
+
+
+#### Endpoint
+
+`PUT /access_exceptions/:id`
+
+```plaintext
+PUT /access_exceptions/514da0ab-00d6-46a9-9bb9-9c7a567aa511
+
+```
+
+#### Parameters
+
+
+```json
+{
+  "attributes": {
+    "name": "Thanks Giving",
+    "dates": [
+      {
+        "start_date": "2016-11-24",
+        "end_date": "2016-11-25"
+      }
+    ]
+  }
+}
+```
+
+| Name | Description |
+|:-----|:------------|
+| attributes[name]  | Access exception name |
+| attributes[dates] *required* | [{ "start_date": "2016-01-01", "end_date": "2016-01-01" }, ...] |
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+200 OK
+```
+
+```json
+{
+  "data": {
+    "type": "access_exception",
+    "attributes": {
+      "name": "Thanks Giving",
+      "dates": [
+        {
+          "start_date": "2016-11-24",
+          "end_date": "2016-11-25"
+        }
+      ],
+      "created_at": "2021-11-04T18:03:49Z",
+      "updated_at": "2021-11-04T18:03:49Z"
+    },
+    "id": "514da0ab-00d6-46a9-9bb9-9c7a567aa511",
+    "links": {
+      "self": "http://api.remotelock.dev/access_exceptions/514da0ab-00d6-46a9-9bb9-9c7a567aa511"
+    }
+  }
+}
+```
+
+
+## Delete an access exception
+
+
+### Request
+
+
+#### Endpoint
+
+`DELETE /access_exceptions/:id`
+
+```plaintext
+DELETE /access_exceptions/33804e48-dddc-46ea-a188-8ba8d3abfb64
+
+```
+
+#### Parameters
+
+
+
+None.
+
+<div class="layout-fix"></div>
+### Response
+
+
+```plaintext
+
+204 No Content
+```
+
+
+
+
+
+
