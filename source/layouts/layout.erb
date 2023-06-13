@@ -49,8 +49,14 @@ under the License.
       }
       <%= Rouge::Themes::Base16::Solarized.render(:scope => '.highlight') %>
     </style>
+    <% if current_page.path.include?("article") %>
+    <%= stylesheet_link_tag :screen_article, media: :screen %>
+    <%= stylesheet_link_tag :print, media: :print %>
+    <% else %>
     <%= stylesheet_link_tag :screen, media: :screen %>
     <%= stylesheet_link_tag :print, media: :print %>
+    <% end %>
+    
     <% if current_page.data.search %>
       <%= javascript_include_tag  "all" %>
     <% else %>

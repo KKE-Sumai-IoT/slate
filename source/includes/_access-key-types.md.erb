@@ -1,0 +1,83 @@
+<h1 id="access-key-types-get">アクセスキータイプの取得</h1>
+
+<h2 id="access-key-types-get-a-device">デバイスのアクセスキータイプの取得</h2>
+
+指定したデバイスIDのデバイスがサポートしている認証方法のタイプが取得できます。
+
+予約エンドポイントによりカギ発行をする際は、常にユニバーサルアクセスキー(universal_access_key_url) 
+に利用できるカギが自動的発行・表示されます。
+ただし呼び出し元の貴社サービスがFeliCaなどカードキーの利用に対応している場合、
+入室を許可するカードキーの番号を登録する必要があります。
+各デバイスがどのアクセスキータイプに対応しているかは、本エンドポイントを利用してご確認ください。
+
+
+### Httpsリクエスト
+
+```
+GET /access_key_types/devices/:id
+```
+
+**エンドポイント**  
+
+`GET /access_key_types/devices/:id`
+
+**ヘッダー**  
+<code>'Authorization: Bearer {有効なアクセストークン}' \  
+'Accept: application/vnd.lockstate+json; version=1' \　</code>
+
+**ボディ**  
+NONE
+
+### レスポンス
+
+```
+200 OK
+```
+
+**成功時ステータス**  
+200 OK  
+＊エラーレスポンスは[エラーコード](#http-status-codes)を参照してください。
+
+**ボディ**  
+
+```json
+{
+    "data": {
+        "type": "device_access_key_types",
+        "attributes": {
+            "default_access_key_type": "pin",
+            "pin": true,
+            "card_number": false,
+            "qr_code": false,
+            "felica_idm": false,
+            "url": false
+        },
+        "id": "36a2f2f0-20f6-4df9-b62b-27dc3306f0ef",
+        "links": {
+            "self": "https://api.remotelock-pf.jp/access_key_types/devices/36a2f2f0-20f6-4df9-b62b-27dc3306f0ef"
+        }
+    }
+}
+```
+
+| 項目 | 説明       |  
+|:----|:-----------|  
+| type|リソースのタイプ `device_access_key_types` |  
+| attributes(全デバイス共通）| |  
+|   default_access_key_type | デバイス名 |  
+|   pin | 暗証番号認証の利用可否です true/false |  
+|   card_number | カードキー認証の利用可否です　true/false |  
+|	qr_code | QRコード認証の利用可否です　true/false |  
+|   felica_idm | FeliCaカード認証の利用可否です　true/false |  
+|   url　| URL認証の利用可否です　true/false |  
+
+**
+<aside class="notice">
+**開発ガイド**  
+
+当該のデバイスがサポートとしている認証方法（カギの開け方）を知ることができます。
+デバイスにより複数の認証方法に対応しているケースがありますが、"default_access_key_type"は標準とする認証方法1つを返します。 
+※ "default_access_key_type"　は機種およびデバイスオーナーの設定により異なる可能性があります。
+
+
+</aside>

@@ -1,0 +1,184 @@
+#新しいデバイスへの対応案内
+
+この記事は、RemoteLOCKのAPIと連携済みの各サービサー様を対象とした、
+連携対象とするデバイスや認証方法を拡張いただくための開発者向けの資料です。
+(※現在すでにbookingエンドポイントとユニバーサルアクセスキーにより連携をしている場合は、新しいデバイスも自動的に連携対象になります。)
+
+RemoteLOCKは暗証番号（PIN）で解錠するスマートロックの他に、
+2022年にFeliCaカードに対応したロック、QRコードに対応したロックを発売。
+2023年には、URL認証という新しい認証方法（解錠方法）が TOBIRAで利用可能になりました。
+今後さらに対応デバイス等を増やすことを計画しています。
+
+![デバイスと認証方法の拡大](https://remotelock.kke.co.jp/hubfs/EBOOKS/API/confidential/apidoc_assets/APIFunctionDetails/increasing_credential.png)
+
+これらのプロダクトの計画や新しいデバイスに対し、APIの接続先を新規に追加し、
+新しい接続先に追加の機能やエンドポイントが用意されています。
+![Booking endpoint will unify the each devices interface](https://remotelock.kke.co.jp/hubfs/EBOOKS/API/confidential/apidoc_assets/APIFunctionDetails/fig_booking_unified_endpoints.png)
+
+
+RemoteLOCKクラウドとの連携・カギ発行を、現在PINのみで連携している場合、
+サーバ　https://api.remotelock.jpに対し、アクセスゲストの作成をしている場合には
+新サーバ・新エンドポイントへの移行が推奨されます。
+以下ご参照ください。
+
+
+##API接続先サーバの乗り換え
+
+現在APIは2つのURLを提供しています。2022年前半までに連携したサービスの多くはURL2を利用していると思いますが、
+接続先サーバの乗り換えを推奨しています。	参考 [API仕様書接続先サーバ](https://remotelock.kke.co.jp/confi/remotelock-apidoc/#summary-servers)
+
+- 既存の**URL2で提供している全てのエンドポイントはURL1でもサポートしています**。
+- URL1でのみ提供しているエンドポイントがあり、PIN以外の認証方法をサポートする場合は、それらのエンドポイントの利用が有用です。
+- 既に連携済みのアカウントについて、URLはシームレスに乗り換え可能です。
+- URL2で取得したトークンを、URL1でリフレッシュすることで、**アカウントの再認証をすることなく継続的に利用が可能**です。
+
+
+URL2からURL1への変更
+
+|   接続先サーバ    | OAuth base URL | API base URL  |
+| -------- | ------- | ------------------- |
+|   変更前(URL2)  |  https://connect.remotelock.jp   | https://api.remotelock.jp |
+|   **変更後**(URL1)  |  https://api.remotelock-pf.jp |  https://api.remotelock-pf.jp |
+
+
+
+![拡張された新しいAPAIサーバー](https://remotelock.kke.co.jp/hubfs/EBOOKS/API/confidential/apidoc_assets/APIFunctionDetails/fig_extended_server_endpoints.png)
+
+
+以降の予約エンドポイントの利用有無に関わらず、PIN以外の認証方法に対応する際は、ベースURLをURL1に移行することを推奨します。まずは小さな実験をおすすめします。URL2でアカウント認証したトークンを、URL1でリフレッシュして、APIアクセスが問題なくできることを確認してみてください。
+
+###　挙動の確認手順
+現在のあなたのシステムでURL2に接続し、RemoteLOCKとの連携のアカウント認証してアクセストークンを取得してください。
+事前検証には、APIご提供時のテストアカウントが使えます。テストアカウントがご不明な際は remotelock-dev@kke.co.jpまでお問合せください。
+
+https://api.remotelock.jpで利用中のアクセストークンとリフレッシュトークンは、新しいサーバ　https://api.remotelock-pf.jp でも利用可能です。
+URL2で取得したトークンを使って、URL1でトークンのリフレッシュを実行してください。
+以降、APIはURL1との通信ができるようになります。この確認は、Post manやcurlなどの環境でも可能です。
+
+接続先サーバーの乗り換えは、以降の内容によらず対応すべき内容となります。
+
+
+##新しいエンドポイントの紹介 2023.3現在
+
+接続先サーバーを乗り換えると、以下追加されたエンドポイントが利用可能になります。
+
+- [予約の作成・変更・削除（アクセスゲストのラッパークラス）](https://remotelock.kke.co.jp/confi/remotelock-apidoc/#bookings)
+- [QRコードの生成](https://remotelock.kke.co.jp/confi/remotelock-apidoc/#notify-access-keys-ui)
+- [デバイスのアクセスキータイプの取得](https://remotelock.kke.co.jp/confi/remotelock-apidoc/#endpoints )
+
+
+##予約エンドポイントの特徴と恩恵
+
+2022年に実装された予約エンドポイントへの対応または乗り換えを推奨しています。
+予約エンドポイントでは、APIのコール方法などがシンプルになる他、以下のメリットがあります。
+
+**対象デバイスの拡大**<br>
+予約のエンドポイントでは、これまでデバイスの種類毎に分かれていた幾つかのエンドポイントを統合しています。
+予約エンドポイントの利用により、連携可能なデバイスが拡大されます。
+
+**ユニバーサルアクセスキーの利用**<br>
+新しく増えた認証方法に、リーズナブルに対応するための機能が追加されています。
+ユニバーサルアクセスキーというURLにのみ対応すれば、デバイス毎の認証方法を気にせず
+カギ発行をすることができます。
+
+**プールPINの利用**<br>
+また、今後計画されているプールPIN機能により、利用直前の即時カギ発行に対応ができます。
+これまでRemoteLOCKのPINコードは作成から実際にデバイスで利用できるようになるまで
+ハートビートという特質でタイムラグが必要になっていました。プールPINでは、
+ドロップインのような直前予約や受付でカギ発行する場合でも、タイムラグを意識する必要はなく
+即時使えるPINを入手することができます。
+この機能は、予約エンドポイントのみで有効になります。
+
+#新しいデバイスや認証方法への対応と、利用するエンドポイント
+
+新しく登場する認証方法やデバイスの登場に対応するために、
+接続先のAPIサーバをhttps://api.remotelock-pf.jpに変更した上で、2つの方法があります。
+
+<span class="bold">対応方法</span>
+
+1. <span class="bold">QRコードや新しいデバイスに対応した、予約エンドポイントを利用する。（推奨）</span>
+2. <span class="bold">アクセスゲストを継続利用しつつ、デバイスのタイプや、当該デバイスで利用できるアクセスキー判定の処理を追加する。</span>
+
+## 予約エンドポイントの利用での対応方法
+カギの発行を、「アクセスゲスト」ではなく[「予約」のエンドポイント](https://remotelock.kke.co.jp/confi/remotelock-apidoc/#bookings-create-a-booking)を使って実施してください。
+予約作成時にはデバイスidを指定します。
+アクセスゲスト利用時は、「アクセスゲスト作成」と「ドアアクセス追加」だった2ステップのリクエストが、予約では「予約作成」の1ステップになります。
+また、カードキーを除いて通常は、カギの発行のために認証方法を指定する必要はありません。
+
+APIサーバー側で当該デバイスで利用可能な認証方法に応じたアクセスキー（pinやqr_code）を判定して返却します。
+
+**デバイスのタイプ**<br>
+予約エンドポイントは、複数のデバイスタイプを共通で扱えるインターフェースです。
+予約の作成・変更（カギの発行）において、デバイスのタイプを
+レスポンスで返却されますが、通常のカギ発行の連携では必要ありません。
+
+**カギの生成**<br>
+API側で判定して、レスポンスで有効なもののみ返却されます。
+認証方法によらず、発行されたカギを一元的に扱うために、ユニバーサルアクセスキーは必ず返却されます。
+
+**通知**<br>
+予約に対して生成されるユニバーサルアクセスキー（URLの形式）を通知してください。
+利用者はユニバーサルアクセスキーのページに表示されるカギ情報で入室が可能です。
+
+より細やかな連携をしたい場合は、認証方法にあわせて結果表示を出し分けてください。
+
+**その他　カードキーの利用について**<br>
+予約作成時、デバイスで利用できる
+カードキーを使うためにはデバイスIDを指定して[デバイスのアクセスキータイプの取得](https://remotelock.kke.co.jp/confi/remotelock-apidoc/#devices-get-a-device)を使って、認証方法を確認してください。
+
+
+
+
+## アクセスゲストのエンドポイントでの対応方法
+
+アクセスゲスト・アクセスユーザーは、PINやQRコードなどの認証方法をサポートしていますが
+デバイスが対応していることを保証しません。
+そのため、あなたのシステムは、各デバイスのタイプや機種の違いを把握した上で、
+QRコード等を作成するべきか、判断する情報を取得する必要があります。
+
+アクセスゲストでPIN以外で解錠するデバイス等に対応するには、
+「デバイスのタイプ」と「デバイスで利用できる認証方法」、「カギの生成」、「通知」の4点を対応してください。
+
+なお、予約のエンドポイントを利用した場合は、APIサーバー側で機種特性が隠蔽・自動判別されるため
+デバイスの機種に依存したカギの生成までの複雑性を回避することができます。
+
+
+**デバイスのタイプ**<br>
+RemoteLOCKのクラウドで管理されるデバイスにはtypeがあります。現在アクセスゲストに[ドアアクセスの追加](https://remotelock.kke.co.jp/confi/remotelock-apidoc/members-access#grant-an-access-person-access)をする際に、
+<code>attributes[accessible_type]</code>が<code>lock</code>にハードコーディングされている場合には修正が必要です。
+[デバイス一覧の取得](https://remotelock.kke.co.jp/confi/remotelock-apidoc/#devices-get-devices)時に、デバイス名と<code>id</code>と合わせて<code>type</code>をデータベースに保存してください。
+アクセスゲスト作成後、ドアアクセスを追加する際には、<code>attributes[accessible_type]</code>に<code>type</code>の値を指定します。
+
+**デバイスで利用できる認証方法**<br>
+アクセスゲストやアクセスユーザーには、<code>pin</code>や<code>card_number</code>のフィールドがあり、それぞれ値の設定が可能です。
+ところが、アクセスゲストに設定された認証方法で実際にデバイスが解錠できるかは、デバイスがその認証方法をサポートした機種であるかに依存します。（仮に貴社から解錠用QRコードを発行・通知すると、API上では設定可能ですが実際には解錠ができません）
+そのため[デバイスのアクセスキータイプの取得](https://remotelock.kke.co.jp/confi/remotelock-apidoc/#devices-get-a-device)エンドポイントを利用して、デバイス毎に実際に解錠できる認証方法を把握した上で、認証方法を指定する必要があります。
+
+
+**カギの生成**<br>
+[デバイスのアクセスキータイプの取得](https://remotelock.kke.co.jp/confi/remotelock-apidoc/#devices-get-a-device)の情報を元に正しい形式でリクエストを送信してください。
+アクセスキータイプとアクセスゲストでの指定方法の対応表は以下のようになります。
+
+|   認証方法    | アクセスキータイプの結果 | アクセスゲストで必要なカギ発行方法  |
+| -------- | ------- | ------------------- |
+|   暗証番号(pin)  |  "pin": true   | pinを指定またはgenerate_pinをtrueにする |
+|   EMカード(card_number)  |  "card_number":true |  card_numberにカード番号を指定 |
+|   FeliCaカード(felica_idm)  |  "felica_idm": true,   | card_numberにFeliCaカードのidmを指定 |
+|   QRコード(qr_code)  |  "qr_code": true   | card_numberに任意の6桁の数字を指定、かつdeliver_as_qr_codeをtrueとする |
+|   URL認証(url_credential)  |  "url": true  | deliver_as_url_credentialをtrueとする。
+
+**通知**<br>
+アクセスゲストの作成・更新の結果から、以下のようにレスポンスを参照して、ゲストに通知等をしてください。
+
+|   認証方法    | 参照するアクセスゲストのattlibute | 渡し方  |
+| -------- | ------- | ------------------- |
+|   暗証番号(pin)  |  "pin"の値   | 返却される暗証番号を表示 |
+|   EMカード(card_number)  |  "card_number" |  指定カード番号で解錠可能 |
+|   FeliCaカード(felica_idm)  |  "card_number"   | 指定berにFeliCaカードで解錠可能 |
+|   QRコード(qr_code)  |  "card_number"   | card_numberフィールドの数値を、QRコードの画像変換にして表示する |
+|   URL認証(url_credential)  |  "url": true  | card_numberフィールドに返却されるURLリンクを送信する |
+
+
+
+
+

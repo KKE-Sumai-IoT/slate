@@ -1,3 +1,4 @@
+
 <p align="center">
   <img src="https://raw.githubusercontent.com/slatedocs/img/main/logo-slate.png" alt="Slate: API Documentation Generator" width="226">
   <br>
@@ -10,6 +11,46 @@
 <p align="center"><img src="https://raw.githubusercontent.com/slatedocs/img/main/screenshot-slate.png" width=700 alt="Screenshot of Example Documentation created with Slate"></p>
 
 <p align="center"><em>The example above was created with Slate. Check it out at <a href="https://slatedocs.github.io/slate">slatedocs.github.io/slate</a>.</em></p>
+
+How to start in ローカル
+------------------------------
+* UIでdockerアプリの起動
+* ターミナル　docker run --rm --name slate -v $(pwd)/build:/srv/slate/build -v $(pwd)/source:/srv/slate/source slatedocs/slate build
+* ターミナル　docker run --rm --name slate -p 4567:4567 -v $(pwd)/source:/srv/slate/source slatedocs/slate serve
+* ブラウザで　http://127.0.0.1:4567/ または　http://127.0.0.1:4567/__middleman にアクセス。
+    
+* 通常と異なるところ
+    APIの複数ページを準備。
+    includeファイルをerb化。(css記載のため)
+    layoutファイルを、ファイルパスにより切り替え。*article*のあるものは、記事用にscreen_article.css.scssと_variables_article.scssを適用。
+        メインコンテンツがワイドレイアウト、文字ベースを大きく、背景色を白に、他デザイン修正。
+        
+    画像は、個別に埋め込む場合は、先にHubSpot上にファイルアップロードして絶対パスでリンクする。
+
+How to publish in web（ハブスポット利用）
+------------------------------
+* Hubspotへのリリース
+	ページの更新
+	- ローカルでslateで作成したページを表示。（http://127.0.0.1:4567/　ブラウザで挙動確認はchromeで実施している）
+	- 右クリックでページのソースを表示する。そのままブラウザでソースコードを全コピー。(ダウンロードするとソースコード上の相対パスにファイル名等が混じってパスが崩れるので注意)
+	- HubSpotの当該ページを開いて編集。htmlモジュールの内容を丸ごと差し替えて、Webページを更新（公開）
+    htmlソースの更新
+    アセットの更新
+    - https://remotelock.kke.co.jp/hubfs/EBOOKS/API/confidential/apidoc_assets/にあるファイルをファイル置き換え。
+    アセットの追加
+    	HubSpot上の以下のパスにアップする。https://remotelock.kke.co.jp/hubfs/EBOOKS/API/confidential/apidoc_assets/　
+    	リンク	https://app.hubspot.com/files/2864453/?sortDirection=descending&orderBy=updated&folderId=75963501905&archived=false
+    	プロキシのリダイレクトで、slateの相対パスに合わせる。
+	    	設定パス　http://remotelock.kke.co.jp/confi/remotelock-apidoc/
+	    	設定画面　https://app.hubspot.com/settings/2864453/domains/url-redirects
+    ページの新規作成
+    	HubSpot上のランディングページとして作成する。
+    	https://app.hubspot.com/website/2864453/pages/landing/12673079
+        ページはいずれもパスワード付き。パスワード remotelock
+        公開仕様書のトップパスは　　https://remotelock.kke.co.jp/confi/remotelock-apidoc/
+		仕様書の追加ページパス　https://remotelock.kke.co.jp/confi/remotelock-apidoc/＊
+		記事の公開パス　https://remotelock.kke.co.jp/confi/api-articles/＊
+
 
 Features
 ------------
@@ -42,6 +83,7 @@ We support running Slate in three different ways:
 * [Natively](https://github.com/slatedocs/slate/wiki/Using-Slate-Natively)
 * [Using Vagrant](https://github.com/slatedocs/slate/wiki/Using-Slate-in-Vagrant)
 * [Using Docker](https://github.com/slatedocs/slate/wiki/Using-Slate-in-Docker)
+
 
 Companies Using Slate
 ---------------------------------

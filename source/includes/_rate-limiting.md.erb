@@ -1,11 +1,11 @@
 <h1 id="rate-limiting">レート制限</h1>
 
-全てのAPIレスポンスでは次のようなレート制限の情報をヘッダーに含めています。  
+全てのAPIレスポンスでは次のようなレート制限の情報をヘッダーに含めています。
 
 <div class="center-column"></div>
 
-`X-RateLimit-Limit: 120`  
-`X-RateLimit-Remaining: 15`  
+`X-RateLimit-Limit: 120`
+`X-RateLimit-Remaining: 15`
 `X-RateLimit-Reset: 1452626187`
 
 
@@ -17,7 +17,7 @@
 
 <aside class="notice">
 リクエスト数の制限として、現在はアカウント毎に120リクエスト/分の制限が設けられています。
-ただし、URL1でのみ提供するエンドポイントでは、内部処理で複数リクエストを呼び出している場合がありますので、運用の際には残リクエスト数を主に参照するようにしてください。  
+ただし、URL1でのみ提供するエンドポイントでは、内部処理で複数リクエストを呼び出している場合がありますので、運用の際には残リクエスト数を主に参照するようにしてください。
 </aside>
 
 レート制限を超過すると、そのリクエストはステータス**429** (Too Many Requests)で、次の内容をBodyに含んで返されます。
@@ -34,8 +34,8 @@
 
 ### Webhookによるイベント通知の利用
 
-RemoteLOKCには、Webhookを使ってイベントを指定されたサーバーにプッシュ通知する機能があります。  
-この機能によりリクエスト数を減らせる可能性があるため、特にAPIを利用される方にはこの機能の利用を推奨しています。  
+RemoteLOKCには、Webhookを使ってイベントを指定されたサーバーにプッシュ通知する機能があります。
+この機能によりリクエスト数を減らせる可能性があるため、特にAPIを利用される方にはこの機能の利用を推奨しています。
 
 ### Webhook通知先の設定
 
@@ -61,8 +61,8 @@ curl -X POST \
 Webhook通知先を設定するには、まず右のPOSTリクエストを送ります。
 
 
-この`url`先では、Webhook通知の内容を処理できる必要があります。  
-[Webhook通知作成](https://developer.remotelock.jp/api/docs#notification-subscribers-create-a-webhook-notification-subscriber)にその他のオプションも記載されていますので、要件に合わせて確認してください。  
+この`url`先では、Webhook通知の内容を処理できる必要があります。
+[Webhook通知作成](https://remotelock.kke.co.jp/confi/remotelock-apidoc/members-access#create-a-notification-subscription)にその他のオプションも記載されていますので、要件に合わせて確認してください。
 
 <div class="center-column"></div>
 
@@ -117,14 +117,14 @@ curl -X POST \
 
 ### Webhookお知らせ設定
 
-通知先の設定の後、イベントの種類と発生元の組み合わせでお知らせ設定を行います。  
-特定のデバイスの`access_person_synced`イベントから作成するPOSTリクエストは右のようになります。  
+通知先の設定の後、イベントの種類と発生元の組み合わせでお知らせ設定を行います。
+特定のデバイスの`access_person_synced`イベントから作成するPOSTリクエストは右のようになります。
 
 
 `publisher_type`と`publisher_id`はデバイスの情報、
-`subscriber_type`と`subscriber_id`は上で作成したWebhook通知先の情報になります。  
-イベントの発生元`publisher`としては、特定デバイスだけでなく、アカウント全体や特定の設置場所のデバイス全て等も選択できます。  
-詳細は、[お知らせ作成](https://developer.remotelock.jp/api/docs#notification-subscriptions-create-a-notification-subscription)をご参照ください。  
+`subscriber_type`と`subscriber_id`は上で作成したWebhook通知先の情報になります。
+イベントの発生元`publisher`としては、特定デバイスだけでなく、アカウント全体や特定の設置場所のデバイス全て等も選択できます。
+詳細は、[お知らせ作成](https://developer.remotelock.jp/api/docs#notification-subscriptions-create-a-notification-subscription)をご参照ください。
 
 <div class="center-column"></div>
 

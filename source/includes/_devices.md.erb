@@ -5,15 +5,15 @@
 
 **
 <aside class="notice">
-**開発ガイド**  
+**開発ガイド**
 
-アカウントに登録されているデバイスが一覧で取得されます。  
-data[ {type, attributes,id,links},{type, attributes,id,links}]という構成のリストで取得されます。  
+アカウントに登録されているデバイスが一覧で取得されます。
+data[ {type, attributes,id,links},{type, attributes,id,links}]という構成のリストで取得されます。
 取得情報から、以下は保存してください。
 
-- <code>id</code>  カギ発行・予約作成する対象デバイスをidで指定します。APIのコールに必要となり、システムはidでデバイスを識別します。  sample:"2e19fa6e-490f-4616-9644-67d5cfd04733"  
-- <code>attributes</code>の<code>name</code>  通常、デバイスのオーナーが部屋の名前等をつけています。任意文字列となりますが、連携の設定時などは通常オーナーはこの名前で判断します。  
-- <code>type</code>  デバイスのタイプによって特性（できること）が変わります。一部エンドポイントでは、APIの呼び出しに<code>type</code>が必要になります。  
+- <code>id</code>  カギ発行・予約作成する対象デバイスをidで指定します。APIのコールに必要となり、システムはidでデバイスを識別します。  sample:"2e19fa6e-490f-4616-9644-67d5cfd04733"
+- <code>attributes</code>の<code>name</code>  通常、デバイスのオーナーが部屋の名前等をつけています。任意文字列となりますが、連携の設定時などは通常オーナーはこの名前で判断します。
+- <code>type</code>  デバイスのタイプによって特性（できること）が変わります。一部エンドポイントでは、APIの呼び出しに<code>type</code>が必要になります。
 
 デバイス数が多い場合は、デフォルトでは25台毎にページネーションされます。
 末尾のmetaデータをご参照し、2ページ目以降の情報を取得してください。
@@ -33,18 +33,18 @@ data[ {type, attributes,id,links},{type, attributes,id,links}]という構成の
 GET /devices
 ```
 
-**エンドポイント**  
+**エンドポイント**
 
 `GET /devices`
 
-**ヘッダー**  
-<code>'Authorization: Bearer {有効なアクセストークン}' \  
+**ヘッダー**
+<code>'Authorization: Bearer {有効なアクセストークン}' \
 'Accept: application/vnd.lockstate+json; version=1' \　</code>
 
-**ボディ**  
+**ボディ**
 NONE
 
-**パラメータ**  
+**パラメータ**
 フィルタ、ソートが可能です。
 
 ### レスポンス
@@ -53,11 +53,11 @@ NONE
 200 OK
 ```
 
-**成功時ステータス**  
-200 OK  
+**成功時ステータス**
+200 OK
 ＊エラーレスポンスは[エラーコード](#http-status-codes)を参照してください。
 
-**ボディ**  
+**ボディ**
 
 ```json
 {
@@ -88,6 +88,7 @@ NONE
         "manual_auto_lock_timeout": 0,
         "muted": false,
         "nfc": "no_nfc",
+        "smd": "",
         "no_enter_code": false,
         "online_auto_lock": false,
         "power_level": 15,
@@ -174,16 +175,16 @@ NONE
 }
 ```
 
-| 項目 | 説明       |  
-|:----|:-----------|  
-| type|機器のタイプ `lock`,`acs_door`,`acs_elevator_floor`,`igloolock`など |  
-| attributes(全デバイス共通）| |  
-|   name | デバイス名 |  
-|   model_id | デバイスのモデル（機種）ID |  
-|   location_id | 設置場所のID |  
-| attributes  (主なデバイスに存在）| |  
-|   state | 現在のカギの状態 locked（施錠状態）, unlocked（解錠状態） |  
-|   connected| true/false デバイスがネットワークに接続しているか|  
+| 項目 | 説明       |
+|:----|:-----------|
+| type|機器のタイプ `lock`,`acs_door`,`acs_elevator_floor`,`igloolock`,`connector_lock`など |
+| attributes(全デバイス共通）| |
+|   name | デバイス名 |
+|   model_id | デバイスのモデル（機種）ID |
+|   location_id | 設置場所のID |
+| attributes  (主なデバイスに存在）| |
+|   state | 現在のカギの状態 locked（施錠状態）, unlocked（解錠状態） |
+|   connected| true/false デバイスがネットワークに接続しているか|
 
 
 
@@ -197,15 +198,15 @@ NONE
 GET /devices/:id
 ```
 
-**エンドポイント**  
+**エンドポイント**
 
 `GET /devices/:id`
 
-**ヘッダー**  
-<code>'Authorization: Bearer {有効なアクセストークン}' \  
+**ヘッダー**
+<code>'Authorization: Bearer {有効なアクセストークン}' \
 'Accept: application/vnd.lockstate+json; version=1' \　</code>
 
-**ボディ**  
+**ボディ**
 NONE
 
 ### レスポンス
@@ -214,11 +215,11 @@ NONE
 200 OK
 ```
 
-**成功時ステータス**  
-200 OK  
+**成功時ステータス**
+200 OK
 ＊エラーレスポンスは[エラーコード](#http-status-codes)を参照してください。
 
-**ボディ**  
+**ボディ**
 
 ```json
 {
@@ -248,6 +249,7 @@ NONE
       "manual_auto_lock_timeout": 0,
       "muted": false,
       "nfc": "no_nfc",
+      "smd": "",
       "no_enter_code": false,
       "online_auto_lock": false,
       "power_level": 50,
@@ -272,20 +274,20 @@ NONE
 }
 ```
 
-| 項目 | 説明       |  
-|:----|:-----------|  
-| type|機器のタイプ `lock`,`acs_door`,`acs_elevator_floor`,`igloolock`など |  
-| attributes(全デバイス共通）| |  
-|   name | デバイス名 |  
-|   model_id | デバイスのモデル（機種）ID |  
-|   location_id | 設置場所のID |  
-| attributes  (主なデバイスに存在）| |  
-|   state | 現在のカギの状態 locked（施錠状態）, unlocked（解錠状態） |  
-|   connected| true/false デバイスがネットワークに接続しているか|  
+| 項目 | 説明       |
+|:----|:-----------|
+| type|機器のタイプ `lock`,`acs_door`,`acs_elevator_floor`,`igloolock`,`connector_lock`など |
+| attributes(全デバイス共通）| |
+|   name | デバイス名 |
+|   model_id | デバイスのモデル（機種）ID |
+|   location_id | 設置場所のID |
+| attributes  (主なデバイスに存在）| |
+|   state | 現在のカギの状態 locked（施錠状態）, unlocked（解錠状態） |
+|   connected| true/false デバイスがネットワークに接続しているか|
 
 **
 <aside class="notice">
-**開発ガイド**  
+**開発ガイド**
 
 デバイス情報で返ってくるattributesの項目は、
 機器のサポートする機能によって変わる可能性があります。

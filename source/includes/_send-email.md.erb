@@ -1,22 +1,32 @@
 <h1 id="notify-access-keys">予約者へのアクセスキー通知</h1>
 
-予約者へアクセスキーを連絡する手段として下記の2つを準備しています。  
+予約者へアクセスキーを連絡する手段として下記の2つを準備しています。
 
-1. [メールでの通知](#notify-access-keys-email)
-2. [アクセスキー表示画面](#notify-access-keys-ui)
+1. [アクセスキーの受け渡し](#notify-access-keys-ui)
+2. [メールでの通知](#notify-access-keys-email)
+
+
+<h2 id="notify-access-keys-ui">アクセスキーの受け渡し</h2>
+
+bookingの作成時、ユニバーサルアクセスキーと呼ばれるURLが発行されます。
+予約者へのカギの通知は、このURL（`"universal_access_key_url"`）を伝えてください。
+ユニバーサルアクセスキーは、どんなデバイスにも発行され、予約変更などによって変更されることもありません。
+アクセスキーはデバイス毎に利用できるものが異なり、予約変更などに伴い自動変更されるものあります。
+ユニバーサルアクセスーを使うことで、実装を単純化して、よりRemoteLOCKのシステム上のより多くのデバイスに対応することができます。
+
+- Bookingのエンドポイントのレスポンスに含まれる `"universal_access_key_url"`からURLを取得してください。
+- このURLにアクセスすると、予約期間・アクセスキーの情報などが表示されます。
+- リンク先の表示される内容は、デバイスが対応するアクセスキータイプ(PINやQR等)によって変化します。
+- 予約変更が発生した際も、PINなどアクセスキーが変更される場合がありますが、`"universal_access_key_url"`は変更されません。
+
 
 <h2 id="notify-access-keys-email">メールでの通知</h2>
 
-作成された予約の予約者に対して、アクセスキーの情報をメールで送信するために、次のエンドポイントを使うことができます。  
+あなたのシステムがメール送信機能をもたない場合、メールの送信タイミングの制御機能をもたない場合、
+作成された予約の予約者に対して、RemoteLOCKのAPIを通じてアクセスキーの情報をメールで送信することができます。次のエンドポイントを参照ください。
 
-- エンドポイント：[Schedule sending access instructions email in days](https://connect.remotelock.jp/api/docs#access-persons-schedule-sending-access-instructions-email-in-days)  
-- acccess person idには、Bookingのエンドポイントのレスポンスに含まれる `"access_person_id"`を指定してください。  
-- `"days_before"` には、予約開始の何日前にメールを送信するかの日数を指定することができます。（1〜7で送信時刻が過去にならない範囲で指定が可能）  
+- エンドポイント：[Schedule sending access instructions email in days](https://connect.remotelock.jp/api/docs#access-persons-schedule-sending-access-instructions-email-in-days)
+- acccess person idには、Bookingのエンドポイントのレスポンスに含まれる `"access_person_id"`を指定してください。
+- `"days_before"` には、予約開始の何日前にメールを送信するかの日数を指定することができます。（1〜7で送信時刻が過去にならない範囲で指定が可能）
 
 
-<h2 id="notify-access-keys-ui">アクセスキー表示画面</h2>
-
-作成された予約の詳細情報を表示する限定URLを用意しています。  
-
-- Bookingのエンドポイントのレスポンスに含まれる `"universal_access_key_url"`からURLを取得してください。  
-- このURLにアクセスすると、予約期間・アクセスキーの情報などが表示されます。  

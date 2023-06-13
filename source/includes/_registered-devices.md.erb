@@ -23,7 +23,7 @@ GET /devices
 | Name | Description |
 |:-----|:------------|
 | sort  | Sortable attributes: created_at and name, default: created_at ascending |
-| [type]  | Filter by type(s). Supported types: acs_door, acs_elevator_floor, lock, thermostat, power_plug, zwave_lock, schlage_home_lock, acs_elevator, resort_lock, and igloo_lock |
+| [type]  | Filter by type(s). Supported types: acs_door, acs_elevator_floor, lock, thermostat, power_plug, zwave_lock, schlage_home_lock, acs_elevator, resort_lock, connector_lock, and igloo_lock |
 
 <div class="layout-fix"></div>
 ### Response
@@ -63,6 +63,7 @@ GET /devices
         "manual_auto_lock_timeout": 0,
         "muted": false,
         "nfc": "no_nfc",
+        "smd": "",
         "no_enter_code": false,
         "online_auto_lock": false,
         "power_level": 15,
@@ -430,6 +431,7 @@ None.
       "manual_auto_lock_timeout": 0,
       "muted": false,
       "nfc": "no_nfc",
+      "smd": "",
       "no_enter_code": false,
       "online_auto_lock": false,
       "power_level": 50,

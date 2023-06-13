@@ -13,6 +13,7 @@
 | GET                   | Not found               | 404                  |
 | POST                  | Duplicate resource      | 409                  |
 | POST/PUT/PATCH/DELETE | Validation error        | 422                  |
+| ANY                   | Rate Limiting error 	  | 429                  |
 | ANY                   | Unexpected server error | 5xx                  |
 
 
@@ -28,10 +29,11 @@
 | Code | Description |
 | ---- | ----------- |
 | 400 | Malformed request リクエスト内容が不正です。 |
-| 401 | Not permitted 許可されていないリクエストです。|
-| 402 | Payment required。お客様アカウントの料金プランが有効でないか、より上位プランが必要となります。 |
-| 403 | Expired/Invalid token。正しいトークンの送信または再認証が必要です。 |
-| 409 | Duplicate resource |
-| 422 | Validation error バリデーションエラーです。|
+| 401 | Not permitted/Bad request 許可されていないリクエストです。|
+| 402 | Payment required お客様アカウントの料金プランが有効でないか、より上位プランが必要となります。 |
+| 403 | Expired/Invalid token 正しいトークンの送信または再認証が必要です。 |
+| 404 | Not Found 当該のリソースが見つかりませんでした。 |
+| 409 | Duplicate resource リクエスト内容に重複・コンフリクトがあります |
+| 422 | Validation error バリデーションエラーまたはリクエストに無効な内容があります。|
 | 429 | Rate Limiting error  APIのレートリミットです。ヘッダー情報を参照するか、1分程度のインターバルを取って再試行ください。|
 | 500 | Unexpected server error |
