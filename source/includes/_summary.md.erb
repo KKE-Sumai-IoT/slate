@@ -25,7 +25,7 @@ RemoteLOCKプラットフォームAPIは、RemoteLOCK製品をはじめとした
 - Notification: イベント（解錠・施錠などの履歴）発生時の通知
 - Access Guest: アクセスゲスト = 入室可能期間のあるアクセスキーを持つ情報
 - Access User: アクセスユーザー = 入室可能期間のないアクセスキーを持つ情報
-- Access Person: アクセスゲストとアクセルユーザーの総称
+- Access Person: アクセスゲストとアクセスユーザーの総称
 - Accessible Door: アクセスゲスト、アクセスユーザーが入室権限をもつデバイス
 - Door Group: 複数のデバイスをまとめた抽象概念で、デバイスの代替が可能
 - Location: 設置場所または施設で、各デバイスはLocationに所属
@@ -76,6 +76,12 @@ BookingやアクセスキータイプなどのリソースはURL1のみで提供
 - WEST Connected lock E06
 - Igloohome  （＊機能制限あり）
 
+今後も、取り扱いデバイスについては拡大されていきます。
+デバイスにより扱える認証方法などが異なりますが、予約エンドポイント及び発行されるユニバーサルアクセスキーを利用することで自動対応が可能です。
+![Booking endpoint will unify the each devices interface](https://remotelock.kke.co.jp/hubfs/EBOOKS/API/confidential/apidoc_assets/APIFunctionDetails/fig_booking_unified_endpoints.png)
+
+
+
 
 <h2 id="summary-preparations">APIのご利用に必要なもの</h2>
 <h3 id="summary-preparations-test">開発環境</h3>
@@ -89,27 +95,28 @@ API連携のテストは、開発時にはNDA締結後にご連絡するデモ�
 
 <h3 id="summary-preparations-setup">新しいアプリケーションのセットアップ</h3>
 1. OAuthアプリケーション登録権限の取得
-貴社アカウントに対して、弊社から登録許可の設定変更が必要になります。
+<br>貴社アカウントに対して、弊社から登録許可の設定変更が必要になります。
 以下記載の上、メールにて弊社[remotelock@kke.co.jp](mailto:remotelock@kke.co.jp) まで以下をご連絡ください。
  - RemoteLOCKのクラウドに登録済みの貴社メールアドレス
  - 会社名 ご担当者名
  - APIのアプリ登録ができるよう設定変更をしてほしい旨
+![ディベロッパーポータルからアプリ登録](https://remotelock.kke.co.jp/hubfs/EBOOKS/API/confidential/apidoc_assets/APIFunctionDetails/API_AuthenticationFlow_OAuthAppRegistration_1.png)
 
 1. OAuthアプリケーション管理画面へログイン
-テスト環境の場合、ご連絡したテストアカウントで[Developer Portal](https://developer.remotelock.jp)へログインしてください。
+<br>テスト環境の場合、ご連絡したテストアカウントで[Developer Portal](https://developer.remotelock.jp)へログインしてください。
 本番環境の場合、上記で弊社側の対応が終了しますと、お客様のアカウントで[Developer Portal](https://developer.remotelock.jp)へログインできるようになります。
+![OAuthアプリの登録とアクセストークン](https://remotelock.kke.co.jp/hubfs/EBOOKS/API/confidential/apidoc_assets/APIFunctionDetails/OAuth_clietntID.png)
 
 1. OAuthアプリケーション登録(client_idとsecretの取得)
-ログイン後、「New OAuth Application」ボタンからアプリの登録を行ってください。
-Client ID, Secretは、登録後の画面亜上でのみ取得可能です。
-＊ローカルシステム等で貴社サーバーURLがないシステムの場合は、Redirect URIに**urn:ietf:wg:oauth:2.0:oob**をご設定ください。
-　通常、Redirect URIは貴社サーバーURLの登録を登録してください。（認証時の許可コードの送信先URLとなります。）
-
-  ![ディベロッパーポータルからアプリ登録](https://remotelock.kke.co.jp/hubfs/EBOOKS/API/confidential/apidoc_assets/APIFunctionDetails/API_AuthenticationFlow_OAuthAppRegistration_1.png)
+<br>ログイン後、「New OAuth Application」ボタンからアプリの登録を行ってください。 NameはAPIを利用する貴社システムのサービス名を登録してください。（開発環境などの場合は「サービス名_開発環境」などとしてください。）
+<br>リダイレクトURIは、認証時にリダイレクトしてほしいURLを指定してください。（認証時の許可コードの送信先URLとなります。IPアドレスによる指定はできません。）
+＊ローカルシステム等で貴社サーバーURLがないシステムの場合は、Redirect
+URIにurn:ietf:wg:oauth:2.0:oobをご設定ください。
+<br>ロゴ・サイトURL及びDescriptionは、公開サービスとなる場合に、RemoteLOCKクラウドの管理システム上に公開される情報となります。
+<br>Submitボタンを押すと登録が完了し、API利用に必要なClient ID, Secretが発行されます。各登録情報は後から変更可能ですが、Secretは初回登録時の画面上でのみ取得可能な情報なため、アプリ登録時に忘れずSecretをコピーしてください。
+![New OAuth Application](https://remotelock.kke.co.jp/hubfs/EBOOKS/API/confidential/apidoc_assets/APIFunctionDetails/API_Authentication_NewOAuthApplication.png)
 
 なお、システムに対してOAuthアプリケーションの登録は1つで、複数のRemoteLOCKアカウントと連携が可能です。
-
-![OAuthアプリの登録とアクセストークン](https://remotelock.kke.co.jp/hubfs/EBOOKS/API/confidential/apidoc_assets/APIFunctionDetails/OAuth_clietntID.png)
 
 
 <h2 id="summary-after-integration">開発がおわったら</h2>
